@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLayer", "CommonLayer\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGHSBilling", "MedicalWebApp\CGHSBilling.csproj", "{2E14D468-F220-429D-9ED3-FCF6E70C0A82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGHSBilling_UnitTestProject", "CGHSBilling_UnitTestProject\CGHSBilling_UnitTestProject.csproj", "{A639F554-34D8-48C5-900D-666CDE9A55DB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
