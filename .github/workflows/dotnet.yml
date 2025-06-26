@@ -21,6 +21,12 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore MedicalWebApp.sln
 
+      - name: Install .NET Framework 4.5 Developer Pack
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/9/6/196F84A6-7190-4745-B3C5-6C69DF74AB47/NDP45-DevPack-KB2872776-ENU.exe" -OutFile "ndp45-devpack.exe"
+          Start-Process .\ndp45-devpack.exe -ArgumentList "/quiet" -Wait
+
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.3
 
