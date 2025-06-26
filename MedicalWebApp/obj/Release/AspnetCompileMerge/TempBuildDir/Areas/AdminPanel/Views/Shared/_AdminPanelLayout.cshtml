@@ -1,0 +1,88 @@
+﻿@model CGHSBilling.Models.MenuUserRightsModel
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Masters</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <header>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-6">
+                <div class="float-left">
+                    <p class="site-title">
+                        <a href="../../Home/Index">
+                            <img src="@Url.Content("~/Images/logo2.png")" />
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="float-right">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <strong>@Html.Encode(User.Identity.Name)</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span class="glyphicon glyphicon-user pull-right"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="~/Account/LogOff">Sign Out &nbsp;&nbsp;<span class="glyphicon glyphicon-log-out"></span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-container showNav">
+            <ul class="nav-list">
+                <li><h4>AdminPanel</h4></li>
+                @foreach (var menu in Model.parent)
+                {
+                    <li class="list-item">
+                        @Html.ActionLink(@menu.MenuName, @menu.PageName, new { @MenuId = @menu.MenuId }, null)
+                    </li>
+                }
+            </ul>
+        </nav>
+        <button class="btn-nav animated">
+            <div class="bar arrow-top-r"></div>
+            <div class="bar arrow-middle-r"></div>
+            <div class="bar arrow-bottom-r"></div>
+        </button>
+        <div class="content-wrapper">
+            <div id="body">
+                @RenderBody()
+            </div>
+        </div>
+    </header>
+
+
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(window).load(function () {
+            $(".btn-nav").on("click tap", function () {
+                $(".nav-container").toggleClass("showNav hideNav").removeClass("hidden");
+                $(this).toggleClass("animated");
+            });
+        });
+    </script>
+</body>
+
+@Styles.Render("~/Content/themes/base/css")
+@Styles.Render("~/Content/external")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jqueryMore")
+@Scripts.Render("~/bundles/jquery/external")
+@Scripts.Render("~/bundles/jqueryval")
+</html>

@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BISERPDataLayerStoreContainer" CdmEntityContainer="DefaultDBConnection">
+    <EntitySetMapping Name="INV_MST_DeliveryTerms">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_DeliveryTerms">
+        <MappingFragment StoreEntitySet="INV_MST_DeliveryTerms">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="DeliveryTermCode" ColumnName="DeliveryTermCode" />
+          <ScalarProperty Name="DeliveryTermDesc" ColumnName="DeliveryTermDesc" />
+          <ScalarProperty Name="TermID" ColumnName="TermID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_MST_ITEM">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_ITEM">
+        <MappingFragment StoreEntitySet="INV_MST_ITEM">
+          <ScalarProperty Name="IsNoBarcode" ColumnName="IsNoBarcode" />
+          <ScalarProperty Name="ScheduledItem" ColumnName="ScheduledItem" />
+          <ScalarProperty Name="ChkQualityCtrl" ColumnName="ChkQualityCtrl" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="ScheduledIVItemId" ColumnName="ScheduledIVItemId" />
+          <ScalarProperty Name="HighValueFlag" ColumnName="HighValueFlag" />
+          <ScalarProperty Name="ConsigneeId" ColumnName="ConsigneeId" />
+          <ScalarProperty Name="ConsigneeFlag" ColumnName="ConsigneeFlag" />
+          <ScalarProperty Name="MarkupPercentage" ColumnName="MarkupPercentage" />
+          <ScalarProperty Name="IsNonChargable" ColumnName="IsNonChargable" />
+          <ScalarProperty Name="ChkLooseSelling" ColumnName="ChkLooseSelling" />
+          <ScalarProperty Name="Taxid" ColumnName="Taxid" />
+          <ScalarProperty Name="ItemChangeID" ColumnName="ItemChangeID" />
+          <ScalarProperty Name="PurchaseFrequency" ColumnName="PurchaseFrequency" />
+          <ScalarProperty Name="ExpiryDtRequired" ColumnName="ExpiryDtRequired" />
+          <ScalarProperty Name="BatchRequired" ColumnName="BatchRequired" />
+          <ScalarProperty Name="StockTypeID" ColumnName="StockTypeID" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+          <ScalarProperty Name="CurrentQty" ColumnName="CurrentQty" />
+          <ScalarProperty Name="ReOrderLevel" ColumnName="ReOrderLevel" />
+          <ScalarProperty Name="OrderUnitID" ColumnName="OrderUnitID" />
+          <ScalarProperty Name="SalesTaxID" ColumnName="SalesTaxID" />
+          <ScalarProperty Name="IsRoutineItem" ColumnName="IsRoutineItem" />
+          <ScalarProperty Name="IsLocalPurchaseItem" ColumnName="IsLocalPurchaseItem" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="MinLevel" ColumnName="MinLevel" />
+          <ScalarProperty Name="MaxLevel" ColumnName="MaxLevel" />
+          <ScalarProperty Name="OPBalance" ColumnName="OPBalance" />
+          <ScalarProperty Name="Asset" ColumnName="Asset" />
+          <ScalarProperty Name="AutoConsumed" ColumnName="AutoConsumed" />
+          <ScalarProperty Name="NoMrp" ColumnName="NoMrp" />
+          <ScalarProperty Name="OwnStock" ColumnName="OwnStock" />
+          <ScalarProperty Name="SealingRate" ColumnName="SealingRate" />
+          <ScalarProperty Name="StandardRate" ColumnName="StandardRate" />
+          <ScalarProperty Name="SalesPrice" ColumnName="SalesPrice" />
+          <ScalarProperty Name="SalesTax" ColumnName="SalesTax" />
+          <ScalarProperty Name="VatOn" ColumnName="VatOn" />
+          <ScalarProperty Name="PackSizeID" ColumnName="PackSizeID" />
+          <ScalarProperty Name="ItemTypeID" ColumnName="ItemTypeID" />
+          <ScalarProperty Name="DescriptiveName" ColumnName="DescriptiveName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_MST_ItemType">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_ItemType">
+        <MappingFragment StoreEntitySet="INV_MST_ItemType">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="POException" ColumnName="POException" />
+          <ScalarProperty Name="IsManufactRequired" ColumnName="IsManufactRequired" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_MST_OthersTerms">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_OthersTerms">
+        <MappingFragment StoreEntitySet="INV_MST_OthersTerms">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="OthersTermCode" ColumnName="OthersTermCode" />
+          <ScalarProperty Name="OthersTermDesc" ColumnName="OthersTermDesc" />
+          <ScalarProperty Name="TermID" ColumnName="TermID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_MST_PaymentTerms">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_PaymentTerms">
+        <MappingFragment StoreEntitySet="INV_MST_PaymentTerms">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="PaymentTermCode" ColumnName="PaymentTermCode" />
+          <ScalarProperty Name="PaymentTermDesc" ColumnName="PaymentTermDesc" />
+          <ScalarProperty Name="TermID" ColumnName="TermID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_MST_Supplier">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_Supplier">
+        <MappingFragment StoreEntitySet="INV_MST_Supplier">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="SupplierType" ColumnName="SupplierType" />
+          <ScalarProperty Name="SupplierCategory" ColumnName="SupplierCategory" />
+          <ScalarProperty Name="RTGSCODE" ColumnName="RTGSCODE" />
+          <ScalarProperty Name="Paytermsid" ColumnName="Paytermsid" />
+          <ScalarProperty Name="Village" ColumnName="Village" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="landmark" ColumnName="landmark" />
+          <ScalarProperty Name="Society" ColumnName="Society" />
+          <ScalarProperty Name="SuppType" ColumnName="SuppType" />
+          <ScalarProperty Name="IncomeTaxNo" ColumnName="IncomeTaxNo" />
+          <ScalarProperty Name="Proposed" ColumnName="Proposed" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="MCIRNo" ColumnName="MCIRNo" />
+          <ScalarProperty Name="BankAcNo" ColumnName="BankAcNo" />
+          <ScalarProperty Name="BankBranch" ColumnName="BankBranch" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="EligableForAdv" ColumnName="EligableForAdv" />
+          <ScalarProperty Name="LedgerID" ColumnName="LedgerID" />
+          <ScalarProperty Name="ExportCode" ColumnName="ExportCode" />
+          <ScalarProperty Name="ExciseCode" ColumnName="ExciseCode" />
+          <ScalarProperty Name="TDS" ColumnName="TDS" />
+          <ScalarProperty Name="MST" ColumnName="MST" />
+          <ScalarProperty Name="CST" ColumnName="CST" />
+          <ScalarProperty Name="Web" ColumnName="Web" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+          <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="DateOfAssociation" ColumnName="DateOfAssociation" />
+          <ScalarProperty Name="CreditPeriod" ColumnName="CreditPeriod" />
+          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+          <ScalarProperty Name="ContactDesignation" ColumnName="ContactDesignation" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+          <ScalarProperty Name="Pin" ColumnName="Pin" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_MST_Unit">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_Unit">
+        <MappingFragment StoreEntitySet="INV_MST_Unit">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stores">
+      <EntityTypeMapping TypeName="BISERPDataLayer.Store">
+        <MappingFragment StoreEntitySet="Store">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="StoreTypeID" ColumnName="StoreTypeID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_MST_itempacksize">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_itempacksize">
+        <MappingFragment StoreEntitySet="INV_MST_itempacksize">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_MST_Manufacturer">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_MST_Manufacturer">
+        <MappingFragment StoreEntitySet="INV_MST_Manufacturer">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="Village" ColumnName="Village" />
+          <ScalarProperty Name="Landmark" ColumnName="Landmark" />
+          <ScalarProperty Name="Society" ColumnName="Society" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="BankBranch" ColumnName="BankBranch" />
+          <ScalarProperty Name="BankAcNo" ColumnName="BankAcNo" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Web" ColumnName="Web" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+          <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+          <ScalarProperty Name="ContactDesignation" ColumnName="ContactDesignation" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+          <ScalarProperty Name="Pin" ColumnName="Pin" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_SM_INDENT">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_SM_INDENT">
+        <MappingFragment StoreEntitySet="INV_SM_INDENT">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="PIUpdatedOn" ColumnName="PIUpdatedOn" />
+          <ScalarProperty Name="PIUpdatedBy" ColumnName="PIUpdatedBy" />
+          <ScalarProperty Name="PIStatus" ColumnName="PIStatus" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
+          <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+          <ScalarProperty Name="CancelledOn" ColumnName="CancelledOn" />
+          <ScalarProperty Name="Cancelledby" ColumnName="Cancelledby" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Authorized" ColumnName="Authorized" />
+          <ScalarProperty Name="AuthorizedBy" ColumnName="AuthorizedBy" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Indent_Date" ColumnName="Indent_Date" />
+          <ScalarProperty Name="Indent_Type" ColumnName="Indent_Type" />
+          <ScalarProperty Name="Indent_ToStore" ColumnName="Indent_ToStore" />
+          <ScalarProperty Name="Indent_FromStore" ColumnName="Indent_FromStore" />
+          <ScalarProperty Name="Indent_User_SubArea" ColumnName="Indent_User_SubArea" />
+          <ScalarProperty Name="Indent_User_Area" ColumnName="Indent_User_Area" />
+          <ScalarProperty Name="Indent_User" ColumnName="Indent_User" />
+          <ScalarProperty Name="Issue_Number" ColumnName="Issue_Number" />
+          <ScalarProperty Name="Indent_Id" ColumnName="Indent_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_SM_INDENT_DETAILS">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_SM_INDENT_DETAILS">
+        <MappingFragment StoreEntitySet="INV_SM_INDENT_DETAILS">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="indCancelled" ColumnName="indCancelled" />
+          <ScalarProperty Name="indCancelReason" ColumnName="indCancelReason" />
+          <ScalarProperty Name="indCancelledOn" ColumnName="indCancelledOn" />
+          <ScalarProperty Name="indCancelledby" ColumnName="indCancelledby" />
+          <ScalarProperty Name="PendingQty" ColumnName="PendingQty" />
+          <ScalarProperty Name="Authorised" ColumnName="Authorised" />
+          <ScalarProperty Name="ItemAddedBy" ColumnName="ItemAddedBy" />
+          <ScalarProperty Name="Item_Stock" ColumnName="Item_Stock" />
+          <ScalarProperty Name="Authorised_Quantity" ColumnName="Authorised_Quantity" />
+          <ScalarProperty Name="Authorised_Curr_Quantity" ColumnName="Authorised_Curr_Quantity" />
+          <ScalarProperty Name="User_Quantity" ColumnName="User_Quantity" />
+          <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
+          <ScalarProperty Name="Indent_Id" ColumnName="Indent_Id" />
+          <ScalarProperty Name="IndentDetails_Id" ColumnName="IndentDetails_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_SM_USER_ISSUE">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_SM_USER_ISSUE">
+        <MappingFragment StoreEntitySet="INV_SM_USER_ISSUE">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="FromStoreId" ColumnName="FromStoreId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+          <ScalarProperty Name="AuthorisedDate" ColumnName="AuthorisedDate" />
+          <ScalarProperty Name="AuthorisedBy" ColumnName="AuthorisedBy" />
+          <ScalarProperty Name="Authorised" ColumnName="Authorised" />
+          <ScalarProperty Name="IssuedBy" ColumnName="IssuedBy" />
+          <ScalarProperty Name="Indent_Id" ColumnName="Indent_Id" />
+          <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+          <ScalarProperty Name="Issue_Number" ColumnName="Issue_Number" />
+          <ScalarProperty Name="Issue_Id" ColumnName="Issue_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_SM_USER_ISSUE_DETAILS">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_SM_USER_ISSUE_DETAILS">
+        <MappingFragment StoreEntitySet="INV_SM_USER_ISSUE_DETAILS">
+          <ScalarProperty Name="Authorised" ColumnName="Authorised" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedByUserID" ColumnName="InsertedByUserID" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="UpdatedON" ColumnName="UpdatedON" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="AuthorisedQuantity" ColumnName="AuthorisedQuantity" />
+          <ScalarProperty Name="IssuedQuantity" ColumnName="IssuedQuantity" />
+          <ScalarProperty Name="Batchid" ColumnName="Batchid" />
+          <ScalarProperty Name="Itemid" ColumnName="Itemid" />
+          <ScalarProperty Name="Issue_Id" ColumnName="Issue_Id" />
+          <ScalarProperty Name="IssueDetails_Id" ColumnName="IssueDetails_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_SM_TRANS_TYPE">
+      <EntityTypeMapping TypeName="BISERPDataLayer.INV_SM_TRANS_TYPE">
+        <MappingFragment StoreEntitySet="INV_SM_TRANS_TYPE">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="StockEffect" ColumnName="StockEffect" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="storestocks">
+      <EntityTypeMapping TypeName="BISERPDataLayer.storestock">
+        <MappingFragment StoreEntitySet="storestock">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="TransQty" ColumnName="TransQty" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+          <ScalarProperty Name="BatchID" ColumnName="BatchID" />
+          <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StoreTypes">
+      <EntityTypeMapping TypeName="BISERPDataLayer.StoreType">
+        <MappingFragment StoreEntitySet="StoreType">
+          <ScalarProperty Name="Deactive" ColumnName="Deactive" />
+          <ScalarProperty Name="InsertedIPAddress" ColumnName="InsertedIPAddress" />
+          <ScalarProperty Name="InsertedMacID" ColumnName="InsertedMacID" />
+          <ScalarProperty Name="InsertedMacName" ColumnName="InsertedMacName" />
+          <ScalarProperty Name="InsertedON" ColumnName="InsertedON" />
+          <ScalarProperty Name="InsertedBy" ColumnName="InsertedBy" />
+          <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="UpdatedIPAddress" ColumnName="UpdatedIPAddress" />
+          <ScalarProperty Name="UpdatedMacID" ColumnName="UpdatedMacID" />
+          <ScalarProperty Name="UpdatedMacName" ColumnName="UpdatedMacName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -202,7 +202,7 @@
             }).dialog("open");
             let urlforBills = "";
             urlforBills = "../../Reports/ReportViewer.aspx?reportid=" + 5 + "&FromTime=" + fromtime + "&ToTime=" + totime + "&ServiceId=" + ServiceId + "&CategoryId=" + CategoryId + "&BillTypeId=" + BillTypeId;
-            
+            console.log(urlforBills);
             let myframe = document.getElementById("iframeServiceWiseBillDetails");
             if (myframe != null) {
                 $("#iframeServiceWiseBillDetails").empty();

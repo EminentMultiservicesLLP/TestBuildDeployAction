@@ -1,0 +1,116 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@model CGHSBilling.Areas.AdminPanel.Models.UserCreationModel
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="panel-heading">
+            <a class="collapsediv" data-toggle="collapse" href="#collapse2" style="color: white">
+                Search Area
+            </a>
+        </div>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-groupingBoder">
+                                        <div class="container fill">
+                                            <div id="Usergrid"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <br>
+                           <h4> Enter Login Details</h4>
+                            <hr style="width: 100%; margin-bottom: 5px; margin-top: 5px; border: 0px none white; border-top: 1px solid grey;"/>
+                            @Html.Label("User Name")
+                            @Html.TextBoxFor(m => m.LoginName, new {@class = "form-control "})
+                            @Html.Label("Password")
+                            @Html.TextBoxFor(m => m.Password, new {@class = "form-control "})
+                            @*</div>*@
+                            <div title="Password Verification" id="ConfirtmationPopUp" style="display: none;">
+                                @Html.Password("Password1", new {@class = "form-control "})
+                                <button type="button" class="btn btn-success" id="btnConfirm">Confirm</button>
+                                <button type="button" class="btn btn-success" id="btnClose">Close</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-heading">
+            <a class="collapsediv" data-toggle="collapse" href="#collapse2" style="color: white">
+                Add New User
+            </a>
+        </div>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div id="collapse2" class="panel-collapse collapse in" aria-expanded="true">
+                        <div class="panel-body">
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <div class="form-group form-horizontal">
+                                                    <button type="button" class="btn btn-primary" id="btnAdd">Add User</button>
+                                                    @*<button type="button" class="btn btn-danger" id="btnDelete">Deactivate</button>*@
+                                                    <button type="button" class="btn btn-success" id="btnReset1">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="form-group form-horizontal">
+                                                <div class="col-sm-3" @*style="display:none"*@>
+                                                    @Html.Label("User Code")
+                                                    @Html.TextBox("UserCode", "", new {@class = "form-control "})
+
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    @Html.Label("Enter User Name")
+                                                    @Html.TextBoxFor(m => m.UserName, new {@class = "form-control "})
+                                                    @Html.HiddenFor(m => m.UserID)
+                                                </div>
+                                                <div class="col-sm-3" @*style="display:none"*@>
+                                                    @Html.Label("Client")
+                                                   @Html.DropDownList("ddlClient", new SelectList(string.Empty, "Value", "Text"), "-- Select Client --", new { @class = " form-control" })
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    @Html.Label("Email Id")
+                                                    @Html.TextBoxFor(m => m.EmailID, new { @class = "form-control " })
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    @Html.LabelFor(m => m.IsDeactive)
+                                                    @Html.CheckBoxFor(m => m.IsDeactive)
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <br/>
+                                                    <button type="button" class="btn btn-success" id="btnAddUser">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                @*<div id="StoreGrid"></div>*@
+            </div>
+        </div>
+
+    </fieldset>
+    <script src="~/Scripts/AdminPanel/UserCreation.js"></script>
+
+}

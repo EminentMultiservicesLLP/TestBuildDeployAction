@@ -1,0 +1,253 @@
+﻿@model CGHSBilling.Areas.Masters.Models.ServiceTypeMasterModel
+<script src="~/Scripts/common.js"></script>
+@using (Html.BeginForm())
+{
+    <div>
+        <div class="panel-heading">
+            <div class="panel-title">
+                <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                   Service Type Master
+                </a>
+            </div>
+        </div>
+
+        <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div id="searchgrid"></div>
+                    </div>
+                    
+                    <div class="col-sm-5 ">
+                        <div class="panel-body entryAreabackgroundCSS">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-success" id="btnAdd">Add New/Reset</button>
+                                    <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                </div>
+                            </div>
+                            <br />
+                            <div id="EntryArea">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Service Code", new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control " })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("Service Type", new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.ServiceType, new { @class = "form-control " })
+                                        @Html.HiddenFor(model => model.ServiceTypeId)
+
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Sequence No", new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.Sequence, new { @class = "form-control " })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <br />
+                                        @Html.LabelFor(model => model.Deactive, new { style = "font-weight:bold" })
+                                        @Html.CheckBoxFor(model => model.Deactive)
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <br />
+                            <div class="col-sm-12">
+                                <div id="LinkingGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function afterFail() {
+            ShowAlert("error", "Something went wrong If not resolve contact to your superior");
+        }
+
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/ServiceTypeMaster/GetAllCategory",
+            success: function (response) {
+                $("#LinkingGrid").pqGrid("hideLoading");
+                $("#LinkingGrid").pqGrid("option", "dataModel.data", response);
+                $("#LinkingGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+                debugger;
+            }
+        });
+        loadSearchgrid();
+        function searchLoadCall() {
+        }
+            var dataSearchGrid = { location: "local" };
+            var colSearchGrid = [
+                    { title: "", dataIndx: "ServiceTypeId", dataType: "integer", hidden: true },
+                    { title: "Service Type", dataIndx: "ServiceType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+                    { title: "Code", dataIndx: "Code", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+                    { title: "Seq No", dataIndx: "Sequence", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } }
+            ];
+            var setSearchGrid = {
+                width: '100%',
+                height: 650,
+                sortable: false,
+                numberCell: { show: true },
+                hoverMode: 'cell',
+                showTop: true,
+                title: 'Service Type Data',
+                resizable: true,
+                scrollModel: { autoFit: true },
+                draggable: true,
+                wrap: false,
+                filterModel: { off: false, mode: "AND", header: true },
+                editable: false,
+                selectionModel: { type: 'cell' },
+                colModel: colSearchGrid,
+                dataModel: dataSearchGrid,
+                swipeModel: { on : true },
+                virtualX: false,
+                virtualY: false,
+                rowClick: function (evt, ui) {
+                    var record = ui.rowData;
+                    $("#ServiceTypeId").val(record.ServiceTypeId);
+                    $("#Code").val(record.Code);
+                    $("#ServiceType").val(record.ServiceType);
+                    $("#Sequence").val(record.Sequence);
+                    $("#Deactive").prop('checked', record.Deactive);
+                    $("#Deactive").attr('desabled', false);
+                    loadLinkingGrid(record.ServiceTypeId);
+                }
+            }
+           var $SearchGrid = $("#searchgrid").pqGrid(setSearchGrid);
+
+           $("#btnSave").click(function () {
+               if (!showAlertOnBlank($("#ServiceType"), "Service Type is missing! Please enter Service Type")) return;
+               if (!showAlertOnBlank($("#Code"), "Service Code is missing! Please enter Service Code")) return;
+               var getData = $("#LinkingGrid").pqGrid("option", "dataModel.data");
+               var selectedItems = jLinq.from(getData).equals("State", true).select();
+               if (selectedItems.length <= 0) {
+                   ShowAlert('info', 'No category linked with this service type');
+                   return;
+               }
+                 DisableClick("btnSave");
+               var jsonData = JSON.stringify({
+                   ServiceTypeId: $("#ServiceTypeId").val(),
+                   Code: $("#Code").val(),
+                   ServiceType: $("#ServiceType").val(),
+                   Sequence: $("#Sequence").val(),
+                   Deactive: $("#Deactive").prop('checked'),
+                   Category: selectedItems
+               });
+               debugger;
+               $.ajax({
+                   type: "POST",
+                   traditional: true,
+                   contentType: 'application/json; charset=utf-8',
+                   url: "/ServiceTypeMaster/SaveserviceType",
+                   data: jsonData,
+                   success: function (msg) {
+                       debugger;
+                       if (msg.success) {
+                           ShowAlert("success", "Record Saved Successfully");
+                           ClearAllField();
+                           ClearParamGrid("LinkingGrid");
+                           loadSearchgrid();
+                       }
+                       else {
+                           ShowAlert("warning", msg.Message);
+                       }
+                   },
+                   error: function (a, exception,b) {
+                       debugger;
+                   }
+               });
+
+           });
+           $("#btnAdd").click(function () {
+               ClearAllField();
+               ClearParamGrid("LinkingGrid");
+
+           });
+
+        function ClearAllField() {
+            ClearAllControl("EntryArea");
+            $("#Deactive").prop('checked', false);
+        }
+        debugger;
+        function  loadSearchgrid() {
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                url: "/ServiceTypeMaster/GetAllServiceTypeMaster",
+                success: function (response) {
+                    $("#searchgrid").pqGrid("hideLoading");
+                    $("#searchgrid").pqGrid("option", "dataModel.data", response);
+                    $("#searchgrid").pqGrid("refreshDataAndView");
+                },
+               
+                error: function (a, exception, b) {
+                    debugger;
+                }
+            });
+        }
+        function loadLinkingGrid(param) {
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                data:{ServiceTypeId:param},
+                url: "/ServiceTypeMaster/GetAllLinkedCategoryByTypeId",
+                success: function (response) {
+                    $("#LinkingGrid").pqGrid("hideLoading");
+                    $("#LinkingGrid").pqGrid("option", "dataModel.data", response);
+                    $("#LinkingGrid").pqGrid("refreshDataAndView");
+                },
+
+                error: function (a, exception, b) {
+                    debugger;
+                }
+            });
+        }
+
+
+        var dataLinkingGrid = { location: "local" };
+        var colLinkingGrid = [
+            {
+                dataIndx: "State", Width: 15, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', sortable: false,
+                editor: false, dataType: 'bool',
+                title: "<input type='checkbox' />",
+                cb: { select: true, all: true, header: true }
+            },
+                { title: "", dataIndx: "Id", dataType: "integer", hidden: true },
+                { title: "Parameters", dataIndx: "Name", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        ];
+        var setLinkingGrid = {
+            width: '100%',
+            height: 350,
+            sortable: false,
+            numberCell: { show: true },
+            hoverMode: 'cell',
+            showTop: false,
+            title: 'Parameters Type Data',
+            resizable: true,
+            scrollModel: { autoFit: true },
+            draggable: true,
+            wrap: false,
+            filterModel: { off: true, mode: "AND", header: true },
+            editable: true,
+            selectionModel: { type: 'cell' },
+            colModel: colLinkingGrid,
+            dataModel: dataLinkingGrid,
+            swipeModel: { on: true },
+            virtualX: false,
+            virtualY: false,
+        }
+        var $LinkingGrid = $("#LinkingGrid").pqGrid(setLinkingGrid);
+
+    </script>
+}

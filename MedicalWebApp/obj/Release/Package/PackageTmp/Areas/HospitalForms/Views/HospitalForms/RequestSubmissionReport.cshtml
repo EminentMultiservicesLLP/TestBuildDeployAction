@@ -1,0 +1,273 @@
+﻿@model CGHSBilling.Areas.HospitalForms.Models.RequestSubmissionModel_Report
+
+@using (Html.BeginForm())
+{
+    <style>
+
+
+    </style>
+
+
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <a class="collapsediv" data-toggle="collapse" href="#BillDateWiseArea" style="color: white">
+                        View Bills Datewise
+                    </a>
+                </div>
+            </div>
+            <div class="panel panel-default" id="BillDateWiseArea">
+                <div class="panel-body entryAreabackgroundCSSforinsideElement">
+                    <div class="row">
+                        
+                        <div class="col-sm-2">
+                            @Html.Label("For", new { @class = "required " })
+                            <select id="ddlViewBillType" class="form-control wrapper-dropdown">
+                                <option class="wrapperdropdown-content" value="0">IPD Bills</option>
+                                <option class="wrapperdropdown-content" value="1">OPD Bills</option>
+                            </select> 
+                            </div>
+                      
+
+                            <div class="col-sm-2">
+                                @Html.Label("From Date", new { @class = "required " })
+                                <div class='input-group date' id='FromDate'>
+                                    <input id="FromDateVal" type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                           
+
+                            <div class="col-sm-2">
+                                @Html.Label("To Date", new { @class = "required " })
+                                <div class='input-group date' id='ToDate'>
+                                    <input id="ToDateVal" type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                      
+
+
+                            <div>
+                                <div class="col-sm-1">
+                                    <br />
+                                    <button id="btnPrint" type="button" class="btn btn-primary">Print</button>
+                                    </div>
+
+                                </div>
+                        </div>
+
+                    <div class="row" >
+                        <div class="col-sm-4">
+                            @Html.Label("Bill No", new { @class = "required " })                          
+                            <input id="autocomplete_BillNo" name="autocomplete_BillNo" type="text" class="form-control" placeholder="Search by Bill No." />
+                            @Html.Hidden("RequestId")
+                        </div>
+                        <div class="col-sm-1">
+                            <br />
+                            <button id="btnReport" type="button" class="btn btn-primary">Print Bill Details</button>
+                        </div>
+                    </div>  
+                    </div>
+                </div>
+            </div>
+            <div id="Reportpopup-dialog-Bills" style="display:none;" title="Bills report">
+                <div class="panel panel-primary" id="Report">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <iframe id="iframeReportViewerBills" style="width:100%;height:640px"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </fieldset>
+
+}
+
+<script type="text/javascript">
+     getAllBillNo();
+     billtypeWiseReport ={
+        IPD :3,
+        OPD:4
+    }
+
+    $('#ToDate').datetimepicker({
+        format: 'DD-MMM-YYYY', extraFormats: ['DD-MM-YYYY', 'DD-MM-YY'], defaultDate: new Date(),
+        icons: {
+            buttonImage: "/Content/images/calendar.gif", buttonImageOnly: true
+        }
+        
+    });
+    $('#FromDate').datetimepicker({ format: 'DD-MMM-YYYY', extraFormats: ['DD-MM-YYYY', 'DD-MM-YY'], defaultDate: new Date() });
+
+    $('#btnPrint').on('click', function () {
+        try {
+            
+            let Fromtime = $("#FromDate").data('date');
+            let ToTime = $("#ToDate").data('date');
+
+            if (Fromtime == undefined || Fromtime == "") {
+                ShowAlert('info', 'Please Select From time ');
+                return;
+            }
+
+            if (ToTime == undefined || ToTime == "") {
+                ShowAlert('info', 'Please Select to time');
+                return;
+            }
+          
+         
+            if ($("#ddlViewBillType").val() ==0){
+                OpenReportForBills(Fromtime, ToTime, billtypeWiseReport.IPD);
+            }
+            else
+            {
+                OpenReportForBills(Fromtime, ToTime, billtypeWiseReport.OPD);
+            }
+
+            
+
+        } catch (err) {
+
+        }
+    });
+    $('#btnReport').on('click', function () {
+        if (!showAlertOnBlank($("#autocomplete_BillNo"), " Please select Bill Number")) { $("#autocomplete_BillNo").focus(); return; }
+        let reportRequestId = $("#RequestId").val()
+        OpenReport(reportRequestId)
+    });
+
+    function OpenReportForBills(fromtime, totime,billreportid) {
+        $("#iframeReportViewerBills").contents().find("body").html("");
+        try {            
+            $("#Reportpopup-dialog-Bills").dialog({
+                cache: false,
+                position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+                },
+                height: 620,
+                width: 1000, open: function (evt, ui) {
+
+                },
+                close: function () {
+                    $("#Reportpopup-dialog-Bills").dialog("destroy");
+                }
+            });
+            let urlforBills = "";
+            urlforBills = "../../Reports/ReportViewer.aspx?reportid=" + billreportid + "&FromTime=" + fromtime + "&ToTime=" + totime + "";
+            console.log(urlforBills);
+            let myframe = document.getElementById("iframeReportViewerBills");
+            if (myframe != null) {
+                $("#iframeReportViewerBills").empty(); 
+                if (myframe.src) {
+                    myframe.src = urlforBills;
+                } else if (myframe.contentWindow != null && myframe.contentWindow.location != null) {
+                    myframe.contentWindow.location = urlforBills;
+                } else {
+                    myframe.setAttribute('src', urlforBills);
+                }
+                return false;
+            }
+
+        }
+        catch (err) {
+        }
+    }
+
+
+    function getAllBillNo() {
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            url: "/ServiceWiseBillDetails/GetAllBillNo",
+            success: function (response) {
+                var ReqNumbers = [];
+                if (response.data.length > 0) {
+                    for (var i = 0; i < response.data.length; i++) {
+                        var SearchData = response.data[i].RequestNo;
+                        ReqNumbers.push({ label: SearchData, value: SearchData, RequestId: response.data[i].RequestId });
+                    }
+                }
+
+                $('#autocomplete_BillNo').autocomplete({
+                    source: ReqNumbers,
+                    messages: {
+                        noResults: '',
+                        results: function () { }
+                    },
+                    minLength: 0,
+                    scroll: true,
+                    html: true,
+                    select: SelectedReq,
+                    change: SelectedReq
+                })
+            }
+        });
+    }
+
+    function SelectedReq(event, ui) {      
+        event.preventDefault();
+        if (ui.item !== null) {
+            $(event.target).val(ui.item.label);
+            $("#RequestId").val(ui.item.RequestId);
+        }
+        else {
+            $("#RequestId").val("");
+        }
+    }
+
+
+    function OpenReport(requestId) {
+        try {
+            $("#iframeReportViewerBills").contents().find("body").html("");
+            $("#Reportpopup-dialog-Bills").dialog({
+                cache: false,
+                position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+                },
+                height: 620,
+                width: 900,
+                open: function (evt, ui) {
+
+                },
+                close: function () {
+                    $("#Reportpopup-dialog-Bills").dialog("destroy");
+                }
+            });
+            var url = "";
+            url = "../../Reports/ReportViewer.aspx?reportid=" + 1 + "&requestId=" + requestId;
+            console.log(url);
+            var myframe = document.getElementById("iframeReportViewerBills");
+            if (myframe != null) {
+                $("#iframeReportViewerBills").empty(); //Clearing content on fresh load
+                if (myframe.src) {
+                    myframe.src = url;
+                } else if (myframe.contentWindow != null && myframe.contentWindow.location != null) {
+                    myframe.contentWindow.location = url;
+                } else {
+                    myframe.setAttribute('src', url);
+                }
+                return false;
+            }
+
+            
+        } catch (err) {
+        }
+    }
+    </script>

@@ -1,0 +1,234 @@
+﻿@model CGHSBilling.Areas.Masters.Models.HospitalServicelinkingModel
+<script src="~/Scripts/common.js"></script>
+@using (Html.BeginForm())
+{
+    <div>
+        <div class="panel-heading">
+            <div class="panel-title">
+                <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                    Service Type Master
+                </a>
+            </div>
+        </div>
+
+        <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div id="ServiceCategorySearchGrid"></div>
+                    </div>
+
+                    <div class="col-sm-5 ">
+                        <div class="panel-body entryAreabackgroundCSS">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-success" id="btnAdd">Add New/Reset</button>
+                                    <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                </div>
+                            </div>
+                            <br />
+                            <div id="EntryArea">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.Label("Service Category", new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.HospitalServiceCategory, new { @class = "form-control " })
+                                        @Html.HiddenFor(model => model.HospitalServiceCategoryId)
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="col-sm-12">
+                                <div id="ManagementypelinkingGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $("#btnSave").prop('disabled', true);
+        $("#HospitalServiceCategory").prop('disabled', true);
+
+        function afterFail() {
+            ShowAlert("error", "Something went wrong If not resolve contact to your superior");
+        }
+        loadServiceCategorySearchGrid();
+        function searchLoadCall() {
+        }
+        var datarServiceCategorySearchGrid = { location: "local" };
+        var colServiceCategorySearchGrid = [
+                    { title: "", dataIndx: "HospitalServiceCategoryId", dataType: "integer", hidden: true },
+                    { title: "HospitalServiceCategory", dataIndx: "HospitalServiceCategory", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+            ];
+            var setServiceCategorySearchGrid = {
+                width: '100%',
+                height: 650,
+                sortable: false,
+                numberCell: { show: true },
+                hoverMode: 'cell',
+                showTop: true,
+                title: 'Service Type Data',
+                resizable: true,
+                scrollModel: { autoFit: true },
+                draggable: true,
+                wrap: false,
+                filterModel: { off: false, mode: "AND", header: true },
+                editable: false,
+                selectionModel: { type: 'cell' },
+                colModel: colServiceCategorySearchGrid,
+                dataModel: datarServiceCategorySearchGrid,
+                swipeModel: { on : true },
+                virtualX: false,
+                virtualY: false,
+                rowClick: function (evt, ui) {
+                    $("#btnSave").prop('disabled', false);
+                    var record = ui.rowData;
+                    $("#HospitalServiceCategoryId").val(record.HospitalServiceCategoryId);
+                    $("#HospitalServiceCategory").val(record.HospitalServiceCategory);
+                    loadManagementypelinkingGrid(record.HospitalServiceCategoryId);
+                }
+            }
+            var $ServiceCategorySearchGrid = $("#ServiceCategorySearchGrid").pqGrid(setServiceCategorySearchGrid);
+
+            $("#btnSave").click(function () {
+               if (!showAlertOnBlank($("#HospitalServiceCategory"), "HospitalServiceCategory is missing! Please enter HospitalServiceCategory")) return;
+               var getData = $("#ManagementypelinkingGrid").pqGrid("option", "dataModel.data");
+               var selectedItems = jLinq.from(getData).equals("State", true).select();
+               if (selectedItems.length <= 0) {
+                   ShowAlert('info', 'No Management Type linked with this Service Category type');
+                   return;
+               }
+               $("#btnSave").prop('disabled', true);
+                 var details = {
+
+                     HospitalServiceCategoryId: $("#HospitalServiceCategoryId").val(),
+                     HospitalServiceCategory: $("#HospitalServiceCategory").val(),
+                     ServiceType_ManagementTypeData: selectedItems
+                 };
+               $.ajax({
+                   type: "POST",
+                   traditional: true,
+                   contentType: 'application/json; charset=utf-8',
+                   url: "/ServiceLinking/SaveServiceTypeManagementtypeLinking",
+                   data: JSON.stringify(details),
+                   success: function (msg) {
+                       debugger;
+                       if (msg.success) {
+                           ShowAlert("success", "Record Saved Successfully");
+                           ClearAllField();
+                           ClearParamGrid("ManagementypelinkingGrid");
+                           loadSearchgrid();
+                       }
+                       else {
+                           ShowAlert("warning", msg.Message);
+                       }
+                   },
+                   error: function (a, exception,b) {
+                   }
+               });
+
+           });
+           $("#btnAdd").click(function () {
+               ClearAllField();
+               ClearParamGrid("ManagementypelinkingGrid");
+               GetAllManagementType();
+
+           });
+
+        function ClearAllField() {
+            ClearAllControl("EntryArea");
+        }
+        debugger;
+        function loadServiceCategorySearchGrid() {
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                url: "/ClientMaster/GetHospitalServiceCategory",
+                success: function (response) {
+                    $("#ServiceCategorySearchGrid").pqGrid("hideLoading");
+                    $("#ServiceCategorySearchGrid").pqGrid("option", "dataModel.data", response);
+                    $("#ServiceCategorySearchGrid").pqGrid("refreshDataAndView");
+                },
+
+                error: function (a, exception, b) {
+                }
+            });
+        }
+
+        //....................Hospital service type dropdown in clientmaster .......................
+
+        function GetAllManagementType() {
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                url: "/ServiceLinking/GetAllManagementType",
+                success: function (response) {
+                    $("#ManagementypelinkingGrid").pqGrid("hideLoading");
+                    $("#ManagementypelinkingGrid").pqGrid("option", "dataModel.data", response);
+                    $("#ManagementypelinkingGrid").pqGrid("refreshDataAndView");
+                },
+                error: function (a, exception, b) {
+                    debugger;
+                }
+            });
+        }
+
+
+        function loadManagementypelinkingGrid(param) {
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                data: { HospitalServiceCategoryId: param },
+                url: "/ServiceLinking/GetLinkedHospitalServicesById",
+                success: function (response) {
+                    $("#ManagementypelinkingGrid").pqGrid("hideLoading");
+                    $("#ManagementypelinkingGrid").pqGrid("option", "dataModel.data", response);
+                    $("#ManagementypelinkingGrid").pqGrid("refreshDataAndView");
+                },
+
+                error: function (a, exception, b) {
+                }
+            });
+        }
+
+
+        var dataManagementypelinkingGrid = { location: "local" };
+        var colManagementypelinkingGrid = [
+            {
+                dataIndx: "State", Width: 15, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', sortable: false,
+                editor: false, dataType: 'bool',
+                title: "<input type='checkbox' />",
+                cb: { select: true, all: true, header: true }
+            },
+                { title: "", dataIndx: "ManagementTypeId", dataType: "integer", hidden: true },
+                { title: "ManagementType", dataIndx: "ManagementType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        ];
+        var setManagementypelinkingGrid = {
+            width: '100%',
+            height: 350,
+            sortable: false,
+            numberCell: { show: true },
+            hoverMode: 'cell',
+            showTop: false,
+            title: 'Parameters Type Data',
+            resizable: true,
+            scrollModel: { autoFit: true },
+            draggable: true,
+            wrap: false,
+            filterModel: { off: true, mode: "AND", header: true },
+            editable: true,
+            selectionModel: { type: 'cell' },
+            colModel: colManagementypelinkingGrid,
+            dataModel: dataManagementypelinkingGrid,
+            swipeModel: { on: true },
+            virtualX: false,
+            virtualY: false,
+        }
+        var $ManagementypelinkingGrid = $("#ManagementypelinkingGrid").pqGrid(setManagementypelinkingGrid);
+
+    </script>
+}

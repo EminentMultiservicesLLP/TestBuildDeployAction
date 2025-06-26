@@ -1,0 +1,173 @@
+﻿
+<!DOCTYPE html>
+@model CGHSBilling.Models.LoginModel
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Eminent Multiservices-Login</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body {
+            font-size: .85em;
+            font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+            color: #232323;
+            background-image: url('../../Images/back-min.jpg');
+        }
+
+        .login {
+            position: relative;
+            top: 10%;
+            display: inline-block;
+            left: 5%;
+            width: 100%;
+            height: auto;
+            max-width: 550px;
+            background: transparent;
+            border-radius: 6px #000 solid;
+        }
+
+        #loginbox {
+            max-width: 350px;
+        }
+
+        #signupbox {
+            max-width: 450px;
+        }
+    </style>
+
+    @Styles.Render("~/Content/cssMust")
+</head>
+<body>
+    <div class="row">
+        <section class="content-wrapper">
+            <div id="ShowView" style="margin-top: 10px;">
+                @using (Html.BeginForm())
+            {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true);
+                    <div>
+                        <div id="loginbox" style="margin-top: 50px;" class="mainbox col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+                            <div class="panel panel-info" style="background-color: transparent;border-width:3px;border-color:#135968;width:243px">
+                                <div class="panel-heading">
+                                    <div class="panel-title"><img src="~/Images/JMSLogo.jpg" /></div>
+                                </div>
+                                <div style="padding-top: 30px" class="panel-body">
+                                    @using (Ajax.BeginForm("Login", "Account", new AjaxOptions() { UpdateTargetId = "loginAlert" }))
+                                    {
+                                        <div style="margin-bottom: 15px" class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <b> @Html.TextBoxFor(m => m.Username, new { placeholder = "username or email", @class = "form-control" })</b>
+                                        </div>
+
+                                        <div style="margin-bottom: 15px" class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            @Html.PasswordFor(m => m.Password, new { placeholder = "password", @class = "form-control" })
+                                        </div>
+
+                                        <div style="margin-bottom: 15px;font-weight:bold;color:white;" class="input-group">
+                                            @Html.CheckBoxFor(m => m.RememberMe) Remember Me
+                                        </div>
+
+                                        <div style="margin-bottom: 15px" class="input-group">
+                                            <!-- Button -->
+                                            <div class="controls">
+                                                <input type="submit" value="Login" class="btn btn-success">
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <div class="control">
+                                                @*<div style="border-top: 1px solid #888; padding-top: 10px; font-size: 85%">
+                                                        Don't have an account!
+                                                        <a href="#" onclick="$('#loginbox').hide(); $('#signupbox').show();">
+                                                            Sign Up Here
+                                                        </a>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                    }
+                                    <div id="loginAlert"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="signupbox" style="display: none; margin-top: 50px" class="mainbox col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <div class="panel-title">Sign Up</div>
+                                    <div style="float: right; font-size: 85%; position: relative; top: -10px">
+                                        <a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show();">Sign In</a>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <form id="signupform" class="form-horizontal" role="form">
+
+                                        <div id="signupalert" style="display: none" class="alert alert-danger">
+                                            <p>Error:</p>
+                                            <span></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="email" class="col-md-3 control-label">Email</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="firstname" class="col-md-3 control-label">First Name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lastname" class="col-md-3 control-label">Last Name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password" class="col-md-3 control-label">Password</label>
+                                            <div class="col-md-9">
+                                                <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!-- Button -->
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+                                                <span style="margin-left: 8px;">or</span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(".input").focusin(function () {
+        $(this).find("span").animate({ "opacity": "0" }, 200);
+    });
+
+    $(".input").focusout(function () {
+        $(this).find("span").animate({ "opacity": "1" }, 300);
+    });
+
+</script>
+
+

@@ -1,0 +1,66 @@
+﻿@using System.Net.Mail
+@model List<CGHSBilling.Areas.Masters.Models.CommonMasterModel>
+@foreach (var item in Model)
+{
+    string btnId = item.Name.ToString();
+    string btnAttachment = "Attachment"+ @btnId;
+    string btnViewAttachment = "ViewAttachment" + @btnId;
+    string popupModel = "popupModel" + @btnId;
+    string inputBrowse = "inputBrowse" + @btnId;
+    string displayBrowse = "displayBrowse" + @btnId;
+    string displayModal = "displayModel" + @btnId;
+    var splt = @btnId.Split('_');
+    string selectedItem = @btnId;
+    <br/>
+    <div id="desableIdForAllControl">   
+        <div class="panel-body entryAreabackgroundCSSforinsideElement">
+            @if (item.Id == 5)
+            {
+                <div class="row" style="padding-left: 9px">
+                    <div class="col-sm-4">
+                        <H5>@splt[1] :</H5>
+                    </div>
+                    <div class="col-sm-7">
+                        <button id=@btnId type="button" class="btn btn-primary" onclick="LoadServicePoPupModal(this.id)">Select</button>
+                        <button id=@btnAttachment type="button" class="btn btn-primary" onclick="LoadAttachmentPoPupModal(this.id)">Attach</button>
+                        <button id=@btnViewAttachment type="button" class="btn btn-primary" onclick="LoadViewAttachmentPoPupModal(this.id)">View</button>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row" style="padding-left: 9px">
+                    <div class="col-sm-4">
+                        <h5>@splt[1] :</h5>
+                    </div>
+                    <div class="col-sm-7">
+                        <button id=@btnId type="button" class="btn btn-primary"  onclick="LoadServicePoPupModal(this.id)">Select</button>
+                        <button id=@btnAttachment type="button" class="btn btn-primary" onclick="LoadAttachmentPoPupModal(this.id)">Attach</button>
+                        <button id=@btnViewAttachment type="button" class="btn btn-primary" onclick="LoadViewAttachmentPoPupModal(this.id)">View</button>
+                    </div>
+                </div>
+            }
+       
+        </div>
+        <div title="Browse to upload" id=@popupModel style="display: none;">
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.Label("Upload")
+                    <div>
+                        <input type='file' id=@inputBrowse multiple="multiple" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div title="Click On File Name for preview" id=@displayModal style="display: none;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <ul id=@displayBrowse class="attachment" style="max-height: 150px; overflow-y: scroll;" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

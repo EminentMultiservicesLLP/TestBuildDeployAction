@@ -1,0 +1,181 @@
+﻿@model CGHSBilling.Areas.Masters.Models.HintNotificationModel
+<script src="~/Scripts/common.js"></script>
+@using (Html.BeginForm())
+{
+    <div class="panel-heading">
+        <div class="panel-title">
+            <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+               Notification Messages
+            </a>
+        </div>
+    </div>
+
+    <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div id="searchgrid"></div>
+                </div>
+
+                <div class="col-sm-5 ">
+                    <div class="panel-body entryAreabackgroundCSS">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-success" id="btnAdd">Add New/Reset</button>
+                                <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                            </div>
+                        </div>
+                        <br />
+                        <div id="EntryArea">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.Label("Control Id", new { @class = "required" })
+                                    @Html.TextBoxFor(model => model.ControlId, new { @class = "form-control " })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.Label("Control Name", new { @class = "required" })
+                                    @Html.TextBoxFor(model => model.ControlName, new { @class = "form-control " })
+                                    @Html.HiddenFor(model => model.NotificationId)
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.Label("Sub ControlId", new { @class = "required" })
+                                    @Html.DropDownList("ddlSubcontrollId", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.Label("Step No", new {@class = "required"})
+                                    @Html.TextBoxFor(model => model.StepNo, new {@class = "form-control "})
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    @Html.Label("Message", new { @class = "required" })
+                                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control " })
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+
+
+
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/CommonMaster/GetActiveTypeofManagement",
+        success: function (response) {
+            $.each(response,
+                function (index, value) {
+                    $('#ddlSubcontrollId').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                });
+        }
+    });
+    var dataSearchGrid = { location: "local" };
+    var colSearchGrid = [
+        { title: "", dataIndx: "NotificationId", dataType: "integer", hidden: true },
+        { title: "Control Id", dataIndx: "ControlId", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Control Name", dataIndx: "ControlName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Sub Control", dataIndx: "SubControlId", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "", dataIndx: "Message", hidden: true },
+        { title: "Step No", dataIndx: "StepNo", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } }
+    ];
+    var setSearchGrid = {
+        width: '100%',
+        height: 650,
+        sortable: false,
+        numberCell: { show: true },
+        hoverMode: 'cell',
+        showTop: true,
+        title: 'Notification Messages',
+        resizable: true,
+        scrollModel: { autoFit: true },
+        draggable: true,
+        wrap: false,
+        filterModel: { off: false, mode: "AND", header: true },
+        editable: false,
+        selectionModel: { type: 'cell' },
+        colModel: colSearchGrid,
+        dataModel: dataSearchGrid,
+        swipeModel: { on: true },
+        virtualX: false,
+        virtualY: false,
+        rowClick: function (evt, ui) {
+            debugger;
+            var record = ui.rowData;
+            $("#NotificationId").val(record.NotificationId);
+            $("#ControlId").val(record.ControlId);
+            $("#ControlName").val(record.ControlName);
+            $("#Message").val(record.Message);
+            $("#StepNo").val(record.StepNo);
+            $("#ddlSubcontrollId").val(record.SubControlId);
+        }
+    }
+    var $SearchGrid = $("#searchgrid").pqGrid(setSearchGrid);
+    loadSearchgrid();
+
+    $("#btnSave").click(function () {
+        /*if (!showAlertOnBlank($("#NotificationId"), "Please select row a row first")) return;*/
+        /*if (!showAlertOnBlank($("#Message"), "Message is missing! Please enter Message")) return;*/
+       // DisableClick("btnSave");
+        var jsonData = JSON.stringify({
+            NotificationId: $("#NotificationId").val(),
+            ControlId: $("#ControlId").val(),
+            ControlName: $("#ControlName").val(),
+            Message: $("#Message").val(),
+            StepNo: $("#StepNo").val(),
+            SubControlId: $("#ddlSubcontrollId").val()
+        });
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            url: "/HintNotification/SaveNotification",
+            data: jsonData,
+            success: function (msg) {
+                if (msg.success) {
+                    ShowAlert("success", "Record Saved Successfully");
+                    loadSearchgrid();
+                    ClearAllField();
+                }
+                else {
+                    ShowAlert("warning", msg.Message);
+                }
+            },
+            error: function (a, exception, b) {
+                debugger;
+            }
+        });
+    });
+
+    $("#btnAdd").click(function () {
+        ClearAllField();
+    });
+    function ClearAllField() {
+        ClearAllControl("EntryArea");
+    }
+    function loadSearchgrid() {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/HintNotification/GetAllNotificationData",
+            success: function (response) {
+                $("#searchgrid").pqGrid("hideLoading");
+                $("#searchgrid").pqGrid("option", "dataModel.data", response);
+                $("#searchgrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+                debugger;
+            }
+        });
+    }
+</script>

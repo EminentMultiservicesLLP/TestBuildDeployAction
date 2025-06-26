@@ -1,0 +1,104 @@
+﻿@model CGHSBilling.Areas.AdminPanel.Models.UserAccessModel
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend></legend>
+        <br>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="collapsediv" data-toggle="collapse" href="#SearchUserDetails" style="color: white">
+                                Search User Details
+                            </a>
+                        </div>
+                    </div>
+                    <div id="SearchUserDetails" class="panel-collapse collapse in" aria-expanded="true">
+                        <div class="panel-body">
+                            <div class="container fill">
+                                <div id="Usergrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="collapse2" class="panel-collapse collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <div class="form-group form-horizontal">
+                                        @Html.Label("User Name :", new { @class = "required " })
+                                    </div>
+                                </div> 
+                                <div class="col-sm-2">
+                                    <div class="form-group form-horizontal">
+                                        @Html.TextBox("UserName", "", new {@class = "form-control "})
+                                        @Html.Hidden("UserId", "")
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-success" id="btnAccessSave">Save</button>
+                                    <button type="button" class="btn btn-success" id="btnReset">Reset</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                             
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div class="container fill">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div id="ParentMenugrid"></div>
+                            </div>
+                            <div class="col-sm-1">
+                            </div>
+                            <div class="col-sm-3">
+                                <div id="ChildMenugrid"></div>
+                            </div>
+                            <div class="col-sm-1">
+                            </div>
+                            <div class="col-sm-3">
+                                <div id="SubChildMenugrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div class="container fill">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div id="StandardGrid"></div>
+                            </div>
+                            <div class="col-sm-1">
+                            </div>
+                            <div class="col-sm-3">
+                                <div id="SubjectGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div title="Select Menus" id="SerialModal" style="display: none;">
+        <div id="Popupgrid"></div>
+        <br/>
+        <button type="button" class="btn btn-primary" id="btnAddMenu">Add</button>
+    </div>
+
+    <script src="~/Scripts/AdminPanel/UserAccess.js"></script>
+}

@@ -1,0 +1,215 @@
+﻿@model CGHSBilling.Areas.HospitalForms.Models.RequestSubmissionModel
+<style>
+    div.scrollmenu {
+        /*background-color: grey;*/
+        overflow: auto;
+        white-space: nowrap;
+        border-radius: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    #tabl tr td {
+        padding-top: .1em;
+        padding-bottom: .1em;
+    }
+
+    div.scrollmenu a {
+        display: inline-block;
+        color: black;
+        text-align: center;
+        padding: 0px;
+        width: 97px;
+        text-decoration: none;
+    }
+
+    div.scrollmenu select {
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+        padding: 0px;
+        text-decoration: none;
+    }
+
+    div.scrollmenu a:hover {
+        background-color: #777;
+    }
+    table.roundedCorners {
+        border-radius: 25px;
+        border: 2px solid gray;
+        width: 100%;
+        margin: 0 auto;
+    }
+    table.roundedCorners td {
+        border: 1px solid gray;
+        text-align: center;
+        padding: 15px;
+    }
+    table.roundedCorners td,
+    table.roundedCorners th {
+        border: 1px solid gray;
+        text-align: center;
+        padding: 15px;
+    }
+
+    /*table.roundedCorners tr:last-child > td {
+        border-bottom: none;
+    }*/
+
+
+    /*table.roundedCorners {
+        border: 2px solid #73AD21;
+        border-radius: 20px;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+        table.roundedCorners td,
+        table.roundedCorners th {
+            border-bottom: 1px solid DarkOrange;
+            text-align: center;
+            padding: 15px;
+            vertical-align: top;
+        }
+
+    table.roundedCorners tr:last-child > td {
+        border-bottom: none;
+    }
+
+  */
+</style>
+
+<div class="scrollmenu">
+    <div style="border-radius:20px;background-color: transparent;margin:5px;">
+        <table id="tabl" class="roundedCorners" cellpadding="10">
+            @{
+                if (Model != null && Model.TotalDates.Count > 0 && Model.ConsumeDiv != null)
+                {
+                    // + 7 because 1 for Dates, 1 for bedcharges, 1 for Pharmacy,  1 for deafult service, 1 for linking services, 1 for Manually Added & 1 for surgery Manuall services
+                    var totalRowCount = (Model.ConsumeDiv.Count + 5);
+                    var hasSugery = (Model.SurgerySummaries != null && Model.SurgerySummaries.Count > 0);
+                    for (int i = 0; i <= totalRowCount; i++)
+                    {
+                        var rowHeaderTitle = "";
+                        var IsAllowedChangeInSurgery = false;
+                        if (i == 0) { rowHeaderTitle = "Dates"; }
+                        else if (i == 1) { rowHeaderTitle = CGHSBilling.Common.Constants.BedSection; }
+                        else if (i == 2) { rowHeaderTitle = CGHSBilling.Common.Constants.PharmacySection; }
+                        else if (i == totalRowCount - 2) { rowHeaderTitle = CGHSBilling.Common.Constants.DefaultSection; }
+                        //else if (i == totalRowCount - 2) { rowHeaderTitle = CGHSBilling.Common.Constants.LinkingSection; }
+                        else if (i == totalRowCount - 1) { rowHeaderTitle = CGHSBilling.Common.Constants.ManualSection; }
+                        else if (i == totalRowCount) { rowHeaderTitle = CGHSBilling.Common.Constants.SurgeryManualSection; }
+                        else
+                        {
+                            rowHeaderTitle = Model.ConsumeDiv[i - 3].Name;
+                            IsAllowedChangeInSurgery = Model.ConsumeDiv[i - 3].IsAllowedChangeInSurgery;
+                        }
+
+                        <tr style="margin-bottom: 5px; margin-top:5px;">
+                            @{
+                                if (i < totalRowCount-1)
+                                {
+                                    <td style="min-width:200px;max-width:400px;font-weight:bold;">@rowHeaderTitle</td>
+                                }
+                                else if (i == totalRowCount - 1)
+                                {
+                                    <td style="min-width:200px;max-width:400px;font-weight:bold; background-color:orangered ">@rowHeaderTitle</td>
+                                }
+                                else if (i == totalRowCount && Model.ManagementTypeId > 1)
+                                {
+                                    <td style="min-width:200px;max-width:400px;font-weight:bold; background-color:orangered">@rowHeaderTitle</td>
+                                }
+
+
+
+                                var isSurgeryDate = false;
+                                foreach (var item in Model.TotalDates)
+                                {
+                                    isSurgeryDate = false;
+                                    if (Model.ManagementTypeId == 4) { isSurgeryDate = false; } // for cancer surgery, allow all field selection (no disable)
+                                    else if (Model.ManagementTypeId == 2) { isSurgeryDate = true; } // for SURGICAL,  do not allow selection of bed charges, Pharmacy, default services & Manual Services
+                                    else if (hasSugery)
+                                    {
+                                        isSurgeryDate = (Model.SurgerySummaries.Where(w => Convert.ToDateTime(item) >= Convert.ToDateTime(w.StrSurgeryDateTime) && Convert.ToDateTime(item) <= Convert.ToDateTime(w.StrSurgeryDateTime).AddDays((w.NoOfDays == 0 ? 0 : w.NoOfDays - 1))).Any());
+                                    }
+
+                                    string show = (isSurgeryDate ? "NA" : "Show"), select = (isSurgeryDate ? "NA" : "Select");
+
+                                    if (i == 0)//dates
+                                    {
+                                        string hrefId = "href" + item;
+                                        <td style="width: 100px;padding:2px;height:30px;background-color:dimgray;color:white;"><b> @item</b> </td>
+                                    }
+                                    else if (i == 1)//Bed charges
+                                    {
+                                        string ddlId = "ddl_" + item;
+                                        <td style="width: 100px;padding:2px;">
+                                            @(
+                                           isSurgeryDate == true ?
+                                            @Html.DropDownList(ddlId, new SelectList(string.Empty, "Value", "Text"), new { @disabled = "disabled", @class = "form-control ddlcls", onfocus = "onFocusOfDateElement(this.id)" }) :
+                                            @Html.DropDownList(ddlId, new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control ddlcls", onfocus = "onFocusOfDateElement(this.id)" })
+                                            )
+                                        </td>
+                                    }
+                                    else if (i == 2) //Pharmacy
+                                    {
+                                        string Phramacy = "Phramacy_" + item;
+                                        <td style="width: 100px;padding:2px;">
+                                            <button id=@Phramacy type="button" @(isSurgeryDate ? "disabled='disabled'" : "") title="Click to add Pharmacy details" class="btn btn-primary" style="width: 100px;border:0;" onclick="LoadPharmacyDetailPopupModel(this.id)">
+                                                @select
+                                            </button>
+                                        </td>
+                                    }
+                                    else if (i == totalRowCount - 2) //Default services
+                                    {
+                                        string defaults = "default_" + item;
+                                        <td style="width: 100px;padding:2px;"><button id=@defaults type="button" @(isSurgeryDate ? "disabled='disabled'" : "") title="Click to see Default services" class="btn btn-primary" style="width: 100px;border:0; background-color: @(isSurgeryDate ? "" : "green");" onclick="LoadfnDefaultServicePopupgrid(this.id)">@show</button></td>
+                                    }
+                                    else if (i == totalRowCount - 1)
+                                    {
+                                        string Manually = "Manually_" + item;
+                                        <td style="width: 100px;padding:2px;"><button id=@Manually type="button" title="Click to add Manual service details" class="btn btn-primary" style="width: 100px;border:0;" onclick="fnLoadManuallyAddedServices(this.id)">Select</button></td>
+                                    }
+                                    else if (i == totalRowCount) //Surgery Manually Added
+                                    {
+                                        ////if (Model.ManagementTypeId >= 2 && Model.ManagementTypeId <= 4)
+                                        if (Model.ManagementTypeId > 1) // || Convert.ToString(Model.ManagementType).ToUpper() != "MEDICAL")
+                                        {
+                                            string name = "SurgeryManually_" + item;
+                                            <td style="width: 100px;padding:2px;"><button id=@name type="button" title="Click to add Surgery Manual service details" class="btn btn-primary" style="width: 100px;border:0;" onclick="fnLoadSurgeryManuallyAddedServices(this.id)">Select</button></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var serviceName = Model.ConsumeDiv[i - 3].Name.Replace(" ", "");
+                                        string btnId = serviceName + "_" + item;
+                                        <td style="width: 100px;padding:2px;">
+                                            @if (isSurgeryDate && !IsAllowedChangeInSurgery)
+                                            {
+                                                var title = "Services for " + serviceName + " are part of package";
+                                                <button id=@btnId type="button" serviceId=@Model.ConsumeDiv[i - 3].Id disabled="disabled" class="btn btn-primary" title="Services are included in Package" style="width: 100px;border:0;">@select</button>
+                                            }
+                                            else
+                                            {
+                                                var title = "Click to add services used for " + serviceName;
+                                                <button id=@btnId type="button" serviceId=@Model.ConsumeDiv[i - 3].Id class="btn btn-primary" style="width: 100px;border:0;" title='@title' onclick="LoadServicePoPupModalNew(this)">Select</button>
+                                            }
+                                        </td>
+                                    }
+                                }
+                            }
+                        </tr>
+                                    }
+                                }
+            }
+        </table>
+    </div>
+</div>
+<script >
+    $(document).ready(function () {
+        setTimeout(function () {
+            UpdateChoosenServiceStatus(null, true);
+        }, 3000);
+    });
+</script>
+

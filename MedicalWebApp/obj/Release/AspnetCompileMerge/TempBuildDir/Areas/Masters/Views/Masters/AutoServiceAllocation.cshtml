@@ -1,0 +1,381 @@
+﻿@model CGHSBilling.Areas.Masters.Models.AutoServiceAllocationModel
+<script src="~/Scripts/common.js"></script>
+@using (Html.BeginForm())
+{
+    <div>
+        <div class="panel-heading">
+            <div class="panel-title">
+                <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                    Auto Service Allocation
+                </a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="SearchMainGrid"></div>
+                </div>
+            </div>
+        </div>
+        <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                        <button type="button" class="btn btn-success" id="btnReset">Reset</button>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="panel-body entryAreabackgroundCSS">
+                            <div id="EntryArea">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Service Type", new {@class = "required"})
+                                        @Html.DropDownList("ddlLeftserviceType", new SelectList(string.Empty, "Value", "Text"), "-- Select state --", new {@class = "form-control"})
+                                        @Html.HiddenFor(m=>m.AutoAllocationId)
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="leftServicegrid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel-body entryAreabackgroundCSS">
+                            <div id="EntryArea">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="RightServicegrid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="row">
+                            @*<div class="col-sm-6">
+                                @Html.Label("Service Days", new {@class = "required"})
+                                @Html.DropDownList("ddlNoOfDays", new SelectList(string.Empty, "Value", "Text"), "-- Select --", new {@class = "form-control"})
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    OnPageLoad();
+    function OnPageLoad()
+    {
+        GetServiceList();
+        GetAllAutoServiceAllocation();
+        LoadAllServicesInRightGrid();
+    }
+
+    function GetServiceList() {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/ServiceTypeMaster/GetAllActiveServiceTypeMaster",
+            success: function (response) {
+                $.each(response,
+                    function (index, value) {
+                        $('#ddlLeftserviceType').append('<option value="' + value.ServiceTypeId + '">' + value.ServiceType + '</option>');
+                        //$('#ddlRightserviceType').append('<option value="' + value.ServiceTypeId + '">' + value.ServiceType + '</option>');
+                    });
+            }
+        });
+    }
+    /*--------------------------Search Main grid Area --------------------*/
+    var dataSearchMainGrid = { location: "local" };
+    var colSearchMainGrid = [
+            { title: "", dataIndx: "AutoAllocationId", width: 400,hidden:true},
+            { title: "Service Type", dataIndx: "ServiceType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+            { title: "Linked with", dataIndx: "ServiceName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+    ];
+    var setSearchMainGrid = gridCommonObject;
+    setSearchMainGrid.title = 'Linked Services';
+    setSearchMainGrid.width = '100%';
+    setSearchMainGrid.height = 300;
+    setSearchMainGrid.colModel = colSearchMainGrid;
+    setSearchMainGrid.dataModel = dataSearchMainGrid;
+    setSearchMainGrid.pageModel = false;
+    setSearchMainGrid.rowClick = function (evt, ui) {
+        if (ui.rowData) {
+            var rowIndx = parseInt(ui.rowIndx);
+            var details = ui.rowData;
+            CLearBottomGrids();
+            $("#ddlLeftserviceType").val(details.ServiceTypeId);
+            $("#AutoAllocationId").val(details.AutoAllocationId);
+            //$("#ddlNoOfDays").val(details.ServiceDaysId);
+            
+            GetAutoServiceAllocationDetailById(details.AutoAllocationId, details.ServiceTypeId)
+        }
+    }
+    var $SearchMainGrid = $("#SearchMainGrid").pqGrid(setSearchMainGrid);
+
+
+    /*--------------------------Left  Service grid Area --------------------*/
+    var dataLeftServiceGrid = { location: "local" };
+    var colLeftServiceGrid = [
+        {
+            dataIndx: "State", Width: 15, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', sortable: false,
+            editor: false, dataType: 'bool',
+            title: "<input type='checkbox' />",
+            cb: { select: true, all: false, header: true }
+        },
+            { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+            { title: "Service Name", dataIndx: "ServiceName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+            //{ title: "Code", dataIndx: "Code", width: 400, hidden: true, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+    ];
+    var setLeftServiceGrid = gridCommonObject;
+    setLeftServiceGrid.title = 'Linked Services';
+    setLeftServiceGrid.width = '100%';
+    setLeftServiceGrid.height = 390;
+    setLeftServiceGrid.dataModel = dataLeftServiceGrid;
+    setLeftServiceGrid.colModel = colLeftServiceGrid;
+    setLeftServiceGrid.pageModel = false;
+    setLeftServiceGrid.editable = true;
+    setLeftServiceGrid.rowClick = function (evt, ui) {
+        if (ui.rowData) {
+            debugger;
+            var rowIndx = parseInt(ui.rowIndx);
+            var details = ui.rowData;
+            RefreshRightGrid();
+            GetLinkedServicesByServiceType_ServiceId(details.AutoAllocationId, $("#ddlLeftserviceType").val(), details.ServiceId)
+        }
+    }
+    var $leftServicegrid = $("#leftServicegrid").pqGrid(setLeftServiceGrid);
+
+    /*--------------------------Right Service grid Area --------------------*/
+    var dataRightServiceGrid = { location: "local" };
+    var colRightServiceGrid = [
+        {
+            dataIndx: "State", Width: 15, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', sortable: false,
+            editor: false, dataType: 'bool',
+            title: "<input type='checkbox' />",
+            cb: { select: true, all: false, header: true }
+        },
+        { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+        { title: "Linked Service Name", dataIndx: "ServiceName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } }
+    ];
+    var setRightServiceGrid = gridCommonObject;
+    setRightServiceGrid.title = 'Linked Services';
+    setRightServiceGrid.width = '100%';
+    setRightServiceGrid.height = 390;
+    setRightServiceGrid.dataModel = dataRightServiceGrid;
+    setRightServiceGrid.colModel = colRightServiceGrid;
+    setRightServiceGrid.pageModel = false;
+    setRightServiceGrid.editable = true;
+    setRightServiceGrid.rowClick = function (evt, ui) {
+        if (ui.rowData) {
+        }
+    }
+    var $RightServicegrid = $("#RightServicegrid").pqGrid(setRightServiceGrid);
+
+    $('#ddlLeftserviceType').on('change', function () {
+        CLearBottomGrids();
+        getServicesByServiceTypeId(parseInt($('#ddlLeftserviceType').val()), 'leftServicegrid');
+    });
+    //$('#ddlRightserviceType').on('change', function () {
+    //    ClearParamGrid('RightServicegrid');
+    //    getServicesByServiceTypeId(parseInt($('#ddlRightserviceType').val()), 'RightServicegrid');
+    //});
+    function getServicesByServiceTypeId(param,grdName) {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/ServiceMaster/GetServicesByServiceTypeId",
+            data: { ServiceTypeId: param },
+            success: function (response) {
+                debugger;
+                var dataMgrid = [];
+                //if (grdName == "RightServicegrid") {
+                //    var getData = $("#RightServicegrid").pqGrid("option", "dataModel.data");
+                //    var selectedItems = jLinq.from(getData).equals("State", true).select();
+                //    ClearParamGrid('RightServicegrid');
+                //    $.each(selectedItems, function (key, value) {
+                //        var grdData = {
+                //            'State': value.State, 'ServiceId': value.ServiceId, 'ServiceName': value.ServiceName,
+                //        }
+                //        dataMgrid.push(grdData);
+                //    });
+                //}
+                $.each(response, function (key, value) {
+                    var grdData = {
+                        'State': value.State, 'ServiceId': value.ServiceId, 'ServiceName': value.ServiceName,
+                    }
+                    dataMgrid.push(grdData);
+                });
+                $("#" + grdName).pqGrid("hideLoading");
+                $("#" + grdName).pqGrid("option", "dataModel.data", dataMgrid);
+                $("#" + grdName).pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+            }
+        });
+    }
+
+    $("#btnSave").click(function () {
+        var getDataFromLeft = $("#leftServicegrid").pqGrid("option", "dataModel.data");
+        //var selectedLeftItems = $("#leftServicegrid").pqGrid("selection", { type: 'row', method: 'getSelection' });
+        var selectedLeftItems = jLinq.from(getDataFromLeft).equals("State", true).select();
+
+        var getDataFromRight = $("#RightServicegrid").pqGrid("option", "dataModel.data");
+        var selectedRightItems = jLinq.from(getDataFromRight).equals("State", true).select();
+
+        if (selectedLeftItems.length <= 0) {
+            ShowAlert('info', 'select Services first');
+            return;
+        }
+
+        if (selectedRightItems.length <= 0) {
+            ShowAlert('info', 'Select Services first');
+            return;
+        }
+        DisableClick("btnSave");
+        var jsonData = JSON.stringify({
+            ServiceTypeId: $("#ddlLeftserviceType").val(),
+            AutoAllocationId: $("#AutoAllocationId").val(),
+            ServiceDaysId: $("#ddlNoOfDays").val(),
+            AllocationLeftDtl: selectedLeftItems,
+            AllocationDtl: selectedRightItems
+        });
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            url: "/AutoServiceAllocation/SaveAutoServiceAllocation",
+            data: jsonData,
+            success: function (msg) {
+                if (msg.success) {
+                    ShowAlert("success", "Record Saved Successfully");
+                    RefreshRightGrid();
+                    ClearAllField();
+                    GetAllAutoServiceAllocation()
+                }
+                else {
+                    ShowAlert("warning", msg.Message);
+                }
+            },
+            error: function (a, exception, b) {
+            }
+        });
+
+    });
+    $("#btnReset").click(function () {
+        ClearAllField();
+    });
+    function GetAllAutoServiceAllocation() {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/AutoServiceAllocation/GetAllAutoServiceAllocation",
+            success: function (response) {
+                $("#SearchMainGrid").pqGrid("hideLoading");
+                $("#SearchMainGrid").pqGrid("option", "dataModel.data", response);
+                $("#SearchMainGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+            }
+        });
+    }
+   
+    function GetAutoServiceAllocationDetailById(AutoAllocationId, ServiceTypeId) {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            beforesend:function(){$("#leftServicegrid").pqGrid("showLoading");},
+            url: "/AutoServiceAllocation/GetAutoServiceAllocationDetailById",
+            data: { AutoAllocationId: AutoAllocationId, ServiceTypeId: ServiceTypeId },
+            success: function (response) {
+                $("#leftServicegrid").pqGrid("hideLoading");
+                $("#leftServicegrid").pqGrid("option", "dataModel.data", response);
+                $("#leftServicegrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+                debugger;
+            }
+        });
+    }
+
+    function GetLinkedServicesByServiceType_ServiceId(AutoAllocationId, ServiceTypeId, ServiceId) {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            beforesend:function() {$("#RightServicegrid").pqGrid("showLoading");},
+            url: "/AutoServiceAllocation/GetLinkedServicesByServiceType_ServiceId",
+            data: { AutoAllocationId: AutoAllocationId, ServiceTypeId: ServiceTypeId, ServiceId: ServiceId },
+            success: function (response) {
+                debugger;
+                //$("#RightServicegrid").pqGrid("hideLoading");
+                //$("#RightServicegrid").pqGrid("option", "dataModel.data", response);
+                //$("#RightServicegrid").pqGrid("refreshDataAndView");
+                var getData = $("#RightServicegrid").pqGrid("option", "dataModel.data");
+                $.each(response, function (key, value)
+                {
+                    var objIndex = getData.findIndex(obj => obj.ServiceId == value.ServiceId);
+                    if (objIndex > -1) getData[objIndex].State = true;
+                })
+                $("#RightServicegrid").pqGrid("option", "dataModel.data", getData);
+                $("#RightServicegrid").pqGrid("refreshDataAndView");
+                                
+            },
+            error: function (a, exception, b) {
+            }
+        });
+    }
+
+    function LoadAllServicesInRightGrid()
+    {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            beforesend: function () { $("#RightServicegrid").pqGrid("showLoading"); },
+            url: "/ServiceMaster/GetAllActiveServiceMaster",
+            data: {},
+            success: function (response) {
+                $("#RightServicegrid").pqGrid("hideLoading");
+                $("#RightServicegrid").pqGrid("option", "dataModel.data", response);
+                $("#RightServicegrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+            }
+        });
+    }
+
+    function CLearBottomGrids()
+    {
+        RefreshRightGrid();
+        ClearParamGrid('leftServicegrid');
+    }
+    function RefreshRightGrid()
+    {
+        var getData = $("#RightServicegrid").pqGrid("option", "dataModel.data");
+        if (IsNullOrUndefined(getData)) {
+            LoadAllServicesInRightGrid();
+        }
+        $.map(getData, function(key, val)
+        {
+            val.State = false;
+        })
+        $("#RightServicegrid").pqGrid("option", "dataModel.data", getData);
+        $("#RightServicegrid").pqGrid("refreshDataAndView");
+    }
+    function ClearAllField() {
+        CLearBottomGrids();
+        GetAllAutoServiceAllocation();
+        
+        $("#AutoAllocationId").val("");
+        $("#ddlLeftserviceType").val("");
+        //$("#ddlRightserviceType").val(""); $("#ddlNoOfDays").val("");
+    }
+</script>

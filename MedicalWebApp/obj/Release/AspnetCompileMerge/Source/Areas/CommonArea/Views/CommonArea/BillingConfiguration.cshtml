@@ -1,0 +1,298 @@
+﻿@model CGHSBilling.Areas.CommonArea.Models.BillConfigurationModel
+<script src="~/Scripts/common.js"></script>
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <a class="collapsediv" data-toggle="collapse" href="#SearchGridArea" style="color: white">
+                        Billing Configuration
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="SearchGridArea" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="ClientGridGrid"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel-group" id="EntryForm">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    @Html.Label("Recieve Amt", new { @class = "required" })
+                                    @Html.TextBoxFor(m => m.RecieveAmount, new { @class = "form-control" })
+                                    @Html.HiddenFor(m => m.ClientId)
+                                    @Html.HiddenFor(m => m.BillConfigurationId)
+                                    @Html.HiddenFor(m => m.DeductionModeId)
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.Label("Balance Amt/Remaining Bills", new { @class = "required" })
+                                    @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.Label("Total Rec", new { @class = "required" })
+                                    @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form-control" })
+                                </div>
+                            </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        @Html.LabelFor(m => m.BillDate, new { @class = "required " })
+                                        <div class='input-group date' id='BillDate'>
+                                            <input id="BillDateVal" type='text' class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Html.Label("Comment", new { @class = "required" })
+                                        @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                    <button type="button" class="btn btn-success" id="btnReset">Reset</button>
+                                    <button type="button" class="btn btn-success" id="btnClearAll">Clear All</button>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="BillingRecieveGrid" style="margin-top:5px;"></div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="BillingConfigurationGrid" style="margin-top:5px;"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+<script type="text/javascript">
+
+    $('#BillDate').datetimepicker({ format: 'DD-MMM-YYYY', extraFormats: ['DD-MM-YYYY', 'DD-MM-YY'], defaultDate: new Date() });
+
+    $("#BalanceAmount").attr("disabled", "disabled");
+    $("#TotalAmount").attr("disabled", "disabled");
+
+    /*--------------------------Left  Service grid Area --------------------*/
+    var dataSearchGrid = { location: "local" };
+    var colSearchGrid = [
+        { title: "", dataIndx: "ClientId", dataType: "integer", hidden: true },
+        {
+            title: "Client Code", dataIndx: "Code", width: 400,
+            filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+        },
+        {
+            title: "Client Name", dataIndx: "Name", width: 400,
+            filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+        },
+    {
+        title: "Deduction Type", dataIndx: "DeductionType", width: 400,
+    filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+    }
+
+    ];
+    var setgrids = gridCommonObject;
+    setgrids.title = 'Clients';
+    setgrids.width = '100%';
+    setgrids.height = 390;
+    setgrids.dataModel = dataSearchGrid;
+    setgrids.colModel = colSearchGrid;
+    setgrids.pageModel = false;
+    setgrids.editable = false;
+    setgrids.rowClick = function (evt, ui) {    
+        var rowIndx = parseInt(ui.rowIndx);
+        var details = ui.rowData;
+        $("#ClientId").val(details.ClientId);
+        fnGetdetailOfbill(details.ClientId)
+        $("#RecieveAmount").val("");
+        $("#BillDate").val(details.BillDate);
+        $("#Comment").val(details.Comment);
+        $("#DeductionModeId").val(details.DeductionModeId);
+        ClearParamGrid("BillingRecieveGrid");
+    }
+    var $makeclientgrid = $("#ClientGridGrid").pqGrid(setgrids);
+
+
+
+
+    var dataModel = { location: "local" };
+    var colmodel = [
+        { title: "RequestNo", dataIndx: "RequestNo", width: 400, hidden: false, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Deducted Amount", dataIndx: "DeductedAmount", width: 400, hidden: false, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+
+    ];
+    var setgridP = gridCommonObject;
+    setgridP.title = 'All Deduction';
+    setgridP.width = '100%';
+    setgridP.height = 390;
+    setgridP.dataModel = dataModel;
+    setgridP.colModel = colmodel;
+    setgridP.pageModel = false;
+    setgridP.editable = false;
+
+    var $makegrid = $("#BillingConfigurationGrid").pqGrid(setgridP);
+    $("#btnReset").click(function () {
+        $("#BillConfigurationId").val("");
+        $("#DeductionModeId").val("");
+        $("#RecieveAmount").val("");
+        $("#BalanceAmount").val("");
+        $("#BillDate").val("");
+        $("#Comment").val("");
+    });
+    $("#btnClearAll").click(function () {
+        ClearAllField();
+       ResetDate("BillDate");
+        
+
+    });
+    $("#btnSave").click(function () {
+        if ($("#RecieveAmount").val()==="") {
+            ShowAlert('info', 'Recieve Amount cannot be empty');
+            return;
+        }
+        DisableClick("btnSave");
+        var jsonData = JSON.stringify({
+            ClientId: $("#ClientId").val(),
+            RecieveAmount: $("#RecieveAmount").val(),
+            BalanceAmount: $("#BalanceAmount").val(),
+            BillConfigurationId : $("#BillConfigurationId").val(),
+            DeductionModeId : $("#DeductionModeId").val(),
+            BillDate: $("#BillDateVal").val(),
+            Comment: $("#Comment").val(),
+        });
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            url: "/BillingConfiguration/SaveBillingConfiguration",
+            data: jsonData,
+            success: function (msg) {
+                if (msg.success) {
+                    ShowAlert("success", "Record Saved Successfully");
+                    ClearAllField();
+                }
+                else {
+                    ShowAlert("warning", msg.Message);
+                }
+            },
+            error: function (a, exception, b) {
+                debugger;
+            }
+        });
+    });
+
+
+    var datarModel = { location: "local" };
+    var colrmodel = [
+
+        { title: "", dataIndx: "ClientId", dataType: "integer", hidden: true },
+        { title: "Client Name", dataIndx: "ClientName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Rec Amount", dataIndx: "RecieveAmount", width: 400, hidden: false, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "", dataIndx: "BillConfigurationId", dataType: "integer", hidden: true },
+        { title: "Bill Date", dataIndx: "BillDate", width: 400, hidden: false},
+        { title: "Comment", dataIndx: "Comment", width: 400, hidden: false}
+    ];
+    var setgridR = gridCommonObject;
+    setgridR.title = 'All Recieved';
+    setgridR.width = '100%';
+    setgridR.height = 310;
+    setgridR.dataModel = datarModel;
+    setgridR.colModel = colrmodel;
+    setgridR.pageModel = false;
+    setgridR.filterModel = false;
+    setgridR.editable = false;
+    setgridR.rowClick = function (evt, ui) {
+        var rowIndx = parseInt(ui.rowIndx);
+        var details = ui.rowData;
+        $("#BillConfigurationId").val(details.BillConfigurationId);    
+        $("#RecieveAmount").val(details.RecieveAmount);
+        $("#BalanceAmount").val(details.BalanceAmount);
+        $("#BillDate").val(details.BillDate);
+        $("#Comment").val(details.Comment);
+    }
+    var $makergrid = $("#BillingRecieveGrid").pqGrid(setgridR);
+
+    loadSearchGrid();
+    function loadSearchGrid() {
+        $.ajax({
+            type: 'GET',
+            url: "/ClientMaster/AllClient",
+            dataType: "json",
+            beforeSend: function () {
+                $("#ClientGridGrid").pqGrid("showLoading");
+            },
+            complete: function () {
+                $("#ClientGridGrid").pqGrid("hideLoading");
+            },
+            success: function (response) {
+                $("#ClientGridGrid").pqGrid("hideLoading");
+                $("#ClientGridGrid").pqGrid("option", "dataModel.data", response);
+                $("#ClientGridGrid").pqGrid("refreshDataAndView");
+            }
+        });
+    }
+    function fnGetdetailOfbill(clientId) {
+        $.ajax({
+            type: 'GET',
+            url: "/BillingConfiguration/GetAllBill",
+            data: { ClientId: clientId },
+            dataType: "json",
+            success: function (response) {
+                debugger;
+                $("#TotalAmount").val(response[0].TotalRecieveAmount);
+                $("#BalanceAmount").val(response[0].BalanceAmount);
+                $("#BillDate").val(response[0].BillDate);
+                $("#Comment").val(response[0].Comment);
+                var details = response[0].Billdetail;
+
+                $("#BillingRecieveGrid").pqGrid("hideLoading");
+                $("#BillingRecieveGrid").pqGrid("option", "dataModel.data", response);
+                $("#BillingRecieveGrid").pqGrid("refreshDataAndView");
+
+                $("#BillingConfigurationGrid").pqGrid("hideLoading");
+                $("#BillingConfigurationGrid").pqGrid("option", "dataModel.data", details);
+                $("#BillingConfigurationGrid").pqGrid("refreshDataAndView");
+            }
+        });
+    }
+
+    function ClearAllField() {
+        $("#ClientId").val("");
+        $("#BillConfigurationId").val("");
+        $("#DeductionModeId").val("");
+        $("#RecieveAmount").val("");
+        $("#BalanceAmount").val("");
+        $("#TotalAmount").val("");
+        $("#Comment").val("");
+        ResetDate("BillDate");
+        ClearParamGrid('BillingConfigurationGrid');
+        ClearParamGrid('BillingRecieveGrid');
+    }
+
+
+</script>

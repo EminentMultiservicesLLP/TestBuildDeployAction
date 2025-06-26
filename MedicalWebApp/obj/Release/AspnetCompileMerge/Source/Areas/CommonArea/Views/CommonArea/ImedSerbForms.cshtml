@@ -1,0 +1,180 @@
+﻿@using System.Reflection.Emit
+@model CGHSBilling.Areas.HospitalForms.Models.RequestSubmissionModel
+<script src="~/Scripts/common.js"></script>
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <a class="collapsediv" data-toggle="collapse" href="#SearchGridArea" style="color: white">
+                        Generated Request
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="SearchGridArea" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="GeneratedRequestGrid"></div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="panel-group" id="EntryForm">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="ServiceConsumedGrid"></div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    @Html.Label("Discharge Details")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <textarea id="DischargeSummery" type="text" style="width: 100%;height: 250px"/>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="ImedSerbPartialForImagePreview"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+}
+
+<script type="text/javascript">
+    var appSetting = '@CGHSBilling.Common.Constants.ScandocUrl';
+    var dataSearchGrid = { location: "local" };
+    var colSearchGrid = [
+        { title: "", dataIndx: "RequestId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "ClientId", dataType: "integer", hidden: true },
+        { title: "Hospital Name", dataIndx: "ClientName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Request No", dataIndx: "RequestNo", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "File No", dataIndx: "FileNo", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, hidden: true },
+        { title: "Patient Name", dataIndx: "PatientName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, hidden: true },
+        { title: "IPD No", dataIndx: "IpdNo", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, hidden: true }
+    ];
+
+
+    var setSearchGrid = {
+        width: '100%',
+        height: 300,
+        sortable: false,
+        numberCell: { show: true },
+        hoverMode: 'cell',
+        showTop: true,
+        title: 'Generated Request No',
+        resizable: true,
+        scrollModel: { autoFit: true },
+        draggable: true,
+        wrap: false,
+        filterModel: { off: false, mode: "AND", header: true },
+        editable: false,
+        selectionModel: { type: 'cell' },
+        colModel: colSearchGrid,
+        dataModel: dataSearchGrid,
+        swipeModel: { on: true },
+        virtualX: false,
+        virtualY: false,
+        rowClick: function (evt, ui) {
+            var rowIndx = parseInt(ui.rowIndx);
+            var details = ui.rowData;
+            debugger;
+            $("#DischargeSummery").val(details.LeftDcDetail);
+            GetServiceConsumedInRequest(details.RequestId);
+            fnShowAttachment(details.RequestId);
+        }
+    }
+    var $SearchGrid1 = $("#GeneratedRequestGrid").pqGrid(setSearchGrid);
+    GetAllgeneratedRequest();
+    function GetAllgeneratedRequest() {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/RequestSubmission/GetAllgeneratedRequest",
+            success: function (response) {
+                $("#GeneratedRequestGrid").pqGrid("option", "dataModel.data", response);
+                $("#GeneratedRequestGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, b, response) {
+                ShowAlert("error", "Server error");
+            },
+        });
+    }
+
+    function GetServiceConsumedInRequest(RequestId) {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/RequestSubmission/GetServiceConsumedInRequest",
+            data: { RequestId: RequestId },
+            success: function (response) {
+                ClearParamGrid('ServiceConsumedGrid');
+                $("#ServiceConsumedGrid").pqGrid("option", "dataModel.data", response);
+                $("#ServiceConsumedGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, b, response) {
+                ShowAlert("error", "Server error");
+            },
+        });
+    }
+
+
+
+
+    /*--------------------ServiceConsumed Grid------------------------*/
+
+    var dataServiceConsumedGrid = { location: "local" };
+    var colServiceConsumedGrid = [
+        { title: "", dataIndx: "RequestId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "Id", dataType: "integer", hidden: true },
+        { title: "Service Name", dataIndx: "ServiceName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Service Type", dataIndx: "Name", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        
+    ];
+    var setServiceConsumedGrid = gridCommonObject;
+    setServiceConsumedGrid.title = 'Service Consumed';
+    setServiceConsumedGrid.width = '100%';
+    setServiceConsumedGrid.height = 350;
+    setServiceConsumedGrid.colModel = colServiceConsumedGrid;
+    setServiceConsumedGrid.dataModel = dataServiceConsumedGrid;
+    setServiceConsumedGrid.editable = true;
+    setServiceConsumedGrid.pageModel = { type: "local", rPP: 100 };
+    var $LeftOTDetailsGrid = $("#ServiceConsumedGrid").pqGrid(setServiceConsumedGrid);
+
+    function fnShowAttachment(param) {
+    $("#RequestImages").html('');
+    $.ajax({
+        type: "GET",
+        url: '/RequestSubmission/ImedSerbPartialForImagePreview',
+        data: { scanDocId: param },
+        datatype: "Json",
+        success: function (data) {
+            debugger;
+            $('#ImedSerbPartialForImagePreview').html(data);
+            $('#ImedSerbPartialForImagePreview').dialog('open');
+            
+        }
+    });
+    }
+</script>

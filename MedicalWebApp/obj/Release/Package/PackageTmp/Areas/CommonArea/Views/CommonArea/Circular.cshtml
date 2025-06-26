@@ -1,0 +1,94 @@
+﻿@model CGHSBilling.Areas.CommonArea.Models.CircularModel
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend></legend>
+        <br>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="collapsediv" data-toggle="collapse" href="#SearchCircularDetails" style="color: white">
+                                Circular Form
+                            </a>
+                        </div>
+                    </div>
+                    <div id="SearchCircularDetails" class="panel-collapse collapse in" aria-expanded="true">
+                        <div class="panel-body">
+                            <div class="container fill">
+                                <div id="CircularSearchGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </fieldset>
+
+    <script type="text/javascript">
+
+  /**********************load Circular Search Grid**************/
+        function loadCircularSearchGrid() {
+            $.ajax({
+                type: "GET",
+                url: "/Circular/GetCircularDetails",
+                datatype: "Json",
+                async: true,
+                success: function (data) {
+                    $("#CircularSearchGrid").pqGrid("hideLoading");
+                    $("#CircularSearchGrid").pqGrid("option", "dataModel.data", data);
+                    $("#CircularSearchGrid").pqGrid("refreshDataAndView");
+                }
+            });
+        }
+
+        /*******************Set Circular Search Grid******************/
+        var dataCircularSearchGrid = { location: "local" };
+        var colCircularSearchGrid = [
+                { title: "Circular ID", dataIndx: "CircularID", dataType: "integer", hidden: true },
+                {
+                    title: "Circular Name", dataIndx: "CircularName", width: 400,
+                    filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+                },
+                {
+                    title: "Download PDF", editable: false, minWidth: 100, maxWidth: 150, sortable: false, align: "center",
+                    render: function (ui) {
+                        let CircularID = ui.rowData.CircularID;
+                        var renderButton = '<button type="button" class="btn btn-primary" onclick="DownloadCircularSupportFile(' + CircularID + ');"  title="Click to Open Help Document For Billing"></i> Download PDF </button>';
+                        return renderButton;
+                    }
+                }
+        ];
+
+        var setCircularSearchGrid = {
+            width: '100%',
+            height: 450,
+            sortable: false,
+            numberCell: { show: true },
+            hoverMode: 'cell',
+            showTop: true,
+            resizable: true,
+            scrollModel: { autoFit: true },
+            draggable: false,
+            wrap: false,
+            editable: false,
+            filterModel: { on: true, mode: "AND", header: true },
+            selectionModel: { type: 'row', subtype: 'incr', cbHeader: true, cbAll: true },
+            colModel: colCircularSearchGrid,
+            dataModel: dataCircularSearchGrid,
+            pageModel: { type: "local", rPP: 20 },
+            rowClick: function (evt, ui) {
+            }
+        }
+
+        $("#CircularSearchGrid").pqGrid(setCircularSearchGrid);
+        loadCircularSearchGrid();
+
+        function DownloadCircularSupportFile(CircularID) {
+            window.location.href = '/Circular/GetCircularDownloadFileDetails?CircularID=' + CircularID;
+        }
+    </script>
+}

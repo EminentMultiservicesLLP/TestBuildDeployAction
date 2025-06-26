@@ -163,10 +163,5 @@ namespace CGHSBilling.Controllers
 
         }
 
-        public ActionResult AccessDenied()
-        {
-            return View();
-        }
-
     }
 }

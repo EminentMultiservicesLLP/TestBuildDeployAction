@@ -1,0 +1,15 @@
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\log4net.config
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\BISERPDataLayer.dll.config
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\BISERPDataLayer.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\BISERPDataLayer.pdb
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\BISERPCommon.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\EntityFramework.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\EntityFramework.SqlServer.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\log4net.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\BISERPCommon.pdb
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\EntityFramework.xml
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\EntityFramework.SqlServer.xml
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Release\log4net.xml
+D:\BISERP-WebAPI\BISERPDataLayer\obj\Release\BISERPDataLayer.csprojResolveAssemblyReference.cache
+D:\BISERP-WebAPI\BISERPDataLayer\obj\Release\BISERPDataLayer.dll
+D:\BISERP-WebAPI\BISERPDataLayer\obj\Release\BISERPDataLayer.pdb

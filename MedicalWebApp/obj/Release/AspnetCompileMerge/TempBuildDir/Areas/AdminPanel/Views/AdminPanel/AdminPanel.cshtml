@@ -1,0 +1,53 @@
+﻿@using System.Web.Mvc.Html
+@{
+    ViewBag.Title = "AdminPanel";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_AdminPanelLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    var loadingFirstTime = true;
+    <div id="content">
+        <div id="content-tab">
+            <ul class="nav nav-tabs" id="tabs">
+                @foreach (var item in Model.child)
+                {
+                    var activeClass = (loadingFirstTime ? "active" : "");
+                    <li class="@activeClass">
+                        <a class="tabs" href="#" id="@item.PageName">@item.MenuName</a>
+                    </li>
+                    loadingFirstTime = false;
+                }
+            </ul>
+        </div>
+        <div id="MasterPlaceHolder" style="display:none;">
+
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function LoadFormData(selectedId) {
+        $.get('/AdminPanel/AdminPanel/' + selectedId + '?' + selectedId, function (data) {
+            $('#MasterPlaceHolder').html(data);
+            $('#MasterPlaceHolder').fadeIn('fast');
+        });
+    }
+
+    function LoadDefaultTab() {
+        if ($('.tabs') != undefined && $('.tabs').length > 0) {
+            var curElement = $('.tabs')[0];
+            var selectedId = curElement.id;
+            LoadFormData(selectedId);
+        }
+    }
+
+    $(function () {
+        $('.tabs').click(function () {
+            var selectedId = this.id;
+            clearTabSelection($(this));
+            LoadFormData(selectedId);
+        });
+
+        LoadDefaultTab();
+    });
+</script>

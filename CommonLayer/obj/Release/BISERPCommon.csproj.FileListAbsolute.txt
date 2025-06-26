@@ -1,0 +1,8 @@
+D:\BISERP-WebAPI\BISERPCommon\bin\Release\log4net.config
+D:\BISERP-WebAPI\BISERPCommon\bin\Release\BISERPCommon.dll
+D:\BISERP-WebAPI\BISERPCommon\bin\Release\BISERPCommon.pdb
+D:\BISERP-WebAPI\BISERPCommon\bin\Release\log4net.dll
+D:\BISERP-WebAPI\BISERPCommon\bin\Release\log4net.xml
+D:\BISERP-WebAPI\BISERPCommon\obj\Release\BISERPCommon.dll
+D:\BISERP-WebAPI\BISERPCommon\obj\Release\BISERPCommon.pdb
+D:\BISERP-WebAPI\BISERPCommon\obj\Release\BISERPCommon.csprojResolveAssemblyReference.cache

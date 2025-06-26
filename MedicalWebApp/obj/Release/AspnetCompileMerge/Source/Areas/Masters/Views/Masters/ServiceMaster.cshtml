@@ -1,0 +1,120 @@
+﻿@model CGHSBilling.Areas.Masters.Models.ServiceMasterModel
+<script src="~/Scripts/common.js"></script>
+@using (Html.BeginForm())
+{
+    <div>
+        <div class="panel-heading">
+            <div class="panel-title">
+                <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                    Service Master
+                </a>
+            </div>
+        </div>
+
+        <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div id="searchgrid"></div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="panel-body entryAreabackgroundCSS">
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-success" id="btnAdd">Add New/Reset</button>
+                                    <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                </div>
+                            </div>
+                            <br/>
+                            <div id="EntryArea">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Service Type", new {@class = "required"})
+                                        @Html.DropDownList("ddlService", new SelectList(string.Empty, "Value", "Text"), "-- Select Service Type --", new {@class = "form-control"})
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("Service Code", new {@class = "required"})
+                                        @Html.TextBoxFor(model => model.Code, new {@class = "form-control "})
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                @Html.Label("Service Name", new {@class = "required"})
+                                                @Html.TextBoxFor(model => model.ServiceName, new {@class = "form-control "})
+                                                @Html.HiddenFor(model => model.ServiceId)
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                @Html.Label("Patient Type", new { @class = "required" })
+                                                @Html.DropDownList("ddlPatientType", new SelectList(string.Empty, "Value", "Text"), "-- Select --", new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                @Html.Label("Qty ", new { @class = "required" })
+                                                @Html.TextBoxFor(model => model.Qty, new {@class = "form-control "})
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                @Html.Label("CGHS Code ", new { @class = "required" })
+                                                @Html.TextBoxFor(model => model.CghsCode, new { @class = "form-control " })
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <br />
+                                                @Html.LabelFor(model => model.Deactive, new { style = "font-weight:bold" })
+                                                @Html.CheckBoxFor(model => model.Deactive)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                @Html.LabelFor(model => model.AllowToChangeRate, new { style = "font-weight:bold" })
+                                                @Html.CheckBoxFor(model => model.AllowToChangeRate)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                @Html.LabelFor(model => model.Default, new { style = "font-weight:bold" })
+                                                @Html.CheckBoxFor(model => model.Default)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                @Html.LabelFor(model => model.Surgery, new { style = "font-weight:bold" })
+                                                @Html.CheckBoxFor(model => model.Surgery)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div id="GenderLinkingGrid"></div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.LabelFor(model => model.NoOfDays, new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.NoOfDays, new { @class = "form-control " })
+                                    </div>
+                                </div>
+                                <div class="row" style="display: none">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Sequence No", new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.Sequence, new { @class = "form-control " })
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Scripts/ApplicationAreaScript/Masters/ServiceMasterScript.js"></script>

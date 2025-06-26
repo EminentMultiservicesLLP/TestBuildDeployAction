@@ -1,0 +1,90 @@
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\log4net.config
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll.config
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\BISERPDataLayer.pdb
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\BISERPCommon.dll
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\EntityFramework.dll
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.dll
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\log4net.dll
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\BISERPCommon.pdb
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\EntityFramework.xml
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.xml
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\bin\Debug\log4net.xml
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\obj\Debug\BISERPDataLayer.csprojResolveAssemblyReference.cache
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\obj\Debug\BISERPDataLayer.dll
+c:\Projects\WebProjects\BISEPRService\BISERPDataLayer\obj\Debug\BISERPDataLayer.pdb
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\obj\Debug\BISERPDataLayer.csprojResolveAssemblyReference.cache
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\obj\Debug\BISERPDataLayer.dll
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\obj\Debug\BISERPDataLayer.pdb
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\log4net.config
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll.config
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\BISERPDataLayer.pdb
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\BISERPCommon.dll
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\EntityFramework.dll
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.dll
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\log4net.dll
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\BISERPCommon.pdb
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\EntityFramework.xml
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.xml
+E:\Diwakar\NewWebAPI\BISEPRService\BISERPDataLayer\bin\Debug\log4net.xml
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\log4net.config
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll.config
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\BISERPDataLayer.pdb
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\BISERPCommon.dll
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\EntityFramework.dll
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\log4net.dll
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\BISERPCommon.pdb
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\EntityFramework.xml
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\bin\Debug\log4net.xml
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\obj\Debug\BISERPDataLayer.csprojResolveAssemblyReference.cache
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\obj\Debug\BISERPDataLayer.dll
+C:\Users\erphead\Downloads\Dependency Injection for Web API Controllers\C#\BISERPDataLayer\obj\Debug\BISERPDataLayer.pdb
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\log4net.config
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll.config
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPDataLayer.pdb
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPCommon.dll
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\EntityFramework.dll
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.dll
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\log4net.dll
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPCommon.pdb
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\EntityFramework.xml
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.xml
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\bin\Debug\log4net.xml
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\obj\Debug\BISERPDataLayer.csprojResolveAssemblyReference.cache
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\obj\Debug\BISERPDataLayer.dll
+E:\Diwakar\BISERPWeb-API\BISERPDataLayer\obj\Debug\BISERPDataLayer.pdb
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\log4net.config
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll.config
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPDataLayer.pdb
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPCommon.dll
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\EntityFramework.dll
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.dll
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\log4net.dll
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\BISERPCommon.pdb
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\EntityFramework.xml
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.xml
+E:\BISERPWeb-API\BISERPDataLayer\bin\Debug\log4net.xml
+E:\BISERPWeb-API\BISERPDataLayer\obj\Debug\BISERPDataLayer.csprojResolveAssemblyReference.cache
+E:\BISERPWeb-API\BISERPDataLayer\obj\Debug\BISERPDataLayer.dll
+E:\BISERPWeb-API\BISERPDataLayer\obj\Debug\BISERPDataLayer.pdb
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\log4net.config
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll.config
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\BISERPDataLayer.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\BISERPDataLayer.pdb
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\BISERPCommon.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\EntityFramework.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\log4net.dll
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\BISERPCommon.pdb
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\EntityFramework.xml
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\EntityFramework.SqlServer.xml
+D:\BISERP-WebAPI\BISERPDataLayer\bin\Debug\log4net.xml
+D:\BISERP-WebAPI\BISERPDataLayer\obj\Debug\BISERPDataLayer.csprojResolveAssemblyReference.cache
+D:\BISERP-WebAPI\BISERPDataLayer\obj\Debug\BISERPDataLayer.dll
+D:\BISERP-WebAPI\BISERPDataLayer\obj\Debug\BISERPDataLayer.pdb

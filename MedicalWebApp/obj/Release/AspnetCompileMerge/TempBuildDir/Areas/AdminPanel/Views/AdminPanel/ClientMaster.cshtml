@@ -1,0 +1,278 @@
+﻿@model CGHSBilling.Areas.AdminPanel.Models.ClientMasterModel
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                                Client Details
+                            </a>
+                        </div>
+                    </div>
+                    <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+                        <div class="panel-body">
+                            <div class="container fill">
+                                <div id="Searchgrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="panel-groupingBoder">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Entry Form
+                </div>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <fieldset>
+
+                        <div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                                    <button type="button" id="btnAdd" class="btn btn-success">Reset</button>
+                                    @*<button type="button" class="btn btn-success">Report</button>*@
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Code, new { @class = "required" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Code)
+                                @Html.HiddenFor(model => model.ClientId)
+                            </div>
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Name, new { @class = "required" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    @Html.LabelFor(model => model.Deactive)
+                                    @Html.CheckBoxFor(model => model.Deactive, new { @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <hr style=" border-bottom: solid 0.2px white;" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>Address</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Society)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Society, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Society)
+                            </div>
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Street)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Street, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Street)
+                            </div>
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Landmark)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Landmark, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Landmark)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.State)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.DropDownList("ddlState", new SelectList(string.Empty, "Value", "Text"), "Select State ", new { @class = "wrapperdropdown-content form-control" })
+                                @Html.ValidationMessageFor(model => model.State)
+                            </div>
+                            <div class="col-md-1">
+                                @*@Html.LabelFor(model => model.Country)*@
+                                @Html.LabelFor(model => model.City)
+                            </div>
+                            <div class="col-md-2">
+                                @*@Html.TextBoxFor(model => model.Country)*@
+                                @*@Html.DropDownList("ddlCountry", new SelectList(string.Empty, "Value", "Text"), "Select Country ", new {@class = "wrapperdropdown-content form-control"})
+                    @Html.ValidationMessageFor(model => model.Country)*@
+                                @Html.DropDownList("ddlCity", new SelectList(string.Empty, "Value", "Text"), "Select City", new { @class = "wrapperdropdown-content form-control" })
+                                @Html.ValidationMessageFor(model => model.City)
+                            </div>
+                            <div class="col-md-1">
+                                @*@Html.LabelFor(model => model.GSTIN)*@
+                                @Html.LabelFor(model => model.Pincode)
+                            </div>
+                            <div class="col-md-2">
+                                @*@Html.TextBoxFor(model => model.GSTIN, new { @class = "form-control" })*@
+                                @Html.TextBoxFor(model => model.Pincode, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Pincode)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                @Html.Label("Deduction Mode", new { @class = "required" })
+                            </div>
+                            <div class="col-sm-2">
+                                <select id="ddlDeduction" class="form-control wrapper-dropdown">
+                                    <option class="wrapperdropdown-content" value="0">--Select Deduction Mode--</option>
+                                    <option class="wrapperdropdown-content" value="1">Deduction Amount</option>
+                                    <option class="wrapperdropdown-content" value="2">No Of Bills</option>
+                                    <option class="wrapperdropdown-content" value="3">Lumpsum</option>
+                                </select>                    
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(model => model.DeductionAmt, new { @class = "form-control" })
+
+                            </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    @Html.Label("Hospital Type")
+
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.DropDownList("ddlHospitalType", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control" })
+
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.Label("Hospital Service Category")
+
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.DropDownList("ddlHospitalServiceCategory", new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control" })
+
+                                </div>
+
+                                <div class="col-sm-1">
+                                    @Html.Label("Client Type", new { @class = "required" })
+
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.DropDownList("ddlClientType", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control" })
+
+                                </div>
+                                </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    @Html.LabelFor(model => model.IsShowLnk)
+                                    @Html.CheckBoxFor(model => model.IsShowLnk)
+                                </div>
+                            </div>
+                        </div>
+                           
+                        <hr style=" border-bottom: solid 0.2px white;" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>Contact Person Details</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.ContactPerson)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ContactPerson)
+                            </div>
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.ContactDesignation)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.ContactDesignation, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ContactDesignation)
+                            </div>
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.GSTIN)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.GSTIN, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Phone1)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Phone1, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Phone1)
+                            </div>
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Phone2)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Phone2, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Phone2)
+                            </div>
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.CellPhone)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.CellPhone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CellPhone)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Fax)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Fax, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Fax)
+                            </div>
+                            <div class="col-md-1">
+                                @Html.LabelFor(model => model.Email)
+                            </div>
+                            <div class="col-md-2">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+
+                  
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                @Html.Label("Upload Logo")
+                                <div>
+                                    <input type='file' id="logoinput" multiple="multiple" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <ul id="logoImages" class="attachment" style="max-height: 150px; overflow-y: scroll;" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+      <script type="text/javascript">
+        var appSetting = '@CGHSBilling.Common.Constants.ScandocUrl'
+    </script>
+    <script src="~/Scripts/AdminPanel/ClientMaster.js"></script>
+  
+}

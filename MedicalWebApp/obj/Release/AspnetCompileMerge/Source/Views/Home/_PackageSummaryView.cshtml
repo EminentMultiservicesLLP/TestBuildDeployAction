@@ -1,0 +1,239 @@
+﻿
+<style>
+
+    table td {
+        padding: 5px;
+        font-family: "Segoe UI",Arial,sans-serif;
+        font-size: 14px;
+        width: auto;
+    }
+
+    .TopHeader {
+        background-color: green;
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .ConditionHeader {
+        background-color: yellow;
+        color: black;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .ConditionCriteria {
+        background-color: rgb(0, 176, 240);
+        color: black;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .ConditionDates {
+        background-color: rgb(255, 192, 0);
+        color: black;
+        text-align: center;
+    }
+
+    .imgControl {
+        width: 160px;
+        height: 160px;
+        transition: transform .2s; /* Animation */
+    }
+
+        .imgControl:hover {
+            transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+        }
+</style>
+<div class="row" align="right" style="margin:0;">
+    <div class="col-sm-5 col-md-5" align="right">
+        <table cellspacing=0 border=1 id="chargeTable" align="center" style="margin:5px;min-width:500px;padding:0;">
+            <tr class="TopHeader">
+                <td style="min-width:50px" colspan="4">CDA</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" class="ConditionHeader">Condition - 1</td>
+                <td style="min-width:50px" class="ConditionCriteria">From </td>
+                <td style="min-width:50px" class="ConditionCriteria">To</td>
+                <td style="min-width:50px" class="ConditionCriteria">Room Entitlemment</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px">Year of Retirement between </td>
+                <td style="min-width:50px" class="ConditionDates" colspan="3"><b>01-Jan-1996</b>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<b>31-Dec-2005</b></td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" rowspan="3">Last Basic Salary Between</td>
+                <td style="min-width:50px" colspan="2">Rs. 1 To 7,500</td>
+                <td style="min-width:50px">General </td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 7,501 to 10,500</td>
+                <td style="min-width:50px">Semi - Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 10,500 and Above</td>
+                <td style="min-width:50px">Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" class="ConditionHeader">Condition - 2</td>
+                <td style="min-width:50px" class="ConditionCriteria">From </td>
+                <td style="min-width:50px" class="ConditionCriteria">To</td>
+                <td style="min-width:50px" class="ConditionCriteria">Room Entitlemment</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px">Year of Retirement between </td>
+                <td style="min-width:50px" class="ConditionDates" colspan="3"><b>01-Jan-2006</b>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<b>31-Dec-2015</b></td>
+
+            </tr>
+            <tr>
+                <td style="min-width:50px" rowspan="3">Last Basic Salary Between </td>
+                <td style="min-width:50px" colspan="2">Rs. 1 To 13,950</td>
+                <td style="min-width:50px">General </td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 13,951 To</td>
+                <td style="min-width:50px">Semi - Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 19,531 & Above</td>
+                <td style="min-width:50px">Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" class="ConditionHeader">Condition - 3</td>
+                <td style="min-width:50px" class="ConditionCriteria">From </td>
+                <td style="min-width:50px" class="ConditionCriteria">To</td>
+                <td style="min-width:50px" class="ConditionCriteria">Room Entitlemment</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px">Year of Retirement between </td>
+                <td style="min-width:50px" class="ConditionDates" colspan="3"><b>01-Jan-2016</b>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<b>Till Today</b></td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" rowspan="3">Last Basic Salary Between </td>
+                <td style="min-width:50px" colspan="2">Rs. 01 To 47,600</td>
+                <td style="min-width:50px">General </td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 47,601 To 63,100</td>
+                <td style="min-width:50px">Semi - Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 63,101 & Above</td>
+                <td style="min-width:50px">Private</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-2 col-md-2" style="display: table-cell; vertical-align: middle;">
+        <div>
+            @*<a class="cbutton cbutton--effect-radomir" data-ajax="true" data-ajax-begin="showPageLoadingSpinner" data-ajax-complete="hidePageLoadingSpinner" data-ajax-loading="#ajaxLoaderDiv" data-ajax-mode="replace" data-ajax-update="#ShowView" href="/HospitalForms/HospitalForms/RequestSubmissionNew">
+                
+            </a>*@
+            <img class="imgControl" src="~/Images/IPD.png" alt="IPD Billing" title="Click to Open IPD Billing" />
+        </div>
+        <div class="imgControl">
+            @*<a data-ajax="true" data-ajax-begin="showPageLoadingSpinner" data-ajax-complete="hidePageLoadingSpinner" data-ajax-loading="#ajaxLoaderDiv" data-ajax-mode="replace" data-ajax-update="#ShowView" href="/HospitalForms/HospitalForms/RequestSubmissionOPD">
+               
+            </a>*@
+            <img src="~/Images/OPD.png" alt="OPD Billing" title="Click to Open OPD Billing" />
+        </div>
+        <div>
+            <a id="btnHelp" onclick="ShowHelp();">
+                <img class="imgControl" src="~/Images/help.png" alt="Help Document" title="Click to Open Help document for Billing" />
+            </a>
+        </div>
+    </div>
+    <div align="left" class="col-sm-5 col-md-5">
+        <table cellspacing=0 border=1 id="chargeTable" align="center" style="margin:5px;min-width:500px;padding:0;">
+            <tr class="TopHeader">
+                <td style="min-width:50px" colspan="4">IDA</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" class="ConditionHeader">Condition - 1</td>
+                <td style="min-width:50px" class="ConditionCriteria">From </td>
+                <td style="min-width:50px" class="ConditionCriteria">To</td>
+                <td style="min-width:50px" class="ConditionCriteria">Room Entitlemment</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px">Year of Retirement between </td>
+                <td style="min-width:50px" class="ConditionDates" colspan="3"><b>01-Jan-1997</b>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<b>31-Dec-2006</b></td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" rowspan="3">Last Basic Salary Between </td>
+                <td style="min-width:50px" colspan="2">Rs. 1 To 8,100</td>
+                <td style="min-width:50px">General </td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 8,101 To 11,350</td>
+                <td style="min-width:50px">Semi - Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 11,351 & Above</td>
+                <td style="min-width:50px">Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" class="ConditionHeader">Condition - 2</td>
+                <td style="min-width:50px" class="ConditionCriteria">From </td>
+                <td style="min-width:50px" class="ConditionCriteria">To</td>
+                <td style="min-width:50px" class="ConditionCriteria">Room Entitlemment</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px">Year of Retirement between </td>
+                <td style="min-width:50px" class="ConditionDates" colspan="3"><b>01-Jan-2007</b>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<b>31-Dec-2016</b></td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" rowspan="3">Last Basic Salary Between </td>
+                <td style="min-width:50px" colspan="2">Rs. 1 To 18,770</td>
+                <td style="min-width:50px">General </td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 18,771 to 26,300</td>
+                <td style="min-width:50px">Semi - Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 26,301 & Above</td>
+                <td style="min-width:50px">Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" class="ConditionHeader">Condition - 3</td>
+                <td style="min-width:50px" class="ConditionCriteria">From </td>
+                <td style="min-width:50px" class="ConditionCriteria">To</td>
+                <td style="min-width:50px" class="ConditionCriteria">Room Entitlemment</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px">Year of Retirement between </td>
+                <td style="min-width:50px" class="ConditionDates" colspan="3"><b>01-Jan-2017</b>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<b>Till Today</b></td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" rowspan="3">Last Basic Salary Between </td>
+                <td style="min-width:50px" colspan="2">Rs. 01 To 47,380</td>
+                <td style="min-width:50px">General </td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 47,381 To 66,390</td>
+                <td style="min-width:50px">Semi - Private</td>
+            </tr>
+            <tr>
+                <td style="min-width:50px" colspan="2">Rs. 66,391 & Above</td>
+                <td style="min-width:50px">Private</td>
+            </tr>
+        </table>
+    </div>
+</div>
+    <script type="text/javascript">
+        function ShowHelp() {
+            $.ajax({
+                url: '/Home/SupportView',
+                type: 'POST',
+                cache: false,
+                success: function (response) {
+                    Lobibox.window({ title: 'Help details for Bill Generation', content: response.view });
+                },
+                error: function (response) {
+                Lobibox.window({ title: 'Help details for Bill Generation', content: "Failed to load Support file"});
+            }
+
+            });
+
+        }
+    </script>

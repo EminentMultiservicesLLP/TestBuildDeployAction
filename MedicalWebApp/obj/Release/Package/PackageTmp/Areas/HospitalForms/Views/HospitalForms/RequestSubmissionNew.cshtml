@@ -1,0 +1,3055 @@
+﻿@model CGHSBilling.Areas.HospitalForms.Models.RequestSubmissionModel
+<script src="~/Scripts/common.js"></script>
+<style>
+    .SelectedcssEven {
+        color: #23700c;
+        /*font-weight: bold;*/
+        font-size: 15px;
+    }
+
+    .OtherscssEven {
+        color: #4169e1;
+        /*font-weight: bold;*/
+        font-size: 13px;
+    }
+
+    /*.loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('~/Images/loading.gif') 50% 50% no-repeat rgb(211,211,211);
+    }*/
+
+
+
+    div#divPartialLoading {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('/Images/Processing.gif') 50% 50% no-repeat rgb(249,249,249);
+        opacity: .6;
+    }
+
+    div#divPartialSave {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('/Images/waiting.gif') 50% 50% no-repeat rgb(249,249,249);
+        opacity: .8;
+    }
+    .btnBigFont12 {
+        font-size: 12pt; /* Set a font size */
+    }
+       a.classname
+{
+     background: url('/Images/glass4.png' ) no-repeat top left;
+     
+     display: block;
+     width: 30px;
+     height: 30px;
+     text-indent: -9999px; /* hides the link text */
+}
+</style>
+
+
+@using (Html.BeginForm())
+{
+    @*<div id="loading" style='display:none;'></div>*@
+    <div class="loader" style='display:none;'></div>
+    <div id="divPartialLoading" style='display:none;'></div>
+    <div id="divPartialSave" style='display:none;'></div>
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <a class="collapsediv" data-toggle="collapse" href="#SearchGridArea" style="color: white">
+                        Generated Request
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="SearchGridArea" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="GeneratedRequestGrid"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel-group" id="EntryForm">
+            <div class="panel panel-default">
+                <div class="panel-body entryAreabackgroundCSSforinsideElement">
+                    <div id="entryElements">
+
+
+                        <div class="row"  id="fetchButtonDiv" style="display:none">
+                            <div>
+                                <div class="col-sm-2" id="btnFetchDiv" style="display:none">
+                                    <button id="btnFetchData" type="button" class="btn btn-primary ui-dialog-titlebar-close">Fetch Data</button>
+                                </div>
+                                <div class="col-sm-3" id="linkDiv" style="display:none">
+                                    <br />
+                                    @Html.ActionLink("Click here to view Hope patients!!", null, null, new { id = "lblHopeSite", onclick = "", @class = "required" })
+
+                                </div>
+                            </div>
+                           <br />
+                        </div>
+
+                       
+                        <div class="row">
+                            <div class="col-sm-1">
+                                @Html.Label("Request", new { @class = "required" })
+                                @Html.TextBoxFor(m => m.RequestNo, new { @class = "form-control" })
+                                @Html.HiddenFor(m => m.RequestId)
+                                @Html.HiddenFor(m => m.IsReportPrinted)
+                                @Html.HiddenFor(m => m.IsLumpsum)
+                                @Html.HiddenFor(m => m.IsHopePatientBill)
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.Label("Patient Company Name", new { @class = "required" })
+                                @Html.TextBoxFor(m => m.FileNo, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-1">
+                                @Html.Label("Hospital Type", new { @class = "required" })
+                                @Html.DropDownList("ddlHospitalType", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.Label("Insurance Organization", new { @class = "required" })
+                                @Html.DropDownList("ddlPatientType", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.Label("State", new { @class = "required" })
+                                @Html.DropDownList("ddlState", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.Label("CGHS City", new { @class = "required" })
+                                @Html.DropDownList("ddlCity", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.Label("Admission Condition", new { @class = "required" })
+                                @Html.DropDownList("ddlTypeOfAddmission", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                        </div>
+                        @*</div><br/>
+                            <div class="panel-body entryAreabackgroundCSSforinsideElement">*@
+                        <div class="row ">
+                            <div class="col-sm-1">
+                                @Html.Label("Reg No", new { @class = "required" })
+                                @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-1">
+                                @Html.Label("IPD No", new { @class = "required" })
+                                @Html.TextBoxFor(m => m.IpdNo, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.Label("Patient Name", new { @class = "required" })
+                                @Html.TextBoxFor(m => m.PatientName, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-1">
+                                @Html.Label("Age", new { @class = "required" })
+                                @Html.TextBoxFor(m => m.PatientAge, new { @type = "number", @min = 0, maxlength = 3, @class = "form-control allownumericwithdecimal", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-1">
+                                @Html.Label("Gender", new { @class = "required" })
+                                @Html.DropDownList("ddlPatientgender", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.Label("Doctor Incharge", new { @class = "required" })
+                                @Html.TextBoxFor(m => m.DoctorIncharge, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.Label("Address", new { @class = "required" })
+                                @Html.TextBoxFor(m => m.PatientAddress, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                        
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                @Html.Label("Room Entitlement", new { @class = "required" })
+                                @Html.DropDownList("ddlRoomEntitlementType", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+
+                            </div>
+                            <div class="col-sm-2">
+                                <br />
+                                <button id="AddAdmisionDetails" type="button" class="btn btn-primary" onfocus="onFocusOfElement(this.id)">Admission Details</button>
+                            </div>
+                           
+                            <div class="col-sm-2">
+                                @Html.Label("Management/Claim Type", new { @class = "required" })
+                                @Html.DropDownList("ddlMangementType", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                @Html.ActionLink(" Add / Edit Surgery", null, null, new { id = "lblManagementType", onfocus = "onFocusOfElement(this.id)", onclick = "", @class = "required" })
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                <button id="btnGo" type="button" class="btn btn-primary" title="Click to generate bill submission format" onfocus="onFocusOfElement(this.id)">GO</button> @**@
+                            </div>
+                            <div class="col-sm-1" id="IsDeactiveDiv" style="display:none">
+                                <br />
+                                @Html.Label("Deactive")
+                                @Html.CheckBoxFor(m => m.IsDeactive)
+                            </div>
+
+                            <div class="col-sm-2" id="CommentDiv" style="display:none">
+                                @Html.Label("Comment")
+                                @Html.TextBoxFor(m => m.Comment, new { @class = "form-control" })
+                            </div>
+                            <div class="col-sm-1">
+                                <br />
+                                @Html.ActionLink(" Check Services", null, null, new { id = "lblServices", @class = "classname" })
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="DateWisepartialView" style="width:100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body entryAreabackgroundCSSforinsideElement">
+
+            <div class="row">
+                <div class="col-sm-1">
+                    <lable style="font-weight:bold">Bill Amount</lable>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control disabled" id="billAmount" value="0" disabled="disabled" style="font-weight:bold;font-size:large" />
+                </div>
+                <div class="col-sm-6" style="vertical-align:bottom;">
+                    <button id="btnSubmit" type="button" class="btn btn-success">Save</button>
+                    <button id="btnPrint" type="button" class="btn btn-primary">Print</button>
+                    <button id="btnCalculateBill" type="button" class="btn btn-primary">Calculate Bill</button>
+                    <button id="btnReset" type="button" class="btn btn-success">Reset</button>
+                    @*<button id="btnExpertReview" type="button" class="btn btn-primary" hidden="hidden">Expert Review</button>*@
+                </div>
+            </div>
+        </div>
+        <div class="panel-body entryAreabackgroundCSSforinsideElement">
+            <div class="row">
+                <div class="col-sm-1">
+                    <H5>DC Detail :</H5>
+                </div>
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.LeftDcDetail, htmlAttributes: new { style = "width: 100%; max-width: 100%;" })
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div title="Enter or update Admission and Discharge details" id="AdmissionDetaisPoPupModal" style="display: none;" class="popupGridClass">
+        <div style="margin-top:5px;">
+            @*<button type="button" class="btn btn-primary" id="btnAddRowAdmision">Add Admission Dates</button>
+                <button type="button" class="btn btn-primary" id="btnAddRowSurgery">Add Surgery Dates</button>
+                <button type="button" class="btn btn-primary" id="btnRemoveRowAdmissionAdded">Remove</button>*@
+        </div>
+        <div id="AdmissionDetaisPoPupModalGrid" style="margin-top:5px;"></div>
+    </div>
+    <div title="Select Services" id="ServicePoPupModal" style="display: none;">
+        <div id="ServicePoPupModalGrid"></div>
+        <div style="">
+        </div>
+    </div>
+
+    <div title="Showing Default service" id="DefaultServicePoPupModal" style="display: none;" class="popupGridClass">
+
+        <div id="DefaultServicePoPupModalGrid" style="margin-top:5px;"></div>
+    </div>
+    @*<div title="Showing Linked services" id="LinkedServicePoPupModal" style="display: none;">
+        <div id="LinkedServicePoPupModalGrid" style="margin-top:5px;"></div>
+    </div>*@
+    <div title="Non CGHS investigation/Other procedures/implants/Physio
+          /Radio/Chemo/Spec Consultation" id="ManuallyAddedPoPupModal" style="display: none;" class="popupGridClass" >
+        <div style="margin-top:5px;">
+            <button type="button" class="btn btn-primary" id="btnAddRowManuallyAdded">Add</button>
+            <button type="button" class="btn btn-primary" id="btnRemoveRowManuallyAdded">Remove</button>
+        </div>
+        <div id="ManuallyAddedPoPupModalGrid" style="margin-top:5px;"></div>
+    </div>
+
+    <div title="Add Non CGHS Surgery" id="SurgeryManuallyAddedPoPupModal" style="display: none;" class="popupGridClass">
+        <div style="margin-top:5px;">
+            <button type="button" class="btn btn-primary" id="btnAddRowSurgeryManuallyAdded">Add</button>
+            <button type="button" class="btn btn-primary" id="btnRemoveRowSurgeryManuallyAdded">Remove</button>
+        </div>
+        <div id="SurgeryManuallyAddedPoPupModalGrid" style="margin-top:5px;"></div>
+    </div>
+    
+    <div title="Select Services" id="PharmacyServicePoPupModal" style="display: none;" class="popupGridClass">
+        <div style="margin-top:5px;" >
+            <button type="button" class="btn btn-primary" id="btnAddRowPharmacydetail">Add</button>
+            <button type="button" class="btn btn-primary" id="btnRemoveRowPharmacydetail">Remove</button>
+        </div><br />
+        <div id="PharmacyServicePoPupModalGrid" ></div>
+    </div>
+
+    <div title="Click on add for new row/Select a row and click  remove to Delete row" id="SurgerydetailPoPupModal" style="display: none;" class="popupGridClass">
+        <div style = "margin-top:5px;" >
+            <button type="button" class="btn btn-primary" id="btnAddRowSurgerydetail">Add New Date Entry</button>
+            <button type = "button" class="btn btn-primary" id="btnRemoveRowSurgerydetail">Remove existing Entry</button>
+            <button type="button"  class="btn btn-primary" id="btnShowCancerDetails">Verify Surgery Grade</button>
+        </div>
+        <div id="SurgerydetailPoPupModalGrid" style="margin-top:5px;"></div>
+    </div>
+    <div id="Reportpopup-dialog-crud" style="display:none;" title="Bill Report">
+        <div class="panel panel-primary" id="Report">
+            <div class="row">
+                <div class="col-sm-12">
+                    <iframe id = "iframeReportViewer" style="width:100%;height:640px"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pushNotificaton" style="position: fixed;bottom: 0;right: 0;padding: 20px;background-color: #FFFFFF;border-radius:10px ">
+        <div style="width: 100%;height: 5px;background-color: #4169e1;border-radius: 10px" ></div >
+        <button type="button" class="close" aria-label="Close">
+            <span id="btnCloseNotificaton" aria-hidden="true">X</span>
+        </button>
+        <p style="color: red;font-size: 15px" ><b> Notification </b></p>
+        <div id="NotificationPtag" style="color: green;font-size: 15px;overflow: auto;height: 50px;width: 400px"></div>
+    </div>
+    <div title="Cancer Details" id="CancerDetailsPopuModal" style="display: none;" class="popupGridClass" >
+        <div id="CancerDetailsPopuModalGrid" style="margin-top:5px;"></div>
+    </div>
+    <div title="Check Services" id="ServicesPopuModal" style="display: none;" class="popupGridClass">      
+        <div id="ServicesPopuModalGrid" style="margin-top:5px;"></div>
+    </div>
+    <div title="Hope Patients" id="PatientsPopuModal" style="display: none;" class="popupGridClass">
+        @*<div style="margin-top:5px;">
+            <button type="button" class="btn btn-primary" id="btnImport">Import</button>                        
+        </div>*@
+        <div id="PatientsPopuModalGrid" style="margin-top:5px;"></div>
+    </div>
+
+
+}
+<script src="~/Scripts/ApplicationAreaScript/HospitalForms/CommonMastersCall.js"></script>
+
+<script type="text/javascript">
+    var dateOfSelectedControll, managementTypeLoaded = -1;
+    var btnSelectService; var arrOTServiceType = [], DefaultService = [], ChoosenServices = [], ServicesEntitled = [];
+    var SurgeryMasterList = [], SurgeryMasterNameList = [], SurgeryData = []; var IsNewRequest = true; var IgnoreSurgeryValidation = false;
+    var $CancerDetailsPopuModalGrid; CancerSurgeryData = [];
+    var disableSubBtn = false; var IsHopeClient = false; var IsShowLnk = false; var Patient = null; var isPatientsDataFecth = false;var  IsBothClient = false;
+    LoadOnPageLoad();
+
+
+    /******** Search Grid Section *********/
+    var dataSearchGrid = { location: "local" };
+    var colSearchGrid = [
+        { title: "", dataIndx: "RequestId", dataType: "integer", hidden: true },
+        {
+            title: "Print Report", editable: false, minWidth: 30, maxWidth:100, sortable: false, dataIndx: "IsReportPrinted",
+            render: function (ui) {
+                var req_Id = ui.rowData.RequestId;
+                if (ui.rowData.IsReportPrinted == false)
+                {
+                    var renderButton = '<button type="button" class="btn btn-success" onclick="OpenReport(' + req_Id + ');" title="Click to Print Report"><i class="fa fa-print" aria-hidden="true"></i> Print</button>';
+                    return renderButton;
+                }
+                else
+                {
+                    var renderButton = '<button type="button" class="btn btn-primary" onclick="OpenReport(' + req_Id + ');" title="Click to Re-Print Report"><i class="fa fa-print" aria-hidden="true"></i> Re-Print</button>';
+                    return renderButton;
+                }
+            }
+        },
+        { title: "Request No", dataIndx: "RequestNo", maxWidth: 120, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "IPD No", dataIndx: "IpdNo", maxWidth: 120, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Claim Type", dataIndx: "ManagementType", maxWidth: 175, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "File/Company No", dataIndx: "FileNo", width: 250, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Patient Name", dataIndx: "PatientName", width: 300, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        
+    ];
+
+    var setSearchGrid = {
+        width: '100%',
+        height: 250,
+        sortable: false,
+        numberCell: { show: true },
+        showTop: true,
+        toolbar: {
+            //cls: "pq-toolbar-search",
+            items: [
+                { type: "<span style='margin-left:5px;margin-right:5px;margin-top:-10px;'>Created requests show below or click here for</span>" },
+                {
+                    type: 'button', style: "margin-bottom:0px; margin-top:-3px;", cls: "btn btn-primary",
+                    label: "Create new Request",
+                    icon: 'ui-icon-document',
+                    listeners: [{
+                        "click": function (evt) {
+                            //ClearParamGrid('AdmissionDetaisPoPupModalGrid');
+                            ClearDayWisePartialSection();
+                            ClearAllControlSkip("entryAreabackgroundCSSforinsideElement", ["GeneratedRequestGrid"], true);
+                            ClearAllControl('popupGridClass', true);
+                            CollapsePqGrid($("#GeneratedRequestGrid"));
+                            DisableBtnClick(true, false);
+                            $("#IsDeactiveDiv").hide();
+                            $('#IsDeactive')[0].checked = false;
+                            SetDefStateCity();
+                            $("#PatientAddress").val("N/A");                      
+                            SetButtonColor('btnGo', 'SteelBlue')
+                            SetButtonColor('btnSubmit', 'Green')
+                            //isPatientsDataFecth = false;
+                            ShowFetchButton(true);                            
+                            Patient = null;
+                        }
+                    }]
+                }
+            ]
+        },
+        resizable: true,
+        scrollModel: { autoFit: true },
+        draggable: true,
+        showTitle: false,
+        wrap: false,
+        filterModel: { off: false, mode: "AND", header: true },
+        editable: false,
+        selectionModel: { type: 'row', mode: 'single' },
+        colModel: colSearchGrid,
+        dataModel: dataSearchGrid,
+        swipeModel: { on: true },
+        rowClick: function (evt, ui) {
+            try {
+              
+                $("#divPartialLoading").show();
+                DisableBtnClick(false);                
+                var details = ui.rowData;
+                $("#RequestId").val(details.RequestId);
+                $("#RequestNo").val(details.RequestNo);
+                $("#FileNo").val(details.FileNo);
+                $("#ddlHospitalType").val(details.HospitalTypeId);
+                $("#IpdNo").val(details.IpdNo);
+                $("#ddlRoomEntitlementType").val(details.RoomEntitleTypeId);
+                $("#ddlMangementType").val(details.ManagementTypeId);
+                $("#PatientName").val(details.PatientName);
+                $("#LifesavingMdcnAmt").val(details.LifesavingMdcnAmt);
+                $("#PatientAge").val(details.PatientAge);
+                $("#ddlPatientgender").val(details.GenderId);
+                $("#PatientAddress").val(details.PatientAddress);
+                $("#DrugsAmount").val(details.DrugsAmount);
+                $("#billAmount").val(details.BillAmount);
+                $("#LeftDcDetail").val(details.LeftDcDetail);
+                $("#ddlPatientgender").val(details.GenderId);
+                $("#RightDcDetail").val(details.RightDcDetail);
+                $("#ddlPatientType").val(details.PatientTypeId);
+                $("#balance").val(details.BillAmount);
+                $("#ddlState").val(details.StateId);
+                $("#ddlTypeOfAddmission").val(details.TypeOfAddmissionId);
+                $("#DoctorIncharge").val(details.DoctorIncharge);
+                $("#RegistrationNo").val(details.RegistrationNo);
+                ClearAllControl('popupGridClass', true);
+                $('#DateWisepartialView').empty();
+                $("#IsReportPrinted").val(details.IsReportPrinted);
+                $("#IsLumpsum").val(details.IsLumpsum);           
+                if (details.IsLumpsum == true) {
+                    $("#IsDeactiveDiv").show();
+                    disableSubBtn = true;
+                }
+                $('#IsDeactive')[0].checked = false;
+                $("#IsHopePatientBill").val(details.IsHopePatientBill);
+                //ShowPrint(tryParseInt(details.RequestId) > 0 ? true : false);
+                rowclickShowcity(details.StateId, details.CityId);
+                GetSurgeryDetailById(details.RequestId);
+                GetAdmissionDetailById(details.RequestId);                
+                GetRequestDetailById(details.RequestId);
+
+                $("#btnCloseNotificaton").click();
+                ShowFetchButton(false);
+                isPatientsDataFecth = false;
+            }
+            catch (err) {
+                $("#divPartialLoading").hide();
+                $("#btnCloseNotificaton").click();
+            }
+        }
+    }
+    $("#GeneratedRequestGrid").pqGrid(setSearchGrid);
+    /***************************************************/
+
+
+    /************ Admission button Section *****************/
+    var datatAdmissionDetaisGrid = { location: "local" };
+    var coltAdmissionDetaisGrid = [
+        { title: "", dataIndx: "RequestId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "AdmissionDtlId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+        {
+            title: "Admission date time", dataIndx: "StrAdmissionDateTime", width: 400, editor: { type: gridDateTimeEditor }
+        },
+        {
+            title: "Discharge(Final/Tentative) date time", dataIndx: "StrDischargeDateTime", width: 400,
+            editor: { type: gridDateTimeEditor }
+        },
+        { title: "ReportedAdmissionDateTime", dataIndx: "ReportedAdmissionDateTime", dataType: "string", hidden: true },
+        { title: "ReportedDischargeDateTime", dataIndx: "ReportedDischargeDateTime", dataType: "string", hidden: true },
+    ];
+
+    var setAdmissionDetaisGrid = gridCommonPopupWindowObject;
+    setAdmissionDetaisGrid.title = 'Add Admision Date Details';
+    setAdmissionDetaisGrid.width = '100%';
+    setAdmissionDetaisGrid.height = 300;
+    setAdmissionDetaisGrid.showBottom = true;
+    setAdmissionDetaisGrid.colModel = coltAdmissionDetaisGrid;
+    setAdmissionDetaisGrid.dataModel = datatAdmissionDetaisGrid;
+    setAdmissionDetaisGrid.editable = true;
+    setAdmissionDetaisGrid.filterModel = false;
+    setAdmissionDetaisGrid.postRenderInterval = -1;
+    $("#AdmissionDetaisPoPupModalGrid").pqGrid(setAdmissionDetaisGrid);
+
+ 
+
+
+    $("#AdmissionDetaisPoPupModalGrid").pqGrid({
+        cellBeforeSave: function (event, ui) {
+           
+            if (ui.dataIndx == "StrAdmissionDateTime" || ui.dataIndx == "StrDischargeDateTime") {
+                if (ui.rowData != undefined) {
+
+                    let requestidforEnable = ui.rowData.RequestId;                    
+                    if (requestidforEnable != null && requestidforEnable != undefined && requestidforEnable != 0) {
+                        if ($("#IsLumpsum").val() == "true") {
+                            if (Date.parse(ui.newVal) != Date.parse(ui.oldVal)) {
+                                disableSubBtn = true;
+                                SubmitStatus();
+                            }
+                        }
+                    }
+                    
+                    if (ui.dataIndx == "StrDischargeDateTime") {
+                        if (Date.parse(ui.rowData.StrAdmissionDateTime) > Date.parse(ui.newVal)) {
+                            ShowAlert("error", "Out date can not be greater than In date");
+                            return false;
+                        }                     
+                    }
+                   
+                }
+            }
+        }
+    });
+
+
+    $("#btnShowCancerDetails").on('click', function () {    
+        $("#CancerDetailsPopuModal").dialog({
+            height: 450,
+            width: 620,
+            modal: true,            
+            open: function (evt, ui) {                
+                var getData = $CancerDetailsPopuModalGrid.pqGrid("option", "dataModel.data");
+                PqGridRefreshClick($("#CancerDetailsPopuModalGrid"));
+                if (getData == null || getData.length == 0) {
+                    $CancerDetailsPopuModalGrid.pqGrid("option", "dataModel.data", CancerSurgeryData);
+                    $CancerDetailsPopuModalGrid.pqGrid("refreshDataAndView");
+                    PqGridRefreshClick($("#CancerDetailsPopuModalGrid"));
+                }
+            }, close: function () {
+                $("#CancerDetailsPopuModalGrid").pqGrid("reset", { filter: true });
+                $("#CancerDetailsPopuModal").dialog("destroy");
+            }
+        })
+    })
+    
+    $('#lblServices').on('click', function (e) {
+   
+        $("#ServicesPopuModal").dialog({
+            height: 450,
+            width: 620,
+            modal: true,
+            open: function (evt, ui) {
+                var getData = $ServicesPopuModalGrid.pqGrid("option", "dataModel.data");
+                PqGridRefreshClick($("#ServicesPopuModalGrid"));
+                if (getData == null || getData.length == 0) {               
+                    var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+                    $.ajax({
+                        type: "GET",
+                        traditional: true,
+                        async: false,
+                        headers: {
+                            "__RequestVerificationToken": antiForgeryToken
+                        },
+                        url: "/RequestSubmissionNew/GetServicesList",
+                        success: function (response) {                           
+                            if (response != undefined && response.data != undefined && response.data.length > 0) {                              
+                                $ServicesPopuModalGrid.pqGrid("option", "dataModel.data", response.data);
+                                $ServicesPopuModalGrid.pqGrid("refreshDataAndView");
+                                PqGridRefreshClick($("#ServicesPopuModalGrid"));
+                            }
+                        },
+                        error: function (a, b, response) {
+                            ShowAlert("error", "Failed to get Services List, Please contact IT team. <br>Error " + response);
+                        }
+                    })
+                }
+            }, close: function () {
+                $("#ServicesPopuModalGrid").pqGrid("reset", { filter: true });
+                $("#ServicesPopuModal").dialog("destroy");
+            }
+        })
+        return false;
+
+    });
+
+    $('#AddAdmisionDetails').on('click', function () {
+        $("#AdmissionDetaisPoPupModal").dialog({
+            height: 350,
+            width: 620,
+            modal: true,
+            open: function (evt, ui) {
+                var reqId = $("#RequestId").val();
+                var getData = $("#AdmissionDetaisPoPupModalGrid").pqGrid("option", "dataModel.data");
+              
+                if (tryParseInt(reqId) > 0 && getData.length <= 0)
+                    GetAdmissionDetailById(reqId);
+                else {
+                    
+                    if (getData.length > 0){
+                        PqGridRefreshClick($("#AdmissionDetaisPoPupModalGrid"));return;
+                    }
+
+                    $("#AdmissionDetaisPoPupModalGrid").pqGrid("addRow", {
+                        rowData: {
+                            'RequestId': reqId,
+                            'ServiceId': 0,
+                        }, checkEditable: false
+                    });
+                }
+                $("#AdmissionDetaisPoPupModalGrid").pqGrid("refreshRow", { rowIndx: 0 });
+                PqGridRefreshClick($("#AdmissionDetaisPoPupModalGrid"));
+            },
+            close: function () {
+            //    try {
+            //            var getData = $("#AdmissionDetaisPoPupModalGrid").pqGrid("option", "dataModel.data");
+            //            for (var i = 0; i < getData.length; i++) {
+            //                var rowData = $("#AdmissionDetaisPoPupModalGrid").pqGrid("getRowData", { rowIndxPage: i });
+            //                rowData["ReportedAdmissionDateTime"] = rowData["StrAdmissionDateTime"];
+            //                rowData["ReportedDischargeDateTime"] = rowData["StrDischargeDateTime"];
+            //            }
+                //    } catch (err) { }
+                $("#AdmissionDetaisPoPupModal").dialog("destroy");
+            }
+        });
+    });
+    /**************************************************/
+
+    /************ Surgery Pop up & Grid Section *****************/
+    function LoadSurgeryGrid() {
+        var autoCompleteEditor = function (ui) {
+            var $inp = ui.$cell.find("input");
+            $inp.autocomplete({
+                appendTo: ui.$cell, //for grid in maximized state.
+                source: SurgeryMasterNameList,
+                selectItem: { on: true }, //custom option
+                highlightText: { on: true }, //custom option
+                minLength: 0,
+                change: function (event, obj) {
+                    //debugger;
+                    var findSelection = jlinq.from(SurgeryMasterList).equals("SurgeryID", obj.item.key).select();
+                    ui.rowData["SurgeryID"] = obj.item.key;
+                    ui.rowData['NoOfDays'] = findSelection[0].NoOfDays;
+                }
+            }).focus(function () {
+                $(this).autocomplete("search", "");
+            });
+        }
+
+        var datatSurgeryDetaisGrid = { location: "local" };
+        var coltSurgeryDetaisGrid = [
+            {
+                title: "Surgery Date", dataIndx: "StrSurgeryDateTime", width: 60, dataType: 'date',
+                editor: {
+                    type: 'textbox',
+                    init: dateEditor
+                },
+                render: function (ui) {
+                    var cellData = ui.cellData;
+                    if (cellData) {
+                        return $.datepicker.formatDate('dd-M-yy', new Date(cellData));
+                    }
+                    else {
+                        return "";
+                    }
+                }
+            },
+            {
+                title: "Surgery", dataIndx: "SurgeryName", width: 250, dataType: "string",
+                    editor: {
+                    type: "textbox",
+                    init: autoCompleteEditor
+                }
+            },
+            { title: "", dataIndx: "SurgeryID", dataType: "integer", width: 30, hidden: true },
+             { title: "", dataIndx: "NoOfDays", dataType: "integer", width: 30, hidden: true },
+        ];
+
+        var setSurgeryDetaisGrid = gridCommonPopupWindowObject;
+        setSurgeryDetaisGrid.title = 'Add Surgery Date Details';
+        setSurgeryDetaisGrid.width = '100%';
+        setSurgeryDetaisGrid.height = 350;
+        setSurgeryDetaisGrid.showBottom = true;
+        setSurgeryDetaisGrid.autoRow = true;
+        //setSurgeryDetaisGrid.create = function (evt, ui) {
+        //    this.widget().pqTooltip();
+        //};
+        setSurgeryDetaisGrid.colModel = coltSurgeryDetaisGrid;
+        setSurgeryDetaisGrid.dataModel = datatSurgeryDetaisGrid;
+        setSurgeryDetaisGrid.editModel = {
+            saveKey: $.ui.keyCode.ENTER,
+            keyUpDown: false,
+            cellBorderWidth: 0
+        };
+        setSurgeryDetaisGrid.scrollModel = { autoFit: true };
+        setSurgeryDetaisGrid.editable = true;
+        setSurgeryDetaisGrid.filterModel = false;
+        
+        $("#SurgerydetailPoPupModalGrid").pqGrid(setSurgeryDetaisGrid);
+
+        $("#SurgerydetailPoPupModalGrid").pqGrid({
+            cellBeforeSave: function (event, ui) {
+             
+                let requestidforEnable = ui.rowData.RequestId;
+                if (requestidforEnable != null && requestidforEnable != undefined && requestidforEnable != 0) {
+                    if ($("#IsLumpsum").val() == "true") {
+                        if (ui.newVal != ui.oldVal) {
+                            disableSubBtn = true;
+                            SubmitStatus();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    $('#btnRemoveRowSurgerydetail').on('click', function () {
+        RemoveSelectedRowPQGrid('SurgerydetailPoPupModalGrid');
+    });
+
+    $('#btnAddRowSurgerydetail').on('click', function () {
+        $("#SurgerydetailPoPupModalGrid").pqGrid("addRow", {
+            rowData: {
+                'RequestId': $("#RequestId").val(),
+            }, checkEditable: false
+        });
+        $("#SurgerydetailPoPupModalGrid").pqGrid("refreshRow", { rowIndx: 0 });
+    });
+
+    function ReloadSurgeryGrid()
+    {
+        filteredSurgeryMasterList();
+        $("#SurgerydetailPoPupModalGrid").pqGrid("destroy");
+        LoadSurgeryGrid();
+    }
+
+    $('#ddlMangementType').on('change', function () {
+        ReloadSurgeryGrid();
+        ShowSurgeryDatesGrid();
+    });
+
+    
+    $('#lblManagementType').on('click', function (e) {
+        ShowSurgeryDatesGrid();
+        return false;
+    });
+    function filteredSurgeryMasterList() {
+      
+        SurgeryMasterNameList = [];
+        $.map($.grep(SurgeryMasterList, function (e) { return e.SurgeryTypeID == ($('#ddlMangementType').find("option:selected").val() == "4" ? 7 : 6); }), function (val, i) {
+            var item = { value: val.SurgeryName, key: val.SurgeryID }
+            SurgeryMasterNameList.push(item);
+        });
+       
+        
+    }
+    function ShowSurgeryDatesGrid() {
+        var selectedVal = $('#ddlMangementType').find("option:selected").text();//4 cancer
+        var selectedValue = $('#ddlMangementType').find("option:selected").val();
+     
+        if (selectedVal.indexOf("SURG") != -1) {
+            $("#SurgerydetailPoPupModal").dialog({
+                height: 450,
+                width: 620,
+                modal: true,
+                open: function (evt, ui) {
+                    //debugger;
+                    //var reqId = $("#RequestId").val();
+                    //var getData = $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    //if (tryParseInt(reqId) > 0 && getData.length <= 0) {
+                    //    if (SurgeryData != nulll && SurgeryData.length == 0) GetSurgeryDetailById(reqId);
+                    //    else 
+                    //}
+                    //else if (getData.length == 0) {
+                    //    $("#SurgerydetailPoPupModalGrid").pqGrid("addRow", {
+                    //        rowData: {
+                    //            'RequestId': reqId,
+                    //        }, checkEditable: false
+                    //    });
+                    //}
+                    //$("#SurgerydetailPoPupModalGrid").pqGrid("refreshRow", { rowIndx: 0 });
+                    if (selectedValue == 4) { $("#btnShowCancerDetails").show() }
+                    else { $("#btnShowCancerDetails").hide() }               
+
+
+                    var reqId = $("#RequestId").val();
+                    var getData = $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    if (getData.length == 0) {
+                        $("#SurgerydetailPoPupModalGrid").pqGrid("addRow", {
+                            rowData: {
+                                'RequestId': reqId,
+                            }, checkEditable: false
+                        });
+                        $("#SurgerydetailPoPupModalGrid").pqGrid("refreshRow", { rowIndx: 0 });
+                    }
+                    PqGridRefreshClick($("#SurgerydetailPoPupModalGrid"));
+                },
+                close: function () {
+                    $("#SurgerydetailPoPupModal").dialog("destroy");
+                }
+            });
+        }
+    }
+
+    function GetSurgeryDetailById(paramRequestId,surgeryData) {
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        SurgeryData = [];
+        var jsondata = JSON.stringify({
+            RequestId :paramRequestId,
+            SurgerySummaries: surgeryData
+        });
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            async: true,
+            url: "/RequestSubmissionNew/GetRequestSurgeryDetailById",
+            data: jsondata,
+            beforeSend: function () { ClearParamGrid('SurgerydetailPoPupModalGrid');
+                $("#SurgerydetailPoPupModalGrid").pqGrid("showLoading");
+            },
+            complete: function () {
+                $("#SurgerydetailPoPupModalGrid").pqGrid("hideLoading");
+            },
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            success: function (response) {
+                if (!IsNullOrUndefined(response)) SurgeryData = response;
+                ReloadSurgeryGrid();
+                $("#SurgerydetailPoPupModalGrid").pqGrid("hideLoading");
+                $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data", SurgeryData);
+                $("#SurgerydetailPoPupModalGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, b, response) {
+                SurgeryData = [];
+                $("#SurgerydetailPoPupModalGrid").pqGrid("hideLoading");
+                ShowAlert("error", "Failed to get surgey details, Please contact IT team. Error " + response);
+            },
+            complete: function () {
+                $("#SurgerydetailPoPupModalGrid").pqGrid("hideLoading");
+            },
+
+        });
+
+
+        //$.ajax({
+        //    type: "GET",
+        //    traditional: true,
+        //    beforeSend: function () {
+        //        ClearParamGrid('SurgerydetailPoPupModalGrid');
+        //        $("#SurgerydetailPoPupModalGrid").pqGrid("showLoading");
+        //    },
+        //    complete: function () {
+        //        $("#SurgerydetailPoPupModalGrid").pqGrid("hideLoading");
+        //    },
+        //    headers: {
+        //        "__RequestVerificationToken": antiForgeryToken
+        //    },
+        //    url: "/RequestSubmissionNew/GetRequestSurgeryDetailById",
+        //    data: { requestId: paramRequestId },
+        //    success: function (response) {
+
+        //        if (!IsNullOrUndefined(response)) SurgeryData = response;
+
+        //        ReloadSurgeryGrid();
+        //        $("#SurgerydetailPoPupModalGrid").pqGrid("hideLoading");
+        //        $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data", SurgeryData);
+        //        $("#SurgerydetailPoPupModalGrid").pqGrid("refreshDataAndView");
+        //    },
+        //    error: function (a, b, response) {
+        //        SurgeryData = [];
+        //        $("#SurgerydetailPoPupModalGrid").pqGrid("hideLoading");
+        //        ShowAlert("error", "Failed to get surgey details, Please contact IT team. Error " + response);
+        //    },
+        //    complete: function () {
+        //        $("#SurgerydetailPoPupModalGrid").pqGrid("hideLoading");
+        //    },
+
+        //});
+    }
+    /**************************************************/
+    /***** Patient Type Change ******/
+    $('#ddlPatientType').on('change', function () {
+        PatTypeChange();                
+    });
+    /************* Go Button Click **********************/
+    $('#btnGo').on('click', function () {      
+        managementTypeLoaded = $("#ddlMangementType").val();
+        if (Validate()) {
+            try {
+                debugger;
+                //DisableBtnClick(true, false);
+                $("#divPartialLoading").show();
+                $("#btnCloseNotificaton").click();                
+                managementTypeLoaded = tryParseInt($("#ddlMangementType").val(), 0);                                      
+                if ($("#RequestId").val() != null && $("#RequestId").val() != undefined && $("#RequestId").val() != 0) {
+
+                    let admissionData = $("#AdmissionDetaisPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    let surgeryData = ($("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data") != undefined ? $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data") : null);
+                    ClearAllControl('popupGridClass', true);
+                    $('#DateWisepartialView').empty();
+                    if ($("#ddlMangementType").val() == 2 || $("#ddlMangementType").val() == 3 || $("#ddlMangementType").val() == 4) GetSurgeryDetailById($("#RequestId").val(), surgeryData);
+                    GetAdmissionDetailById($("#RequestId").val(), admissionData);                    
+                    GetRequestDetailById($("#RequestId").val(), surgeryData, admissionData);
+                    if ($("#IsLumpsum").val() == "true") {
+                        SetButtonColor('btnGo','SteelBlue');
+                        SetButtonColor('btnSubmit','RED');                       
+                    }
+                }
+                else {
+                    ClearDayWisePartialSection();
+                    LoadPartialView();
+                }
+                disableSubBtn = false;                
+            } catch (err) {
+                $("#divPartialLoading").hide();
+            }
+        }
+    });
+    /****************************************************/
+    /********** Pharmacy Detail grid ********************/
+    var dataPharmacyDetaisGrid = { location: "local" };
+    var colPharmacyDetaisGrid = [
+        //{ title: "", dataIndx: "TransactionId", dataType: "integer", hidden: true },
+        //{ title: "", dataIndx: "PharmacyDtlId", dataType: "integer", hidden: true },
+        {
+            title: "Date", dataIndx: "ConsumeDate", hidden: false, width: 180, editable: false           
+        },
+        { title: "General Medicine(Amt)", dataIndx: "BillRate", dataType: "float", width: 180 },
+        //{ title: "Life Saving Medicine(Amt)", dataIndx: "LifeSavingBillRate", width: 180 },
+    ];
+
+    var setPharmacyDetaisGrid = gridCommonPopupWindowObject;
+    setPharmacyDetaisGrid.title = 'Add Pharmacy Details';
+    setPharmacyDetaisGrid.width = '100%';
+    setPharmacyDetaisGrid.height = 350;
+    setPharmacyDetaisGrid.colModel = colPharmacyDetaisGrid;
+    setPharmacyDetaisGrid.dataModel = dataPharmacyDetaisGrid;
+    setPharmacyDetaisGrid.editable = true;
+    setAdmissionDetaisGrid.showBottom = true;
+    setPharmacyDetaisGrid.postRenderInterval = -1;
+
+    var $PharmacyDetailsGrid = $("#PharmacyServicePoPupModalGrid").pqGrid(setPharmacyDetaisGrid);
+   
+    function LoadPharmacyDetailPopupModel(param) {
+   
+        var sendData = param.split("_");
+        dateOfSelectedControll = sendData[1];       
+        SubmitStatus();
+        
+        $("#PharmacyServicePoPupModal").dialog({
+            height: 450,
+            width: 600,
+            modal: true,
+            open: function (evt, ui) {
+                var reqId = $("#RequestId").val();
+                var getData = $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data");
+                if (!IsNullOrUndefined(getData)) {
+                    //Commented By Ankit Mane as data will already be loaded on GetRequestDetailById 
+                   // if (parseInt(reqId) > 0 && getData.length <= 0) GetRequestPharmacyDetailById(reqId);
+                    PqGridRefreshClick($("#PharmacyServicePoPupModalGrid"));
+                }
+                else
+                {
+                    ClearParamGrid('PharmacyServicePoPupModalGrid');
+                }
+            },
+            close: function () {
+                try {
+                    
+                    var getData = $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data");
+                    let bgPColor = ((!IsNullOrUndefined(getData)) && getData.length > 0) ? "green" : "#337ab7";
+                    $.each(getData, function (key, value) {
+                        cntrl = "Phramacy_" + value.ConsumeDate;
+                        document.getElementById(cntrl).style.backgroundColor = bgPColor;
+                    });
+                    //Commented By Ankit Mane
+                    //$("[id^='Phramacy_']").each(function (key, param) {
+                    //    $("#" + param.id).css({ "background-color": bgColor });
+                    
+                    //});
+                    $("#PharmacyServicePoPupModal").dialog("destroy");
+                } catch (err) { }
+            }
+        });
+    }
+
+    function GetRequestPharmacyDetailById(requestId) {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                beforeSend: function () {
+                    ClearParamGrid('PharmacyServicePoPupModalGrid');
+                    $("#PharmacyServicePoPupModalGrid").pqGrid("showLoading");
+                },
+                complete: function () {
+                    $("#PharmacyServicePoPupModalGrid").pqGrid("hideLoading");
+                },
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/RequestSubmissionNew/GetRequestPharmacyDetail",
+                data: { requestId: requestId },
+                success: function (response) {
+                    $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data", response);
+                    $("#PharmacyServicePoPupModalGrid").pqGrid("refreshDataAndView");
+                    $("#PharmacyServicePoPupModalGrid").pqGrid("hideLoading");
+                },
+                error: function (a, b, response) {
+                    $("#PharmacyServicePoPupModalGrid").pqGrid("hideLoading");
+                    ShowAlert("error", "Failed to get Pahrmacy details, Please contact IT team. Error " + response);
+                },
+
+            });
+
+        } catch (err) {
+        }
+    }
+
+    $('#btnAddRowPharmacydetail').on('click', function () {
+        try {
+            var dataMGrid = [];
+            var getData = $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data");
+            if (!IsNullOrUndefined(getData)) {
+                $.each(getData, function (key, value) {
+                    var grdData = {
+                        'RequestId': value.RequestId, 'PharmacyDtlId': value.PharmacyDtlId, 'ConsumeDate': value.ConsumeDate, 'BillRate': value.BillRate, 'LifeSavingBillRate': value.LifeSavingBillRate
+                    }
+                    dataMGrid.push(grdData);
+                });
+            }
+            var grdnewData = {
+                'RequestId': 0, 'PharmacyDtlId': 0, 'ConsumeDate': dateOfSelectedControll, 'BillRate': 0, 'LifeSavingBillRate': 0
+            }
+            dataMGrid.push(grdnewData);
+            $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data", dataMGrid);
+            $("#PharmacyServicePoPupModalGrid").pqGrid("refreshDataAndView");
+        } catch (err) {
+        }
+    });
+
+    $('#btnRemoveRowPharmacydetail').on('click', function () {
+        RemoveSelectedRowPQGrid('PharmacyServicePoPupModalGrid');
+    });
+
+    /**********  Popup grid Area used by Service section********************/
+    var datatpopupServiceGridPartial = { location: "local", sortDir :["up", "down"], sorting:"local" };
+    var coltpopupServiceGridPartial = [
+        {
+            dataIndx: "State", Width: 15, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', editor: false, dataType: 'bool',
+            title: "<input type='checkbox' onChange='selectAllParamGrid(this)' />",
+            cb: { select: true, all: false, header: true },
+        },
+        { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+        { title: "Service Name", dataIndx: "ServiceName", editable: false, width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        {
+            title: "Qty", dataIndx: "Qty", dataType: "integer", hidden: false, editable: true,
+        }
+    ];
+
+    var setpopupServiceGridPartial = {
+        width: '100%',
+        height: 510,
+        sortable: false,
+        numberCell: { show: true },
+        hoverMode: 'cell',
+        showTop: false,
+        title: 'Service Master Data',
+        scrollModel: { autoFit: true },
+        draggable: true,
+        wrap: false,
+        filterModel: { off: false, mode: "AND", header: true },
+        pageModel: { type: "local", rPP: 100 },
+        editable: true,
+        selectionModel: { type: 'cell' },
+        colModel: coltpopupServiceGridPartial,
+        dataModel: datatpopupServiceGridPartial,
+        swipeModel: { on: true },
+        virtualX: false,
+        virtualY: false,
+        postRenderInterval: -1,
+        check: function (evt, ui) {
+            AddRemoveServices(ui);
+           
+        }
+    }
+    $("#ServicePoPupModalGrid").pqGrid(setpopupServiceGridPartial);
+
+    //Update bill logic moved from Client to server side
+    $("#ServicePoPupModalGrid").pqGrid({
+        cellBeforeSave: function (event, ui) {
+            if (ui.dataIndx == "Qty") {
+                try{
+                    UpdateServiceQty(ui.rowData, ui.newVal);
+                }
+                catch(err){}
+            }
+        }
+    });
+    function selectAllParamGrid(evt)  //function called on onchange of Select All Checkbox
+    {
+        var isChecked = evt.checked;
+        var grid = $("#ServicePoPupModalGrid");
+        var data = grid.pqGrid("option", "dataModel.data");
+        if (!IsNullOrUndefined(data)) {
+            for (var i = 0; i < data.length; i++) {
+                data[i].State = isChecked;
+                AddRemoveServicesToList(data[i]);
+                grid.pqGrid("refreshCell", {
+                    rowIndx: i, dataIndx: 'State'
+                });
+            }
+        }
+    }
+
+    function LoadServicePoPupModalNew(btnControl) {
+        try {
+            btnSelectService = btnControl.id;
+            var serviceId = tryParseInt(btnControl.attributes["serviceid"] != undefined ? btnControl.attributes["serviceid"].value : 0, 0);
+            var sendData = btnSelectService.split("_");
+            if (sendData.length > 0) dateOfSelectedControll = sendData[1];         
+            SubmitStatus();
+
+            $("#ServicePoPupModal").dialog({
+                height: 550,
+                width: 600,
+                modal: true,
+                open: function (evt, ui) {
+                    var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+                    $.ajax({
+                        type: "GET",
+                        beforeSend: function () {
+                           ClearParamGrid('ServicePoPupModalGrid');
+                            $("#ServicePoPupModalGrid").pqGrid("showLoading");
+                        },
+                        complete: function () {
+                            $("#ServicePoPupModalGrid").pqGrid("hideLoading");
+                        },
+                        headers: {
+                            "__RequestVerificationToken": antiForgeryToken
+                        },
+
+                        data: {
+                            sessionName: btnSelectService, categoryId: serviceId, hospitalType: $("#ddlHospitalType").val(), patientType: $("#ddlPatientType").val(), stateId: $("#ddlState").val()
+                            , cityId: $("#ddlCity").val(), gender: $("#ddlPatientgender").val(), roomtypeId: $("#ddlRoomEntitlementType").val()
+                        },
+                        url: "/RequestSubmissionNew/DisplayServicesConsumedSession",
+                        datatype: "Json",
+                        success: function (data) {
+                            if (data != null && data != undefined && data.sessionRecord != null && data.sessionRecord != undefined) {
+                                if (data.sessionRecord.length > 0) {
+                                    $.each(data.sessionRecord, function (index, value) {
+                                        value.ConsumeDate = sendData[1];
+                                        var isFound = $.grep(ChoosenServices, function (item) { return item.ConsumeDate == sendData[1] && item.Id == value.CategoryId && item.ServiceId == value.ServiceId; });
+                                        if (isFound.length > 0) {
+                                            value.State = true;
+                                            value.Qty = isFound[0].Qty;
+                                        }
+                                    })
+                                    data.sessionRecord = jlinq.from(data.sessionRecord).sort("-State").select();
+                                }
+                            }
+
+                            $("#ServicePoPupModalGrid").pqGrid("hideLoading");
+                            $("#ServicePoPupModalGrid").pqGrid("option", "dataModel.data", data.sessionRecord);
+                            $("#ServicePoPupModalGrid").pqGrid("refreshDataAndView");
+
+                            SetFilterPQGridColumnFocused("ServiceName");
+                        },
+                        error: function (f, e, m) {
+                            $("#ServicePoPupModalGrid").pqGrid("hideLoading");
+                        }
+                    });
+                },
+                close: function () {
+                    
+                    $("#ServicePoPupModalGrid").pqGrid("reset", { filter: true });
+                    UpdateChoosenServiceStatus(btnControl, false);
+                    $("#ServicePoPupModal").dialog("destroy");
+                }
+            });
+
+        } catch (err) {
+        }
+    }
+
+    function AddRemoveServices(ui) {
+        if (ui.rowData) {
+            var data = ui.rowData;
+            AddRemoveServicesToList(data);
+        }
+    }
+    function UpdateQty(ui) {
+        if (ui.rowData) {
+            var data = ui.rowData;
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                data: { sessionName: btnSelectService, serviceId: data.ServiceId, state: data.State, rate: data.BillRate, roomType: data.RoomTypeId, qty: data.Qty, ConsumeDate: data.ConsumeDate },
+                url: "/RequestSubmissionNew/UpdateQty",
+                datatype: "Json",
+                success: function (data) {
+                }
+            });
+        }
+    }
+
+    /********* Default Service Grid section ****************/
+    var datatDefaultServiceGrid = { location: "local" };
+    var coltDefaultServiceGrid = [
+        { title: "", dataIndx: "ServiceTypeId", dataType: "integer", hidden: true, editable: false },
+        //{ title: "Rate", dataIndx: "BillRate", dataType: "integer", hidden: false, editable: false },
+        { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+        { title: "Date", dataIndx: "ConsumeDate", hidden: true },
+        //{
+        //    title: "Service Type", dataIndx: "ServiceType", editable: false, width: 350,
+        //    filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+        //},
+        { title: "Service Name", dataIndx: "ServiceName", editable: false, width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Qty", dataIndx: "Qty", dataType: "integer", hidden: false, editable: true }
+    ];
+
+    var setDefaultServiceGrid = gridCommonPopupWindowObject;
+    setDefaultServiceGrid.title = 'Default Service';
+    setDefaultServiceGrid.width = '100%';
+    setDefaultServiceGrid.height = 350;
+    setDefaultServiceGrid.colModel = coltDefaultServiceGrid;
+    setDefaultServiceGrid.dataModel = datatDefaultServiceGrid;
+    setDefaultServiceGrid.editable = false;
+    setDefaultServiceGrid.filterModel = false;
+    setDefaultServiceGrid.pageModel = { type: "local", rPP: 100 };
+    setDefaultServiceGrid.postRenderInterval = -1;
+    $("#DefaultServicePoPupModalGrid").pqGrid(setDefaultServiceGrid);
+
+    function LoadfnDefaultServicePopupgrid(param) {
+        SubmitStatus();
+        $("#DefaultServicePoPupModal").dialog({
+            height: 450,
+            width: 700,
+            modal: true,
+            open: function (evt, ui) {
+                LoadfnDefaultServicePopupData($("#RequestId").val());
+            },
+            close: function () {               
+                $("#DefaultServicePoPupModal").dialog("destroy");
+        }
+        });
+    }
+
+    function LoadfnDefaultServicePopupData(requestId) {
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        try {
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                beforeSend: function () {
+                    ClearParamGrid('DefaultServicePoPupModalGrid'); $("#DefaultServicePoPupModalGrid").pqGrid("showLoading");
+                },
+                complete: function () {
+                    $("#DefaultServicePoPupModalGrid").pqGrid("hideLoading");
+                },
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/ServiceMaster/GetAllActiveDefaultServiceMaster",
+                success: function (response) {
+                    $("#DefaultServicePoPupModalGrid").pqGrid("hideLoading");
+                    $("#DefaultServicePoPupModalGrid").pqGrid("option", "dataModel.data", response);
+                    $("#DefaultServicePoPupModalGrid").pqGrid("refreshDataAndView");
+                },
+                error: function (a, b, response) {
+                    $("#DefaultServicePoPupModalGrid").pqGrid("hideLoading");
+                    ShowAlert("error", "Failed to get Default service details, Please contact IT team. <br>Error " + response);
+                },
+            });
+
+        } catch (err) {
+        }
+    }
+
+    /*********  Manually Added Area **************************/
+    var dataManuallyAddedGrid = { location: "local" };
+    var coltManuallyAddedGrid = [
+        { title: "", dataIndx: "TransactionId", dataType: "integer", hidden: true },
+        { title: "Date", dataIndx: "ConsumeDate", hidden: false, width: 120, editable: false },
+        { title: "Name", dataIndx: "Name", width: 200, hidden: false },
+        { title: "Qty", dataIndx: "Qty", dataType: "integer", hidden: false },
+        { title: "Cost", dataIndx: "BillRate", dataType: "integer", hidden: false },
+    ];
+
+    var setManuallyAddedGrid = gridCommonPopupWindowObject;
+    setManuallyAddedGrid.title = 'SUPERSPECIALITY CONSULTATION / OTHER NON CGHS / AIIMS PROCEDURES /  INVESTIGATIONS';
+    setManuallyAddedGrid.width = '100%';
+    setManuallyAddedGrid.height = 350;
+    setManuallyAddedGrid.colModel = coltManuallyAddedGrid;
+    setManuallyAddedGrid.dataModel = dataManuallyAddedGrid;
+    setManuallyAddedGrid.editable = true;
+    setManuallyAddedGrid.filterModel = false;
+    setManuallyAddedGrid.postRenderInterval = -1;
+    var $AdmisionDetailsGrid = $("#ManuallyAddedPoPupModalGrid").pqGrid(setManuallyAddedGrid);
+
+    $('#btnRemoveRowManuallyAdded').on('click', function () {
+        RemoveSelectedRowPQGrid('ManuallyAddedPoPupModalGrid');
+    });
+
+    $('#btnAddRowManuallyAdded').on('click', function () {
+        $("#ManuallyAddedPoPupModalGrid").pqGrid("addRow", {
+            rowData: {
+                'RequestId': $("#RequestId").val(),
+                'ConsumeDate': dateOfSelectedControll,
+                'Qty': 0, 'BillRate': 0
+            }, checkEditable: false
+        });
+    });
+
+    function fnLoadManuallyAddedServices(param) {
+        try {
+            var sendData = param.split("_");
+            dateOfSelectedControll = sendData[1];
+            SubmitStatus();
+            $("#ManuallyAddedPoPupModal").dialog({
+                height: 450,
+                width: 700,
+                modal: true,
+                open: function (evt, ui) {
+                    var reqId = $("#RequestId").val();
+                    var getData = $("#ManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    if (!IsNullOrUndefined(getData)) {
+                        if (parseInt(reqId) > 0 && !IsNullOrUndefined(getData) && getData.length <= 0) GetManuallyAddedServiceDetailById(reqId);
+                        PqGridRefreshClick($("#ManuallyAddedPoPupModalGrid"));
+                    }
+                    else {
+                        ClearParamGrid('ManuallyAddedPoPupModalGrid');
+                    }
+                },
+                close: function () {
+                    var getData = $("#ManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    if (!IsNullOrUndefined(getData)) {
+                        var bgcolor = ((!IsNullOrUndefined(getData)) && getData.length > 0) ? "green" : "#337ab7";
+                        //Commented By Ankit Mane
+                        //$("[id^='Manually_']").each(function (key, param) {
+                        //    try {
+                        //        $("#" + param.id).css({ "background-color": bgcolor });
+                        //    } catch (err) { }
+                        //});
+                        $.each(getData, function (key, value) {
+                            try {
+                                cntrl = "Manually_" + value.ConsumeDate;
+                                document.getElementById(cntrl).style.backgroundColor = bgcolor;
+                            } catch (err) { }
+                        });
+                    }
+                    $("#ManuallyAddedPoPupModal").dialog("destroy");
+                }
+            });
+        } catch (err) {
+        }
+    }
+
+    function GetManuallyAddedServiceDetailById(requestId) {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                beforeSend: function () {
+                    ClearParamGrid('ManuallyAddedPoPupModalGrid');
+                    $("#ManuallyAddedPoPupModalGrid").pqGrid("showLoading");
+                },
+                complete: function () {
+                    $("#ManuallyAddedPoPupModalGrid").pqGrid("hideLoading");
+                },
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/RequestSubmissionNew/GetRequestManuallyAddedDetail",
+                data: { requestId: requestId },
+                success: function (response) {
+                    $("#ManuallyAddedPoPupModalGrid").pqGrid("hideLoading");
+                    $("#ManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data", response);
+                    $("#ManuallyAddedPoPupModalGrid").pqGrid("refreshDataAndView");
+                },
+                error: function (a, b, response) {
+                    $("#ManuallyAddedPoPupModalGrid").pqGrid("hideLoading");
+                    ShowAlert("error", "Failed to get Manually Added service details, Please contact IT team. <br>Error " + response);
+                },
+
+            });
+
+        } catch (err) {
+        }
+    }
+
+    /*********** Manual Services for Surgery *********************************/
+    var dataSurgeryManuallyAddedGrid = { location: "local" };
+    var coltSurgeryManuallyAddedGrid = [
+        { title: "", dataIndx: "TransactionId", dataType: "integer", hidden: true },
+        { title: "Date", dataIndx: "ConsumeDate", hidden: false, width: 140, editable: false },
+        { title: "Name", dataIndx: "SurgeryName", width: 250, hidden: false },
+        { title: "OT Charges", dataIndx: "OTCharges", width: 140, dataType: "integer", hidden: false },
+        { title: "Anesthetic Fees", dataIndx: "AnesthesiaCharges", width: 180, dataType: "integer", hidden: false },
+        { title: "Surgeon Fees", dataIndx: "SurgeonCharges", width: 170, dataType: "integer", hidden: false }
+    ];
+
+    var setSurgeryManuallyAddedGrid = gridCommonPopupWindowObject;
+    setSurgeryManuallyAddedGrid.title = 'Add Non-CGHS/Non-AIMS Surgery name and Charges as per Hospital tarriff';
+    setSurgeryManuallyAddedGrid.width = '100%';
+    setSurgeryManuallyAddedGrid.height = 350;
+    setSurgeryManuallyAddedGrid.colModel = coltSurgeryManuallyAddedGrid;
+    setSurgeryManuallyAddedGrid.dataModel = dataSurgeryManuallyAddedGrid;
+    setSurgeryManuallyAddedGrid.editable = true;
+    setSurgeryManuallyAddedGrid.filterModel = false;
+    setSurgeryManuallyAddedGrid.postRenderInterval = -1;
+    $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid(setSurgeryManuallyAddedGrid);
+
+    $('#btnRemoveRowSurgeryManuallyAdded').on('click', function () {
+        RemoveSelectedRowPQGrid('SurgeryManuallyAddedPoPupModalGrid');
+    });
+
+    $('#btnAddRowSurgeryManuallyAdded').on('click', function () {
+        $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("addRow", {
+            rowData: {
+                'RequestId': $("#RequestId").val(),
+                'ConsumeDate': dateOfSelectedControll
+            }, checkEditable: false
+        });
+    });
+
+
+    function fnLoadSurgeryManuallyAddedServices(param)
+    {
+        try {
+            var sendData = param.split("_");
+            dateOfSelectedControll = sendData[1];
+            SubmitStatus();
+            $("#SurgeryManuallyAddedPoPupModal").dialog({
+                height: 450,
+                width: 750,
+                modal: true,
+                open: function (evt, ui) {
+                    var reqId = $("#RequestId").val();
+                    var getData = $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    if (!IsNullOrUndefined(getData)) {
+                        if (parseInt(reqId) > 0 && !IsNullOrUndefined(getData) && getData.length <= 0) GetSurgeryManuallyAddedServiceDetailById(reqId);
+                        PqGridRefreshClick($("#SurgeryManuallyAddedPoPupModalGrid"));
+                    }
+                    else {
+                        ClearParamGrid('SurgeryManuallyAddedPoPupModalGrid');
+                    }
+                },
+                close: function () {
+                    var getData = $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    if (!IsNullOrUndefined(getData)) {
+                        var bgcolor = ((!IsNullOrUndefined(getData)) && getData.length > 0) ? "green" : "#337ab7";
+                        //Commented by Ankit Mane
+                        //$("[id^='SurgeryManually_']").each(function (key, param) {
+                        //    try {
+                        //        $("#" + param.id).css({ "background-color": bgcolor });
+                        //    } catch (err) { }
+                        //});
+                        $.each(getData, function (key, value) {
+                            try {
+                                cntrl = "SurgeryManually_" + value.ConsumeDate;
+                                document.getElementById(cntrl).style.backgroundColor = bgcolor;
+                            } catch (err) { }
+                        });
+                    }
+                    $("#SurgeryManuallyAddedPoPupModal").dialog("destroy");
+                }
+            });
+        } catch (err) {
+        }
+    }
+    
+    function GetSurgeryManuallyAddedServiceDetailById(requestId) {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                beforeSend: function () {
+                    ClearParamGrid('SurgeryManuallyAddedPoPupModalGrid');
+                    $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("showLoading");
+                },
+                complete: function () {
+                    $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("hideLoading");
+                },
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/RequestSubmissionNew/GetRequestSurgeryManuallyAddedDetail",
+                data: { requestId: requestId },
+                success: function (response) {
+                    $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("hideLoading");
+                    $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data", response);
+                    $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("refreshDataAndView");
+                },
+                error: function (a, b, response) {
+                    $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("hideLoading");
+                    ShowAlert("error", "Failed to get Manually Added service details for Surgery, Please contact IT team. <br>Error " + response);
+                },
+
+            });
+
+        } catch (err) {
+        }
+    }
+
+    /************************** Cancer Surgery grid***************************/
+    
+    var dataCancerDetailsPopuModalGrid = { location: "local" };
+    var colCancerDetailsPopuModalGrid = [
+        {
+            title: "Category", dataIndx: "Category", hidden: false, width: 100, editable: false,
+            filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+        },
+        {
+            title: "Surgery Name", dataIndx: "SurgeryName", width: 300, hidden: false,
+            filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+        },
+        {
+            title: "Grade", dataIndx: "Grade", width: 30, hidden: false,
+            filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+        },
+    ];
+
+    var setCancerDetailsPopuModalGrid = gridCommonPopupWindowObject;
+    setCancerDetailsPopuModalGrid.title = 'Cancer Surgery List';
+    setCancerDetailsPopuModalGrid.width = '100%';
+    setCancerDetailsPopuModalGrid.height = 450;
+    setCancerDetailsPopuModalGrid.colModel = colCancerDetailsPopuModalGrid;
+    setCancerDetailsPopuModalGrid.dataModel = dataCancerDetailsPopuModalGrid;
+    setCancerDetailsPopuModalGrid.editable = false;
+    setCancerDetailsPopuModalGrid.filterModel = { on: true, mode: "AND", header: true };
+
+    $CancerDetailsPopuModalGrid = $("#CancerDetailsPopuModalGrid").pqGrid(setCancerDetailsPopuModalGrid);
+
+    /************************** Services grid***************************/
+
+    var dataServicesPopuModalGrid = { location: "local" };
+    var colServicesPopuModalGrid = [
+        {
+            title: "Name", dataIndx: "ServiceName", width: 300, hidden: false,
+            filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+        },
+        {
+            title: "Component", dataIndx: "ServiceType", hidden: false, width: 100, editable: false,
+            filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+        }
+        
+    ];
+
+    var setServicesPopuModalGrid = gridCommonPopupWindowObject;
+    setServicesPopuModalGrid.title = 'All Services';
+    setServicesPopuModalGrid.width = '100%';
+    setServicesPopuModalGrid.height = 400;
+    setServicesPopuModalGrid.colModel = colServicesPopuModalGrid;
+    setServicesPopuModalGrid.dataModel = dataServicesPopuModalGrid;
+    setServicesPopuModalGrid.editable = false;
+    setServicesPopuModalGrid.filterModel = { on: true, mode: "AND", header: true };
+
+    $ServicesPopuModalGrid = $("#ServicesPopuModalGrid").pqGrid(setServicesPopuModalGrid);
+
+
+
+    /************************** Load Partial View ****************************/
+    function LoadPartialView() {
+        try {
+            $("#divPartialLoading").show();
+            setTimeout(function () {
+                
+                var getData = ($("#AdmissionDetaisPoPupModalGrid").pqGrid("option", "dataModel.data") != undefined ? $("#AdmissionDetaisPoPupModalGrid").pqGrid("option", "dataModel.data") : null);
+                var surgerySummary = ($("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data") != undefined ? $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data") : null);
+                var pjsondata = JSON.stringify({
+                    RequestId: tryParseInt($("#RequestId").val(), 0),
+                    RequestNo: $("#RequestNo").val(),
+                    FileNo: $("#FileNo").val(),
+                    HospitalTypeId: tryParseInt($("#ddlHospitalType").val(), 0),
+                    IpdNo: $("#IpdNo").val(),
+                    PatientName: $("#PatientName").val(),
+                    PatientAge: $("#PatientAge").val(),
+                    GenderId: tryParseInt($("#ddlPatientgender").val(), 0),
+                    PatientAddress: $("#PatientAddress").val(),
+                    BillAmount: $("#billAmount").val(),
+                    PatientTypeId: tryParseInt($("#ddlPatientType").val(), 0),
+                    StateId: tryParseInt($("#ddlState").val(), 0),
+                    CityId: tryParseInt($("#ddlCity").val(), 0),
+                    TypeOfAddmissionId: tryParseInt($("#ddlTypeOfAddmission").val(), 0),
+                    AdmissionSummaries: getData,
+                    SurgerySummaries: surgerySummary,
+                    RoomEntitleTypeId:$("#ddlRoomEntitlementType").val(),
+                    ManagementTypeId: tryParseInt($("#ddlMangementType").val(), 0),
+                    IgnoreSurgeryValidation: IgnoreSurgeryValidation,
+                    DoctorIncharge: $("#DoctorIncharge").val(),
+                    RegistrationNo: $("#RegistrationNo").val()
+                });
+                var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+                var sucessResponse;
+                $.ajax({
+                    type: "post",
+                    traditional: true,
+                    beforeSend: function () {
+                        $("#divPartialLoading").show();
+                    },
+                    headers: {
+                        "__RequestVerificationToken": antiForgeryToken
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    url: '/RequestSubmissionNew/GetDateWisePartialView', // Controller/View
+                    data: pjsondata,
+                    dataType: "html",
+                    success: function (response) {
+                        var JsonParseData = JSON.parse(response);
+                    
+                        if (JsonParseData.error.length > 0) {
+                            $("#divPartialLoading").hide();
+                            ShowAlert("error", JsonParseData.error);
+                            return;
+                        }
+
+                        sucessResponse = JsonParseData.data;
+                        $('#DateWisepartialView').empty().html(JsonParseData.partialview);
+                    },
+                    error: function (a, b, response) {
+                        //$("#divPartialLoading").hide();
+                        $('#DateWisepartialView').empty();
+                        ShowAlert("error", "Failed to get Datewise details, Please contact IT team. <br>Error " + response);
+                    },
+                    complete: function () {
+                        $("#divPartialLoading").hide();
+                        InitializeBedCharges(sucessResponse);
+                    }
+                });
+            }, 2000);
+        } catch (err) {
+            $("#divPartialLoading").hide();
+        }
+    }
+    
+
+    function InitializeBedCharges(response) {
+        try {
+            var setDefaultSelected;
+            $.ajax({
+                type: "GET",
+                beforeSend: function () { $("#divPartialLoading").show();},
+                headers: {
+                    "__RequestVerificationToken": $("input[name=__RequestVerificationToken]").val()
+                },
+                url: "/RequestSubmissionNew/GetServiceMasterByCategoryRoomId",
+                data: {
+                    categoryId: 6, hospitalType: $("#ddlHospitalType").val(), patientType: $("#ddlPatientType").val(), roomTypeId: $("#ddlRoomEntitlementType").val(), stateId: $("#ddlState").val(), cityId: $("#ddlCity").val(), gender: $("#ddlPatientgender").val(),
+                    requestId: tryParseInt($("#RequestId").val(), 0)},
+                success: function (data) {                    
+                    setDefaultSelected = $.grep(data, function (key, val) { return key.IsDefaultService == true });
+                    $(".ddlcls").each(function (key, value) {                       
+                        var xId = document.getElementsByClassName("ddlcls")[key].id;
+                        var ctrl = '#' + xId;
+                        $(ctrl).empty(); $(ctrl).attr("prevbillrate", 0);
+                        $.each(data, function (index, value1) {
+                                $(ctrl).append('<option billrate=' + value1.BillRate + ' value=' + value1.ServiceId +'>' + value1.ServiceName + '</option>');
+                        });
+                       
+                        if (setDefaultSelected.length > 0)
+                            $(ctrl).val(setDefaultSelected[0].ServiceId);
+
+                        if (tryParseInt($("#RequestId").val(), 0) == 0)
+                            $(ctrl).trigger("change");
+                    });
+                },
+                error: function (a, b, c) {
+                    ShowAlert("error", "Failed to get Bed charges details, Please contact IT team. <br>Error " + b);
+                },
+                complete: function () {
+                    $("#divPartialLoading").hide();
+                    if (response != undefined && response != null) {
+                        fnloadActiveServiceddl(response, setDefaultSelected);
+                    }
+                }
+            });
+
+        } catch (err) {
+        }
+    }
+
+    function fnloadActiveServiceddl(response, setDefaultVal) {
+    
+        $.each(response, function (index, value) {
+            var ctrl = '#ddl_' + value.ConsumeDate;
+            let roomIdVal = $('#ddl_' + value.ConsumeDate + ' option[value=' + value.RoomTypeId + ']').length;
+            roomIdVal != 0 ? $(ctrl).val(value.RoomTypeId) : $(ctrl).val(setDefaultVal[0].ServiceId);
+            $(ctrl).attr("prevbillrate", tryParseInt(value.BillRate, 0));
+        });
+    }
+
+    /********* Calling Methods after all loaded ***********/
+    
+    function GetAllgeneratedRequest() {
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            url: "/RequestSubmissionNew/GetAllgeneratedRequest",
+            success: function (response) {
+                $("#GeneratedRequestGrid").pqGrid("option", "dataModel.data", response);
+                $("#GeneratedRequestGrid").pqGrid("refreshDataAndView");
+                SetCalVisiblity(response);
+
+            },
+            error: function (a, b, response) {
+                ShowAlert("error", "Failed to get All request details, Please contact IT team. <br>Error " + response);
+            },
+        });
+    }
+
+    $("#RequestNo").attr("disabled", "disabled");
+
+    /*********** Common Code ******************/
+    function UpdateBillAmount(amt) {
+        var billAmt = tryParseInt($("#billAmount").val(), 0) + tryParseInt(amt, 0);
+        $("#billAmount").val(billAmt);
+    }
+
+    function Validate() {
+        try {
+            //if (!showAlertOnBlank($("#FileNo"), "FileNo is missing! Please enter FileNo")) { $("#FileNo").focus(); return; }
+            if (!showAlertOnBlank($("#ddlHospitalType"), "Hospital type is missing! Please select Hospital Type")) { $("#ddlHospitalType").focus(); return; }
+            if (!showAlertOnBlank($("#ddlPatientType"), "Patient type is missing! Please select Patient Type")) { $("#ddlPatientType").focus(); return; }
+            if (!showAlertOnBlank($("#ddlState"), "State is missing! Please select State")) { $("#ddlState").focus(); return; }
+            if (!showAlertOnBlank($("#ddlCity"), "City is missing! Please select City")) { $("#ddlCity").focus(); return; }
+            if (!showAlertOnBlank($("#ddlTypeOfAddmission"), "Admission type is missing! Please select Admission Type")) { $("#ddlTypeOfAddmission").focus(); return; }
+            if (!showAlertOnBlank($("#RegistrationNo"), "Registration Number is missing! Please enter Registration Number")) { $("#RegistrationNo").focus(); return; }
+
+            if (!showAlertOnBlank($("#PatientName"), "Patient Name is missing! Please enter Patient Name")) { $("#PatientName").focus(); return; }
+            if (!showAlertOnBlank($("#PatientAge"), "Patient Age is missing! Please enter Patient Age")) { $("#PatientAge").focus(); return; }
+            if (!showAlertOnBlank($("#PatientAddress"), "Patient Address is missing! Please enter Patient Address")) { $("#PatientAddress").focus(); return; }
+            if (!showAlertOnBlank($("#IpdNo"), "IPD No is missing! Please enter IPD No")) { $("#IpdNo").focus(); return; }
+            if (!showAlertOnBlank($("#DoctorIncharge"), "Doctor Incharge name is missing! Please enter Doctor Incharge name ")) { $("#DoctorIncharge").focus(); return; }
+
+            if (!showAlertOnBlank($("#ddlRoomEntitlementType"), "Room Type is missing! Please enter Room Type")) { $("#ddlRoomEntitlementType").focus(); return; }
+
+            if (!showAlertOnBlank($("#ddlMangementType"), "Management Type is missing! Please select Management Type")) { $("#ddlMangementType").focus(); return; }
+            //if (managementTypeLoaded > -1 && managementTypeLoaded != tryParseInt($("#ddlMangementType").val(), 0)) {
+            //    ShowAlert("error", "Services loaded below with different Management type selection, request you to please fresh services again.")
+            //    return false;
+            //}
+            let selPatienType = tryParseInt($("#ddlPatientType").val(), 0);
+            let selRoomType = tryParseInt($("#ddlRoomEntitlementType").val(), 0);
+            if (selPatienType == 2 && selRoomType != 1) {
+                ShowAlert('info', 'Room Entitlement should be General ward for ESIC Patients');
+                return;
+            }
+
+            managementTypeLoaded = tryParseInt($("#ddlMangementType").val(), 0);
+            var manType = $("#ddlMangementType").find("option:selected").text();
+            if ((manType.indexOf("SURG") != -1)) {
+                var surgeryDates = $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data");
+                if (!IsNullOrUndefined(surgeryDates) && surgeryDates.length == 0 || surgeryDates[0].SurgeryName == "" || surgeryDates[0].StrSurgeryDateTime == undefined || surgeryDates[0].StrSurgeryDateTime == "") {
+                    ShowAlert('info', 'Please provide Surgery date details');
+                    return;
+                }
+            }
+            else {
+                ClearParamGrid('SurgerydetailPoPupModalGrid');
+            }
+
+            var admissionDates = $("#AdmissionDetaisPoPupModalGrid").pqGrid("option", "dataModel.data");
+            if ((!IsNullOrUndefined(admissionDates)) && $("#AddAdmisionDetails").prop('disabled') == false) {
+                if (admissionDates.length <= 0 || admissionDates[0].StrAdmissionDateTime == undefined
+                    || admissionDates[0].StrAdmissionDateTime == "" || admissionDates[0].StrDischargeDateTime == undefined || admissionDates[0].StrDischargeDateTime == "") {
+                    ShowAlert('info', 'Please provide Admission and Discharge details');
+                    return;
+                }
+            }
+
+            if ($('#IsDeactive')[0].checked == true) {
+                if (!showAlertOnBlank($("#Comment"), "Please enter reason for deactivating Bill")) { $("#Comment").focus(); return; }
+
+            }
+
+            
+            if (IsHopeClient && Patient == null) {
+                ShowAlert('error', "You are not allowed to save bill for patient's other than Hope patients");
+                return;
+            }
+
+
+            return true;
+
+        } catch (err) {
+            ShowAlert(err);
+            return false;
+        }
+    }
+
+
+    function GetRequestDetailById(paramRequestId, surgeryData, adminSummary) {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+           
+            var jsondata = JSON.stringify({
+                RequestId: paramRequestId,
+                ManagementTypeId: tryParseInt($("#ddlMangementType").val(), 0),
+                AdmissionSummaries : adminSummary,
+                SurgerySummaries: surgeryData,
+                IsHopePatientBill:$("#IsHopePatientBill").val()
+            });
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                contentType: 'application/json; charset=utf-8',
+                async: true,
+                url: "/RequestSubmissionNew/GetRequestDetailById",
+                data: jsondata,                             
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                success: function (response) {
+                    try {
+                        if (!IsNullOrUndefined(response.PharmacyDetails)) {
+                            $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data", response.PharmacyDetails);
+                            $("#PharmacyServicePoPupModalGrid").pqGrid("refreshDataAndView");
+                        }
+
+                        if (!IsNullOrUndefined(response.ManualServices)) {
+
+                            $("#ManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data", response.ManualServices);
+                            $("#ManuallyAddedPoPupModalGrid").pqGrid("refreshDataAndView");
+                        }
+
+                        if (!IsNullOrUndefined(response.SurgeryManualServices)) {
+                            $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data", response.SurgeryManualServices);
+                            $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("refreshDataAndView");
+                        }
+
+                        if (!IsNullOrUndefined(surgeryData) && !IsNullOrUndefined(response.SurgerySummaries)) {
+                            $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data", response.SurgerySummaries);
+                            $("#SurgerydetailPoPupModalGrid").pqGrid("refreshDataAndView");
+                        }
+
+                        if (!IsNullOrUndefined(response.Patient)) {
+                            Patient = null;
+                            let PatientData = response.Patient;
+                            var getSelectedlist = [];
+                            getSelectedlist.push({
+                                PatientId: PatientData.PatientId, ParentPatientId: PatientData.ParentPatientId, IsDependent: PatientData.IsDependent,
+                                CompanyName: PatientData.CompanyName, //RoomTypeId: PatientData.RoomTypeId,
+                                PatientName: PatientData.PatientName, Age: PatientData.Age,GenderId: PatientData.GenderId, Address: PatientData.Address
+                            })
+                            SetPatientData(getSelectedlist)
+                        }
+
+                    } catch (err) {
+                    }
+                   
+                    ChoosenServices = [];
+                    $.each(response.ServiceConsumed, function (index, item) { AddRemoveServicesToList(item); });
+                },
+                error: function (a, b, response) {
+                    ShowAlert("error", "Failed to get selected request details, Please contact IT team. <br>Error " + response);
+                }
+
+            });
+            //$.ajax({
+            //    type: "GET",
+            //    traditional: true,
+            //    headers: {
+            //        "__RequestVerificationToken": antiForgeryToken
+            //    },
+            //    beforeSend: function () {
+
+            //    },
+            //    url: "/RequestSubmissionNew/GetRequestDetailById",
+            //    data: { requestId: paramRequestId },
+            //    success: function (response) {
+            //        try {
+            //            if (!IsNullOrUndefined(response.PharmacyDetails)) {
+            //                $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data", response.PharmacyDetails);
+            //                $("#PharmacyServicePoPupModalGrid").pqGrid("refreshDataAndView");
+            //            }
+
+            //            if (!IsNullOrUndefined(response.ManualServices)) {
+
+            //                $("#ManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data", response.ManualServices);
+            //                $("#ManuallyAddedPoPupModalGrid").pqGrid("refreshDataAndView");
+            //            }
+
+            //            if (!IsNullOrUndefined(response.SurgeryManualServices)) {
+            //                $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data", response.SurgeryManualServices);
+            //                $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("refreshDataAndView");
+            //            }
+
+            //        } catch (err) {
+            //        }
+            //        debugger;
+            //        ChoosenServices = [];
+            //        $.each(response.ServiceConsumed, function (index, item) { AddRemoveServicesToList(item); });
+            //    },
+            //    error: function (a, b, response) {
+            //        ShowAlert("error", "Failed to get selected request details, Please contact IT team. <br>Error " + response);
+            //    },
+
+            //});
+        } catch (err) {
+        }
+    }
+
+    function GetAdmissionDetailById(paramRequestId, adminSummary) {
+            
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            var grid = $("#AdmissionDetaisPoPupModalGrid");
+            var jsondata = JSON.stringify({
+                RequestId :paramRequestId,
+                AdmissionSummaries : adminSummary 
+            });
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                contentType: 'application/json; charset=utf-8',
+                async: true,
+                url: "/RequestSubmissionNew/AdmissionDetailById",
+                data: jsondata,
+                beforeSend: function () {
+                    ClearParamGrid('AdmissionDetaisPoPupModalGrid');
+                    grid.pqGrid("showLoading");
+                },
+                complete: function () {
+                    grid.pqGrid("hideLoading");
+                },
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                success: function (response) {
+                    grid.pqGrid("hideLoading");
+                    grid.pqGrid("option", "dataModel.data", response);
+                    grid.pqGrid("refreshDataAndView");
+
+                    LoadPartialView();
+                    PqGridRefreshClick(grid);
+                },
+                error: function (a, b, response) {
+                    grid.pqGrid("hideLoading");
+                    ShowAlert("error", "Failed to get Admission dates details, Please contact IT team. <br>Error " + response);
+                }              
+
+            });
+        }
+              catch (err) {
+                $("#divPartialLoading").hide();
+            }
+        
+
+
+        //    $.ajax({
+        //        type: "POST",
+        //        traditional: true,
+        //        beforeSend: function () {
+        //            ClearParamGrid('AdmissionDetaisPoPupModalGrid');
+        //            grid.pqGrid("showLoading");
+        //        },
+        //        complete: function () {
+        //            grid.pqGrid("hideLoading");
+        //        },
+        //        headers: {
+        //            "__RequestVerificationToken": antiForgeryToken
+        //        },
+        //        url: "/RequestSubmissionNew/AdmissionDetailById",
+        //        data: { requestId: paramRequestId, AdmissionSummary: adminSummary },
+        //        success: function (response) {
+        //            grid.pqGrid("hideLoading");
+        //            grid.pqGrid("option", "dataModel.data", response);
+        //            grid.pqGrid("refreshDataAndView");
+
+        //            LoadPartialView();
+        //            PqGridRefreshClick(grid);
+        //        },
+        //        error: function (a, b, response) {
+        //            grid.pqGrid("hideLoading");
+        //            ShowAlert("error", "Failed to get Admission dates details, Please contact IT team. <br>Error " + response);
+        //        },
+
+        //    });
+        //} catch (err) {
+        //    $("#divPartialLoading").hide();
+        //}
+    }
+
+    function AddRemoveServicesToList(data) {
+        try {
+            if (data != undefined && data != null) {
+
+                if (data.State) {
+                    ChoosenServices.push({
+                        Id: (data.Id == undefined ? data.CategoryId : data.Id), Name: (data.Name == undefined ? data.CategoryName : data.Name), ServiceId: data.ServiceId, ServiceName: data.ServiceName,
+                        RoomTypeId: data.RoomTypeId, Qty: data.Qty, BillRate: data.BillRate, ConsumeDate: data.ConsumeDate, IsAllowedChangeInSurgery: data.IsAllowedChangeInSurgery
+                    });
+                }
+                else {
+                    //remove item frm list when user unselect the row
+                    ChoosenServices = $.grep(ChoosenServices, function (item) { return item.ConsumeDate == data.ConsumeDate && item.Id == (data.Id == undefined ? data.CategoryId : data.Id) && item.ServiceId == data.ServiceId; }, true);
+                }
+            }
+
+        } catch (err) {
+        }
+    }
+
+    function UpdateServiceQty(data, newVal)
+    {
+        try {
+            if (data != undefined && data != null && data.State) {
+                var index = ChoosenServices.findIndex(item =>
+                    item.ConsumeDate === data.ConsumeDate
+                    && item.Id === (data.Id == undefined ? data.CategoryId : data.Id)
+                    && item.ServiceId === data.ServiceId
+                );
+
+                if (index > -1) {
+                    ChoosenServices[index].Qty = newVal;//update qty because nothing else is allowed to update
+                }
+            }
+        }
+        catch(err)
+        {
+        }
+    }
+
+    function ClearDayWisePartialSection() {
+        try {
+            //ClearParamGrid('PharmacyServicePoPupModalGrid');
+            //ClearParamGrid('ServicePoPupModalGrid');
+            //ClearParamGrid('DefaultServicePoPupModalGrid');
+            //ClearParamGrid('ManuallyAddedPoPupModalGrid');
+            //ClearParamGrid('LinkedServicePoPupModalGrid');
+            ClearAllControlSkip("popupGridClass", ["AdmissionDetaisPoPupModalGrid", "SurgerydetailPoPupModalGrid", "PatientsPopuModalGrid"], true);
+            $('#DateWisepartialView').empty();
+
+            GetRequestDetailById(0);
+        } catch (err) {
+        }
+    }
+
+    function RemoveSelectedRowPQGrid(gridRName) {
+        try {
+            var gridR = ("#" + gridRName);
+            var rows = $(gridR).pqGrid("selection", { type: 'row', method: 'getSelection' });
+            var rowIndx = -1;
+            if (rows && rows.length > 0) {
+                rowIndx = rows[0].rowIndx;
+            }
+            else {
+                ShowAlert("info", "No row Selected.");
+                return;
+            }
+            if (rowIndx == null || rowIndx < 0) {
+                return;
+            }
+            var rowData = rows[0].rowData;
+            $(gridR).pqGrid("deleteRow", { rowIndx: rowIndx });
+            
+        } catch (err) {
+        }
+    }
+
+    function LoadOnPageLoad() {
+        try {
+            DisableBtnClick(true, false);
+            GetRoomEntitlementList();
+            GetSurgeryMasterList();
+            loadNotificationDataInitialy();
+            GetCancerSurgeryList();
+            GetClientConfiguration();
+        } catch (err) { }
+        finally { GetAllgeneratedRequest(); }
+    }
+
+    function GetRoomEntitlementList() {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                async: false,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/CommonMaster/GetRoomEntitlementList",
+                success: function (response) {
+                    if (response != undefined && response.data != undefined && response.data.length > 0) {
+                        $.each(response.data,
+                            function (index, value) {
+                                $('#ddlRoomEntitlementType').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                            });
+                    }
+                },
+                error: function (a, b, response) {
+                    ShowAlert("error", "Failed to get Room Entitlement list, Please contact IT team. <br>Error " + response);
+                }
+            });
+        } catch (err) {
+        }
+    }
+
+    function GetSurgeryMasterList() {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                async: false,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/RequestSubmissionNew/GetSurgeryMasterList",
+                success: function (response) {
+                    SurgeryMasterList = [];
+                    if (response != undefined && response.data != undefined && response.data.length > 0) {
+                        $.each(response.data, function (index, data) {
+                            SurgeryMasterList.push({
+                                "SurgeryName": data.SurgeryName.toString(), "SurgeryID": data.SurgeryID.toString(),
+                                "SurgeryTypeID": data.SurgeryTypeID.toString(), "NoOfDays": data.NoOfDays
+                            });
+                        });
+                    }
+                },
+                error: function (a, b, response) {
+                    ShowAlert("error", "Failed to get Surgery Master list, Please contact IT team. <br>Error " + response);
+                }
+            }).always(function () {
+                LoadSurgeryGrid();
+            });
+
+        } catch (err) {
+        }
+    }
+
+    function GetCancerSurgeryList() {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                async: false,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/RequestSubmissionNew/GetCancerSurgeryList",
+                success: function (response) {                
+                    if (response != undefined && response.data != undefined && response.data.length > 0) {
+                        $.each(response.data, function (index, data) {
+                            CancerSurgeryData.push({
+                                "Category": data.Category.toString(),
+                                "SurgeryName": data.SurgeryName.toString(),
+                                "Grade": data.Grade.toString()
+                            })
+                        });                      
+                    }
+
+                },
+                error: function (a, b, response) {
+                    ShowAlert("error", "Failed to get Cancer list, Please contact IT team. <br>Error " + response);
+                }
+            })
+
+        } catch (err) {
+        }
+
+    }
+
+    function GetClientConfiguration() {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                async: false,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/Hope/GetClientConfiguration",
+                success: function (response) {
+                    if (response != undefined ) {
+                        IsHopeClient = response.isHopeClient;
+                        IsBothClient = response.IsBothClient;
+                        IsShowLnk = response.isShowLnk;
+                    }
+
+                },
+                error: function (a, b, response) {
+                    ShowAlert("error", "Failed to Client Configuration. <br>Error " + response);
+                }
+            })
+
+        } catch (err) {
+        }
+
+
+    }
+
+
+    function ShowFetchButton(shwFetchBtn) {
+        if ((IsHopeClient || IsBothClient|| IsShowLnk) && shwFetchBtn) {
+            $("#fetchButtonDiv").show();
+            if (IsHopeClient || IsBothClient) $("#btnFetchDiv").show();
+            if (IsShowLnk) $("#linkDiv").show();
+        }        
+        else {
+            $("#fetchButtonDiv").hide();
+            $("#btnFetchDiv").hide();
+            $("#linkDiv").hide();
+        }
+    }
+
+
+
+    /*-------------------------Save Function from Here-----------------------*/
+    $('#btnSubmit').on('click', function () {
+        if (Validate()) saveFunction();
+    });
+
+    function saveFunction() {
+        try {
+            DisableClick('btnSubmit');
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                contentType: 'application/json; charset=utf-8',
+                url: '/RequestSubmissionNew/CreateRequest', // Controller/View
+                data: jsonstring(),
+                beforeSend: function () {
+                    $("#divPartialSave").show();
+                },
+                success: function (msg) {
+                  
+                    $("#divPartialSave").hide();
+                    //ShowAlert(msg.success ? "success" : "error", msg.responseMsg);
+                    if (msg.success) {                    
+                        if (!msg.isDeactive) {
+                            Lobibox.alert('info', {
+                                msg: msg.responseMsg + "<br /> Click <b><u>Print Now</u></b> to generate bill else click <b><u>Print Later</u></b> to save bill.",
+                                buttons: {
+                                    print: {
+                                        'class': 'btn btn-success btnBigFont12',
+                                        text: 'Print Now',
+                                        closeOnClick: true
+                                    },
+                                    ok: {
+                                        'class': 'btn btn-ok btnBigFont12',
+                                        text: 'Print Later',
+                                        closeOnClick: true
+                                    }
+                                },
+                                callback: function (lobibox, type) {
+                                    if (type === 'print') {
+                                        reportValidationCheck(msg.requestId)
+                                    }
+                                }
+                            });
+                        }
+                       
+                        else {
+                            ShowAlert("info", '' + msg.requestNo + ' has been deactivated');
+                        }
+
+                        if ($("#IsLumpsum").val() == "true") {
+                            document.getElementById('btnGo').style.backgroundColor = 'SteelBlue';
+                            document.getElementById('btnSubmit').style.backgroundColor = 'Green';
+                        }
+
+                        //ShowAlert("success", "REQUEST NO " + msg.requestId + " GENERATED SUCCESSFULLY");
+                        ClearForm();
+                    }
+                    else {
+                        ShowAlert( "info" , msg.responseMsg);
+                    }
+                },
+                error: function (a, b, c) {
+                    $("#divPartialSave").hide();
+                    ShowAlert("error", "Failed to save data, request you to please contact IT Team.");
+                },
+                complete: function () {
+                    $("#divPartialSave").hide();
+
+                }
+            });
+        } catch (err) {
+        }
+    }
+
+    function jsonstring() {
+        try {
+            var admissionSummary = $("#AdmissionDetaisPoPupModalGrid").pqGrid("option", "dataModel.data");
+            var surgerySummary = $("#SurgerydetailPoPupModalGrid").pqGrid("option", "dataModel.data");
+            var adm = [];
+            debugger;
+            $(".ddlcls").each(function (key, value) {
+                var xId = document.getElementsByClassName("ddlcls")[key].id;
+                var splt = xId.split("_");
+                var beddate = splt[1];
+                var bedserviceId = $("#" + xId).val();
+                var billAmount = tryParseInt($("#" + xId).find(':selected').attr('billrate'));
+                var bedData = { 'RoomTypeId': bedserviceId, 'ConsumeDate': beddate, RequestId: $("#RequestId").val(), BillRate: billAmount };
+                adm.push(bedData);
+            });
+
+            var pharmacyDetails = $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data");
+            var ManullyAddedService = $("#ManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data");
+            var DefaultService = $("#DefaultServicePoPupModalGrid").pqGrid("option", "dataModel.data");
+            var SurgeryManualService = $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data");
+         
+            let isHopePatient = Patient != null ? true : false;
+
+            var pjsondata = JSON.stringify({                
+                RequestId: $("#RequestId").val(),
+                RequestNo: $("#RequestNo").val(),
+                FileNo: isHopePatient ? Patient.CompanyName : $("#FileNo").val(),
+                HospitalTypeId: $("#ddlHospitalType").val(),
+                PatientName: isHopePatient ? Patient.PatientName : $("#PatientName").val(),
+                PatientAge: isHopePatient ? Patient.Age:$("#PatientAge").val(),
+                PatientTypeId: isHopePatient ? 1 : $("#ddlPatientType").val(), // By default Hope Patient is CGHS Patient
+                PatientAddress: isHopePatient ? Patient.Address : $("#PatientAddress").val(),
+                IpdNo: $("#IpdNo").val(),
+                GenderId: isHopePatient ? Patient.GenderId : $("#ddlPatientgender").val(),
+                DrugsAmount: $("#DrugsAmount").val(),
+                BillAmount: $("#billAmount").val(),
+                LifesavingMdcnAmt: $("#LifesavingMdcnAmt").val(),
+                RoomEntitleTypeId:$("#ddlRoomEntitlementType").val(),
+                ManagementTypeId: $("#ddlMangementType").val(),
+                LeftDcDetail: $("#LeftDcDetail").val(),
+                RightDcDetail: $("#RightDcDetail").val(),
+                StateId: $("#ddlState").val(),
+                CityId: $("#ddlCity").val(),
+                TypeOfAddmissionId: $("#ddlTypeOfAddmission").val(),
+                AdmissionSummaries: admissionSummary,
+                SurgerySummaries: surgerySummary,
+                BedCharges: adm,
+                PharmacyDetails: pharmacyDetails,
+                ManullyAddedService: ManullyAddedService,
+                DefaultService: DefaultService,
+                ConsumeDiv: ChoosenServices,
+                SurgeryManullyAddedService: SurgeryManualService,
+               
+                DoctorIncharge: $("#DoctorIncharge").val(),
+                RegistrationNo: $("#RegistrationNo").val(),
+                IsDeactive: $("#IsDeactive").prop('checked'),
+                Comment: $("#Comment").val(),
+                Patient : Patient
+
+            });
+        
+            return pjsondata;
+        } catch (err) {
+        }
+    }
+        
+    $('#btnPrint').on('click', function () {
+        try {
+            if ($("#RequestId").val() === "" || $("#RequestId").val() === undefined) {
+                ShowAlert("info", "Please Select Request");
+                return;
+            }
+            var reportRequestId = $("#RequestId").val();
+            OpenReport(reportRequestId)
+        } catch (err) {
+        }
+    });
+    function OpenReport(reportRequest_Id)
+    {
+        $("#iframeReportViewer").contents().find("body").html(""); //Clearing content on fresh load
+        reportValidationCheck(reportRequest_Id);
+    }
+
+    function reportValidationCheck(requestId) {
+        try {
+            $("#Reportpopup-dialog-crud").dialog({
+                cache: false,
+                position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+                },
+                height: 620,
+                width: 900,
+                open: function (evt, ui) {
+
+                },
+                close: function () {
+                    $("#Reportpopup-dialog-crud").dialog("destroy");
+                }
+            });
+            var url = "";
+            url = "../../Reports/ReportViewer.aspx?reportid=" + 1 + "&requestId=" + requestId;
+            console.log(url);
+            var myframe = document.getElementById("iframeReportViewer");
+            if (myframe != null) {
+                $("#iframeReportViewer").empty(); //Clearing content on fresh load
+                if (myframe.src) {
+                    myframe.src = url;
+                } else if (myframe.contentWindow != null && myframe.contentWindow.location != null) {
+                    myframe.contentWindow.location = url;
+                } else {
+                    myframe.setAttribute('src', url);
+                }
+                return false;
+            }
+        } catch (err) {
+        }
+    }
+    /******************* */
+    /************ OnChange Event For *******************************/
+    document.getElementById('entryElements').addEventListener('change', function (event) {
+        if ($("#RequestId").val() != null && $("#RequestId").val() != undefined && $("#RequestId").val() != 0) {
+            if ($("#IsLumpsum").val() == "true") {
+                disableSubBtn = true;
+                SubmitStatus();
+            }
+        }       
+    });
+
+    /************ Notification *******************************/
+
+    var notificationArr = [];
+    function onFocusOfElement(parameters) {
+       
+        try {
+            if (IsNewRequest) {
+                $("#pushNotificaton").show();
+                selectedControls = parameters;
+                var mngmnt = parseInt($('#ddlMangementType').val());
+                if (mngmnt > 0) {
+                    loadNotificationData(mngmnt);
+                }
+                else {
+                    loadNotificationData(0);
+                }
+            }
+            else {
+                $("#pushNotificaton").hide();                                           
+                //disableSubBtn = true;               
+                //SubmitStatus();            
+            }
+                
+        } catch (err) {
+        }
+    }
+
+    function onFocusOfDateElement(parameters) {
+
+        try {
+            if (IsNewRequest) {
+                $("#pushNotificaton").show();
+                selectedControls = parameters;
+                var mngmnt = parseInt($('#ddlMangementType').val());
+                if (mngmnt > 0) {
+                    loadNotificationData(mngmnt);
+                }
+                else {
+                    loadNotificationData(0);
+                }
+            }
+            else {
+                $("#pushNotificaton").hide();
+                SubmitStatus();
+            }
+
+        } catch (err) {
+        }
+    } 
+
+    function loadNotificationData(param) {
+        try {
+            if (IsNewRequest) {
+                $.ajax({
+                    type: "GET",
+                    data: { Managment: param },
+                    traditional: true,
+                    url: "/HintNotification/GetAllNotification",
+                    success: function (record) {
+                        $('#NotificationPtag').val("");
+                        $('#NotificationPtag').html("");
+                        var selectedIId;
+                        var rows = record.length;
+                        var table = document.createElement('table');
+                        for (var i = 0; i < rows; i++) {
+                            if (record[i].ControlId === selectedControls) {
+                                selectedIId = record[i].StepNo;
+                            } else if (selectedControls === "") {
+                                loadNotificationDataInitialy();
+                            }
+                            if (record[i].StepNo >= selectedIId) {
+                                var tr1 = document.createElement('tr');
+                                var td1 = document.createElement('td');
+                                if (record[i].NotificationId === selectedIId) td1.className = 'SelectedcssEven';
+                                else {
+                                    td1.className = 'OtherscssEven';
+                                }
+                                var text1 = document.createTextNode(record[i].Message);
+
+                                td1.appendChild(text1);
+                                tr1.appendChild(td1);
+                                table.appendChild(tr1);
+                            }
+
+                        }
+                        $("#NotificationPtag").append(table.innerHTML);
+                    },
+                    error: function (a, exception, b) {
+                    }
+                });
+            }
+            else {
+                $("#pushNotificaton").hide();
+            }
+        } catch (err) {
+        }
+    }
+    function loadNotificationDataInitialy() {
+        try {
+            if (IsNewRequest) {
+                $.ajax({
+                    type: "GET",
+                    traditional: true,
+                    data: { Managment: 0 },
+                    url: "/HintNotification/GetAllNotification",
+                    success: function (record) {
+                        $('#NotificationPtag').val("");
+                        $('#NotificationPtag').html("");
+                        var rows = record.length;
+                        var table = document.createElement('table');
+                        for (var i = 0; i < rows; i++) {
+                            var tr1 = document.createElement('tr');
+                            var td1 = document.createElement('td');
+                            var text1 = document.createTextNode(record[i].Message);
+                            td1.className = 'OtherscssEven';
+                            td1.appendChild(text1);
+                            tr1.appendChild(td1);
+                            table.appendChild(tr1);
+                        }
+                        $("#NotificationPtag").append(table.innerHTML);
+                    },
+                    error: function (a, exception, b) {
+                    }
+                });
+            }
+            else {
+                $("#pushNotificaton").hide();
+            }
+        } catch (err) {
+        }
+    }
+
+    $('#btnCloseNotificaton').on('click', function () {
+        $("#pushNotificaton").hide('blind', {}, 100), 3000;
+    });
+    /****************************************************/
+    $("#btnCalculateBill").click(function()
+    {
+        try {
+
+            if (Validate()) calculateBill();
+        } catch (e) {
+    
+        }
+    });
+
+    function calculateBill() {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                contentType: 'application/json; charset=utf-8',
+                url: '/RequestSubmissionNew/CalculateBill', // Controller/View
+                data: jsonstring(),
+                beforeSend: function () {
+                    $("#divPartialSave").show();
+                },
+                success: function (response) {
+                    if(response != null && response.billAmount != undefined)
+                        $("#billAmount").val(response.billAmount);
+                },
+                error: function (a, b, c) {
+                    $("#divPartialSave").hide();
+                    $("#billAmount").val(0.00);
+                },
+                complete: function () {
+                    $("#divPartialSave").hide();
+                }
+            });
+        } catch (err) {
+            alert(err);
+        }
+    }
+
+
+    function UpdateChoosenServiceStatus(btnControl, isForWholeGrid) {
+        try {
+            if (isForWholeGrid) {
+                try {
+                  
+                    //Check for Pharmacy
+                    var getPData = $("#PharmacyServicePoPupModalGrid").pqGrid("option", "dataModel.data");
+                    var bgPColor = ((!IsNullOrUndefined(getPData)) && getPData.length > 0) ? "green" : "#337ab7";
+                    //Commented by Ankit Mane
+                    //$("[id^='Phramacy_']").each(function (key, param) {
+                    //    try {
+                    //        //$("#" + param.id).css({ "background-color": bgPColor });
+                    //        document.getElementById(param.id).style.backgroundColor = bgPColor;
+                    //    } catch (err) { }
+                    //});
+                    $.each(getPData, function (key, value) {
+                        try {
+                            cntrl = "Phramacy_" + value.ConsumeDate;
+                            document.getElementById(cntrl).style.backgroundColor = bgPColor;
+                        } catch (err) { }
+                    });
+
+
+                    if (ChoosenServices != null && ChoosenServices != undefined && ChoosenServices.length > 0) {
+                        var getDistinctList = [];
+                        //Get Distinct Service & ConsumeDate
+                        $.each(ChoosenServices, function (index, event) {
+                            var events = $.grep(getDistinctList, function (e) {
+                                return event.Name === e.Name &&
+                                    event.ConsumeDate === e.ConsumeDate;
+                            });
+                            if (events.length === 0) {
+                                getDistinctList.push(event);
+                            }
+                        });
+
+                        $.each(getDistinctList, function (index, value) {
+                            var name = value.Name.replace(/\s/g, "");
+                            //var cntrl = "#" + name + "_" + value.ConsumeDate;
+                            //if ($(cntrl) != undefined && $(cntrl) != null) {
+                            //    $(cntrl).css({ backgroundColor: 'green' });
+                            //}
+                            var cntrl = name + "_" + value.ConsumeDate;
+                            var element = document.getElementById(cntrl);
+                            if (element != undefined && element != null) {
+                                element.style.backgroundColor = 'green';
+                            }
+                        });
+                    }
+
+                    //Check for Manual Services
+                    var getMData = $("#ManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    var bgMColor = ((!IsNullOrUndefined(getMData)) && getMData.length > 0) ? "green" : "#337ab7";
+                    //Commented by Ankit Mane
+                    //$("[id^='Manually_']").each(function (key, param) {
+                    //    try {
+                    //        // $("#" + param.id).css({ "background-color": bgMColor });
+                    //        document.getElementById(param.id).style.backgroundColor = bgMColor;
+                    //    } catch (err) { }
+                    //});
+                    $.each(getMData, function (key, value) {
+                        try {
+                            cntrl = "Manually_" + value.ConsumeDate;
+                            document.getElementById(cntrl).style.backgroundColor = bgMColor;
+                        } catch (err) { }
+                    });
+
+                    //Check for Services Manual Services
+                    var getSMData = $("#SurgeryManuallyAddedPoPupModalGrid").pqGrid("option", "dataModel.data");
+                    var bgSMColor = ((!IsNullOrUndefined(getSMData)) && getSMData.length > 0) ? "green" : "#337ab7";
+                    //$("[id^='SurgeryManually_']").each(function (key, param) {
+                    //    try {
+                    //        //$("#" + param.id).css({ "background-color": bgMColor });
+                    //        document.getElementById(param.id).style.backgroundColor = bgMColor;
+                    //    } catch (err) { }
+                    //});
+                    $.each(getSMData, function (key, value) {
+                        try {
+                            cntrl = "SurgeryManually_" + value.ConsumeDate;
+                            document.getElementById(cntrl).style.backgroundColor = bgSMColor;
+                        } catch (err) { }
+                    });
+                    
+                    
+                } catch (err) { }
+                finally {
+                    DisableBtnClick(false, true);
+                }
+                
+            } else {
+                //alert(btnControl);
+                var serviceIdVal = tryParseInt(btnControl.attributes["serviceid"] != undefined ? btnControl.attributes["serviceid"].value : 0, 0);
+                var sendData = btnSelectService.split("_");
+                if (sendData.length > 0) consumeDateVal = sendData[1];
+
+                var getList = $.grep(ChoosenServices, function (item) { return item.ConsumeDate == consumeDateVal && item.Id == serviceIdVal; });
+                var bgColor = ((!IsNullOrUndefined(getList)) && getList.length > 0) ? "green" : "#337ab7";
+                document.getElementById(btnControl.id).style.backgroundColor = bgColor;
+               // $("#" + btnControl.id).css({ "background-color": bgColor });
+            }
+        } catch (err) {
+        }
+        
+    }
+
+    function DisableBtnClick(isNew, showAll)
+    {
+        IsNewRequest = isNew;
+        isNew = (IsNewRequest === false ? tryParseInt($("#RequestId").val(), 0) === 0 : IsNewRequest);
+        SurgeryData = [];
+        
+        if ($("#IsLumpsum").val() == "true") {
+            $('#ddlMangementType').prop('disabled', false);
+            $('#AddAdmisionDetails').prop('disabled', false);
+            $('#btnGo').prop('disabled', false);
+        }
+        else {
+            $('#ddlMangementType').prop('disabled', true);        
+            $('#AddAdmisionDetails').prop('disabled', true);
+            $('#btnGo').prop('disabled', true);
+        }
+        
+        //$('#ddlRoomEntitlementType').prop('disabled', true);
+        //$('#ddlPatientType').prop('disabled', true);
+        
+        
+
+        $("#btnCalculateBill").hide();
+        $("#btnSubmit").hide();
+        $("#btnPrint").hide();
+        //Go click event
+        if (isNew == true) {
+            disableSubBtn = false;
+            IgnoreSurgeryValidation = false;
+            $('#ddlMangementType').prop('disabled', false);
+            $('#ddlRoomEntitlementType').prop('disabled', false);
+            $('#AddAdmisionDetails').prop('disabled', false);
+           
+            $('#btnGo').prop('disabled', false);
+
+            $("#btnCalculateBill").show();
+            $("#btnSubmit").show();
+            $("#btnPrint").hide();
+
+            $("#RequestNo").val('New');
+            $("#FileNo").focus();
+
+            $('#btnSubmit').prop('disabled', false);
+            $('#btnCalculateBill').prop('disabled', false);
+            $('#ddlPatientType').prop('disabled', false);
+           
+        }
+        else if ($("#RequestId").val() > 0 && showAll) { //row click event
+            IgnoreSurgeryValidation = true;
+            $("#btnCalculateBill").show();
+            $("#btnSubmit").show();
+            $("#btnPrint").show();
+            $('#btnSubmit').prop('disabled', true);
+            $('#btnCalculateBill').prop('disabled', true);
+            if ($("#IsLumpsum").val() == "true") {
+               
+                PatTypeChange();
+                //$('#ddlRoomEntitlementType').prop('disabled', false);
+                SubmitStatus();               
+                disableSubBtn = false;
+                SetButtonColor('btnGo', 'SteelBlue')               
+            }
+
+        }
+    }
+
+
+    $('#IsDeactive').on('change', function () {        
+        setIsDeactiveStatus();        
+    });
+
+    function setIsDeactiveStatus() {
+        if ($('#IsDeactive')[0].checked == true) {
+            $('#CommentDiv').show();
+        }
+        else {
+            $('#CommentDiv').hide();
+            $('#Comment').val("");
+        }
+    }
+
+    function SubmitStatus() {
+        if ($("#IsLumpsum").val() == "true") {
+            if (!disableSubBtn) setSubmitbtn(false);
+            else setSubmitbtn(true);
+        }
+    }
+
+    function setSubmitbtn(status) {
+        if (status == true) { 
+            SetButtonColor('btnGo', 'Red')
+            SetButtonColor('btnSubmit', 'Green')
+        }
+        else {            
+            SetButtonColor('btnGo', 'SteelBlue')
+            SetButtonColor('btnSubmit','Red')
+        }
+            $('#btnCalculateBill').prop('disabled', status);
+            $('#btnSubmit').prop('disabled', status);        
+    }
+    
+    function SetCalVisiblity(billsList) {
+
+        if (billsList.length > 0) {
+            $("#IsLumpsum").val(billsList[0].IsLumpsum);
+            if (billsList[0].IsLumpsum == true) {
+                document.getElementById("btnCalculateBill").style.visibility = "hidden";
+            }
+        }
+        else {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/RequestSubmissionNew/GetDeductionType",
+                success: function (response) {                    
+                    $("#IsLumpsum").val(response.IsLumpsum);
+                    if (response.IsLumpsum == true) {
+                        document.getElementById("btnCalculateBill").style.visibility = "hidden";
+                    }
+                },
+                error: function (a, b, response) {
+                    ShowAlert("error", "Failed to get deduction type <br>Error " + response);
+                },
+            });
+        }
+     
+    }
+    function SetButtonColor(button, Color) {
+        document.getElementById(button).style.backgroundColor = Color
+    }
+
+  
+    /******************FetchData From Hope ***************/
+
+    var dataPatientsPopuModalGrid = { location: "local" };
+
+    var colPatientsPopuModalGrid = [
+        {
+            dataIndx: "State", Width: 5, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', sortable: false,
+            editor: false, dataType: 'bool',
+            title: "<input type='checkbox'/>",
+            cb: { select: true, all: false, header: true },
+        },
+            {
+                title: "Name Or Registration No.", dataIndx: "RegName", width: 400, dataType: "string",
+                filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }
+            },
+            { title: "", dataIndx: "PatientId", dataType: "integer", width: 30, hidden: true },
+             { title: "", dataIndx: "ParentPatientId", dataType: "integer", width: 30, hidden: true },
+             { title: "", dataIndx: "IsDependent", dataType: "bool", width: 30, hidden: true },
+    ];
+
+    var setPatientsPopuModalGrid ={
+         title : 'Add Patient Data',
+         width : '100%',
+         height: 350,
+         showTop: true,
+         showBottom : true,
+         autoRow : true,       
+         scrollModel : { autoFit: true },
+         editable : true,
+         resizable: true,    
+         draggable: true,
+         showTitle: false,
+         wrap: false,
+         filterModel: { off: false, mode: "AND", header: true },        
+         selectionModel: { type: 'row', cbHeader: false, mode: 'single' },
+         colModel: colPatientsPopuModalGrid,
+         dataModel: dataPatientsPopuModalGrid,
+         pageModel: { type: "local", rPP: 100 },
+         check: function (event, ui) {
+             singleSelection(ui, "PatientsPopuModalGrid");
+         }
+    }
+    $("#PatientsPopuModalGrid").pqGrid(setPatientsPopuModalGrid);
+
+   
+    function singleSelection(ui, gridName) {
+         
+        var List = $('#' + gridName).pqGrid("option", "dataModel.data");
+        let getSelectedList = $.grep(List, function (item) { return item.State == true })
+        if (getSelectedList.length > 1) {
+            ui.rowData.State = false;
+            $('#' + gridName).pqGrid("refreshCell", {
+                rowIndx: ui.rowIndx, dataIndx: 'State'
+            });
+            return;
+        }
+        Patient = null;
+        ClearPatientData();
+        if (getSelectedList.length == 1) {
+            SetPatientData(getSelectedList)
+        }
+
+    }
+
+    
+
+
+    $('#btnFetchData').on('click', function () {
+        $("#PatientsPopuModal").dialog({
+            height: 450,
+            width: 620,
+            modal: true,
+            open: function (evt, ui) {
+                if (!isPatientsDataFecth) {
+                    var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+                    $.ajax({
+                        type: "GET",
+                        traditional: true,
+                        headers: {
+                            "__RequestVerificationToken": antiForgeryToken
+                        },
+                        url: "/Hope/GetHopePatients",
+                        success: function (response) {
+                          
+                            $("#PatientsPopuModalGrid").pqGrid("option", "dataModel.data", response);
+                            $("#PatientsPopuModalGrid").pqGrid("refreshDataAndView");                           
+                            isPatientsDataFecth = true
+                        },
+                        error: function (a, b, response) {
+                            ShowAlert("error", "Failed to get deduction type <br>Error " + response);
+                        }
+
+                    })
+                    PqGridRefreshClick($("#PatientsPopuModalGrid"));
+                }                
+               
+            },
+            close: function () {
+                $("#PatientsPopuModal").dialog("destroy");
+            }
+        });
+    });
+
+
+    
+    function SetPatientData(getSelectedList) {
+            $("#FileNo").val(getSelectedList[0].CompanyName);
+            $("#ddlPatientType").val(1);
+           // $("#ddlRoomEntitlementType").val(getSelectedList[0].RoomTypeId);
+            $("#PatientName").val(getSelectedList[0].PatientName);
+            $("#PatientAge").val(getSelectedList[0].Age);
+            $("#ddlPatientgender").val(getSelectedList[0].GenderId);
+            $("#PatientAddress").val(getSelectedList[0].Address);
+      
+            Patient = {
+                PatientId: getSelectedList[0].PatientId,
+                ParentPatientId: getSelectedList[0].ParentPatientId,
+                IsDependent: getSelectedList[0].IsDependent,
+                CompanyName: getSelectedList[0].CompanyName,
+                PatientName: getSelectedList[0].PatientName,
+                Age: getSelectedList[0].Age,
+                GenderId: getSelectedList[0].GenderId,
+                Address: getSelectedList[0].Address
+               // RoomTypeId: getSelectedList[0].RoomTypeId
+            }                                        
+    }
+
+    function ClearPatientData() {
+        $("#FileNo").val("");
+        $("#ddlPatientType").val(0);
+        $("#ddlRoomEntitlementType").val(0);
+        $("#PatientName").val("");
+        $("#PatientAge").val("");
+        $("#ddlPatientgender").val(0);
+        $("#PatientAddress").val("");
+        
+    }
+
+  
+    $('#btnReset').on('click', function () {
+        ClearForm();
+    })
+
+    function ClearForm() {
+        GetAllgeneratedRequest();
+        ClearAllControl("entryAreabackgroundCSSforinsideElement", true);
+        ClearAllControl('popupGridClass', true);
+        ClearDayWisePartialSection();
+        ExpandPqGrid($("#GeneratedRequestGrid"));
+        DisableBtnClick(true, false);
+        $("#IsDeactiveDiv").hide();
+        $('#IsDeactive')[0].checked = false;
+        setIsDeactiveStatus();
+        SetDefStateCity();
+        ShowFetchButton(false);
+        isPatientsDataFecth = false;
+        Patient = null;
+    }
+
+    $('#lblHopeSite').on('click', function (e) {
+        window.open('http://www.hopeparivar.com/', '_blank');
+        return false;
+    });
+
+    function PatTypeChange() {
+        var manType = $("#ddlPatientType").find("option:selected").text();
+        if ((manType.indexOf("ESIC") != -1)) {
+            SelectDropDownByText("ddlRoomEntitlementType", "GENERAL WARD");
+            $('#ddlRoomEntitlementType').prop('disabled', true);
+        }
+        else {
+            //IsNewRequest ? $('#ddlRoomEntitlementType').prop('disabled', false) :
+            //              $('#ddlRoomEntitlementType').prop('disabled', true);
+            $('#ddlRoomEntitlementType').prop('disabled', false)
+        }
+    }
+
+</script>
+

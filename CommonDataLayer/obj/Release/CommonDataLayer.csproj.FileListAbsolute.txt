@@ -1,0 +1,54 @@
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\bin\Release\log4net.config
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\bin\Release\CommonDataLayer.dll.config
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\bin\Release\CommonDataLayer.dll
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\bin\Release\CommonDataLayer.pdb
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\bin\Release\CommonLayer.dll
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\bin\Release\log4net.dll
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\bin\Release\CommonLayer.pdb
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\bin\Release\log4net.xml
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\obj\Release\CommonDataLayer.csprojResolveAssemblyReference.cache
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\obj\Release\CommonDataLayer.dll
+E:\E\Projects\G2S-APP\BISQUIZ-UI\CommonDataLayer\obj\Release\CommonDataLayer.pdb
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\log4net.config
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.dll.config
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.dll
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.pdb
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\CommonLayer.dll
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\EntityFramework.dll
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\EntityFramework.SqlServer.dll
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\log4net.dll
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\CommonLayer.pdb
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\EntityFramework.xml
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\EntityFramework.SqlServer.xml
+E:\E\Projects\MedicalWebApp\CommonDataLayer\bin\Release\log4net.xml
+E:\E\Projects\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.csprojResolveAssemblyReference.cache
+E:\E\Projects\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.dll
+E:\E\Projects\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.pdb
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\log4net.config
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.dll.config
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.dll
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.pdb
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\CommonLayer.dll
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\log4net.dll
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\CommonLayer.pdb
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\EntityFramework.xml
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\EntityFramework.SqlServer.xml
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\bin\Release\log4net.xml
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.csprojAssemblyReference.cache
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.csproj.CoreCompileInputs.cache
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.csproj.CopyComplete
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.dll
+D:\Code Backup\CGHS\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.pdb
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\bin\Release\log4net.config
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.dll.config
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.dll
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\bin\Release\CommonDataLayer.pdb
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\bin\Release\CommonLayer.dll
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\bin\Release\log4net.dll
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\bin\Release\CommonLayer.pdb
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\bin\Release\log4net.xml
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.dll
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.pdb
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.csproj.AssemblyReference.cache
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.csproj.CoreCompileInputs.cache
+D:\Projects\MedicalApp\MedicalWebApp\CommonDataLayer\obj\Release\CommonDataLayer.csproj.CopyComplete

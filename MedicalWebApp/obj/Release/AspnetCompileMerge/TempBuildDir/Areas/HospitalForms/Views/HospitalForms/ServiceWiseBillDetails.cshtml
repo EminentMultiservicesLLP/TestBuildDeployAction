@@ -1,0 +1,215 @@
+﻿@model CGHSBilling.Areas.HospitalForms.Models.ServiceWiseBillDetailsModel
+
+@using (Html.BeginForm())
+{
+    
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <a class="collapsediv" data-toggle="collapse" href="#ServiceWiseBillDetailsArea" style="color: white">
+                        Service Wise Bill Details
+                    </a>
+                </div>
+            </div>
+            <div class="panel panel-default" id="ServiceWiseBillDetailsArea">
+                <div class="panel-body entryAreabackgroundCSSforinsideElement">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            @Html.Label("Category Type", new { @class = "required" })
+                            @Html.DropDownList("ddlCategoryType", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.Label("Service Name", new { @class = "required " })
+                            <input type="text" id="ServiceName" name="ServiceName" class="form-control" placeholder="Select Service Name">
+                            @Html.HiddenFor(m => m.ServiceId)
+                        </div>
+
+                        <div class="col-sm-2">
+                            @Html.Label("From Date", new { @class = "required " })
+                            <div class='input-group date' id='FromDate'>
+                                <input id="FromDateVal" type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            @Html.Label("To Date", new { @class = "required " })
+                            <div class='input-group date' id='ToDate'>
+                                <input id="ToDateVal" type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-sm-1">
+                                <br />
+                                <button id="btnView" type="button" class="btn btn-primary">View Bill</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ServiceWiseBillDetailsPopupModal" style="display:none;" title="ServiceWise Bill Details Report">
+            <div class="panel panel-primary" id="Report">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <iframe id="iframeServiceWiseBillDetails" style="width:100%;height:640px"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+}
+
+<script type="text/javascript">
+
+    $('#ToDate').datetimepicker({
+        format: 'DD-MMM-YYYY', extraFormats: ['DD-MM-YYYY', 'DD-MM-YY'], defaultDate: new Date(),
+        icons: {
+            buttonImage: "/Content/images/calendar.gif", buttonImageOnly: true
+        }
+    });
+    $('#FromDate').datetimepicker({ format: 'DD-MMM-YYYY', extraFormats: ['DD-MM-YYYY', 'DD-MM-YY'], defaultDate: new Date() });
+    var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        async: false,
+        headers: {
+            "__RequestVerificationToken": antiForgeryToken
+        },
+        url: "/ServiceWiseBillDetails/GetAllCategories",
+        success: function (categories) {
+            $('#ddlCategoryType').val("");
+            $('#ddlCategoryType').html("");
+            $('#ddlCategoryType').append('<option value="' + 0 + '">--Select--</option>');
+            if (categories.data && categories.data.length) {
+                $.each(categories.data,
+                    function (index, value) {
+                        $('#ddlCategoryType').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    });
+            }
+        },
+        error: function (a, b, c) {
+        }
+    });
+  
+   
+    GetServiceMasterList();
+    function GetServiceMasterList() {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                async: false,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/ServiceWiseBillDetails/GetServiceMasterList",
+                success: function (response) {                    
+                    var ServiceMasterList = [];
+                    for (var i = 0; i < response.data.length; i++) {
+                        var SearchData = response.data[i].ServiceName; //+ ' ' + ' ' + '-' + ' ' + ' ' + data[i].governmentNo;
+                        ServiceMasterList.push({ label: SearchData, value: SearchData, ServiceId: response.data[i].ServiceId });
+                        $("#ServiceName").autocomplete({
+                            source: ServiceMasterList,
+                            select: function (event, i) {
+                                $("#ServiceId").val(i.item.ServiceId)
+                            }
+                        });
+                    }
+                },
+                error: function (a, b, response) {
+                    ShowAlert("error", "Failed to get Service Master list, Please contact IT team. <br>Error " + response);
+                }
+            })
+        } catch (err) {
+        }
+    }
+
+    $('#ddlCategoryType').on('change', function () {        
+        if (this.value === '0') {
+            $('#ServiceName').prop('disabled', false);            
+        } else {
+            $('#ServiceName').prop('disabled', true);
+            $('#ServiceName').val('');
+            $("#ServiceId").val('')
+        }
+    });
+
+
+    $('#btnView').on('click', function () {
+
+      /*  if (!showAlertOnBlank($("#ServiceName"), " Please Select Service Name ! ")) return;*/
+        try {
+
+            let Fromtime = $("#FromDate").data('date');
+            let ToTime = $("#ToDate").data('date');
+
+            if (Fromtime == undefined || Fromtime == "") {
+                ShowAlert('info', 'Please Select From time ');
+                return;
+            }
+
+            if (ToTime == undefined || ToTime == "") {
+                ShowAlert('info', 'Please Select to time');
+                return;
+            }
+           
+            var ServiceId = $("#ServiceId").val();
+            var CategoryId = $('#ddlCategoryType').val();
+            OpenServiceWiseBillReport(Fromtime, ToTime, ServiceId, CategoryId);
+
+        } catch (err) {
+          }
+    });
+
+
+    function OpenServiceWiseBillReport(fromtime, totime, ServiceId, CategoryId) {
+        $("#iframeServiceWiseBillDetails").contents().find("body").html("");
+        try {
+            $("#ServiceWiseBillDetailsPopupModal").dialog({
+                cache: false,
+                position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+                },
+                height: 620,
+                width: 600,
+                open: function (evt, ui) {
+
+                },
+                close: function () {
+                    $("#ServiceWiseBillDetailsPopupModal").dialog("destroy");
+                }
+            }).dialog("open");
+            let urlforBills = "";
+            urlforBills = "../../Reports/ReportViewer.aspx?reportid=" + 5 + "&FromTime=" + fromtime + "&ToTime=" + totime + "&ServiceId=" + ServiceId + "&CategoryId=" + CategoryId;
+            console.log(urlforBills);
+            let myframe = document.getElementById("iframeServiceWiseBillDetails");
+            if (myframe != null) {
+                $("#iframeServiceWiseBillDetails").empty();
+                if (myframe.src) {
+                    myframe.src = urlforBills;
+                } else if (myframe.contentWindow != null && myframe.contentWindow.location != null) {
+                    myframe.contentWindow.location = urlforBills;
+                } else {
+                    myframe.setAttribute('src', urlforBills);
+                }
+                return false;
+            }
+        }
+        catch (err) {
+        }
+    }
+
+</script>

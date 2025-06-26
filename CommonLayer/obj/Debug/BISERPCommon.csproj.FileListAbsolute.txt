@@ -1,0 +1,16 @@
+E:\BISERPWeb-API\BISERPCommon\bin\Debug\log4net.config
+E:\BISERPWeb-API\BISERPCommon\bin\Debug\BISERPCommon.dll
+E:\BISERPWeb-API\BISERPCommon\bin\Debug\BISERPCommon.pdb
+E:\BISERPWeb-API\BISERPCommon\bin\Debug\log4net.dll
+E:\BISERPWeb-API\BISERPCommon\bin\Debug\log4net.xml
+E:\BISERPWeb-API\BISERPCommon\obj\Debug\BISERPCommon.dll
+E:\BISERPWeb-API\BISERPCommon\obj\Debug\BISERPCommon.pdb
+E:\BISERPWeb-API\BISERPCommon\obj\Debug\BISERPCommon.csprojResolveAssemblyReference.cache
+D:\BISERP-WebAPI\BISERPCommon\bin\Debug\log4net.config
+D:\BISERP-WebAPI\BISERPCommon\bin\Debug\BISERPCommon.dll
+D:\BISERP-WebAPI\BISERPCommon\bin\Debug\BISERPCommon.pdb
+D:\BISERP-WebAPI\BISERPCommon\bin\Debug\log4net.dll
+D:\BISERP-WebAPI\BISERPCommon\bin\Debug\log4net.xml
+D:\BISERP-WebAPI\BISERPCommon\obj\Debug\BISERPCommon.csprojResolveAssemblyReference.cache
+D:\BISERP-WebAPI\BISERPCommon\obj\Debug\BISERPCommon.dll
+D:\BISERP-WebAPI\BISERPCommon\obj\Debug\BISERPCommon.pdb

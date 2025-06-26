@@ -1,0 +1,264 @@
+﻿@using CGHSBilling.Models
+@using Microsoft.Ajax.Utilities
+@model List<MenuUserRightsModel>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jambo Medical Services</title>
+    @Styles.Render("~/Content/cssMust")
+    @Styles.Render("~/Content/css")
+    @functions{
+
+        public HtmlString GenerateSubMenus(string parentMenuPageName, int menuId, string menus)
+        {
+            if (Model!=null && Model.Any(w => w.ParentMenuId == menuId))
+            {
+                menus = string.Concat(menus, "<ul class=", (menuId == 0 ? "menu>" : "sub-menu>"));
+                foreach (var subMenu in Model.Where(w => w.ParentMenuId == menuId))
+                {
+                    menus = menus + "<li>";
+
+                    if (menuId == 0)
+                    {
+                        var childMenu = string.Empty;
+                        if (Model.Any(w => w.ParentMenuId == subMenu.MenuId) == false) childMenu = "/Home/Home/" + subMenu.PageName; //+ "?MenuId=" + @mainMenu.MenuId;
+                        menus = string.Concat(menus, "<a data-ajax='true' data-ajax-mode='replace' data-ajax-update='#ShowView' href=", childMenu.IsNullOrWhiteSpace() ? "#" : childMenu, ">");
+                        menus = string.Concat(menus, "<i class='fa ", subMenu.Icon, "'></i><div>", subMenu.MenuName, "<span>", subMenu.PageShortDescription, "</span></div></a>");
+                    }
+                    else
+                    {
+                        var childMenu = string.Concat("/", parentMenuPageName, "/", parentMenuPageName, "/", subMenu.PageName);
+                        menus = string.Concat(menus, "<a data-ajax='true' data-ajax-begin='showPageLoadingSpinner' data-ajax-complete='hidePageLoadingSpinner' data-ajax-loading='#ajaxLoaderDiv' data-ajax-mode='replace' data-ajax-update='#ShowView' href=", childMenu, ">", subMenu.MenuName, "</a>");
+                    }
+                    if (Model.Any(w => w.ParentMenuId == subMenu.MenuId)) menus = GenerateSubMenus(subMenu.PageName, subMenu.MenuId, menus).ToString();
+
+                    menus = menus + "</li>";
+                }
+                menus = menus + "</ul>";
+            }
+            return new HtmlString(menus);
+        }
+
+    }
+</head>
+<body>
+<div id="topSection" class="row" style="margin: 0; z-index: 0">
+    @if (Request.IsAuthenticated)
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true);
+        <header>
+            <div class="col-sm-10">
+                <nav>
+                    <a id="resp-menu" class="responsive-menu" href="#"><i class="fa fa-reorder"></i> Menu</a>
+                    <ul class="menu">
+                        @*<li>
+                            <a class="home" href="#">
+                                <i class="fa fa-home"></i>
+                                <div>Home<span>Come to Home</span></div>
+                            </a>
+                        </li>*@
+                        @if (Model != null)
+                        {
+                            foreach (var mainMenu in Model.Where(w => w.ParentMenuId == 0))
+                            {
+                                var mainMenulink = "#";
+                                if (Model.Any(w => w.ParentMenuId == @mainMenu.MenuId) == false)
+                                {
+                                    /*mainMenulink = "/Home/Home/" + @mainMenu.PageName;*/
+                                    mainMenulink = "/CommonArea/CommonArea/" + @mainMenu.PageName;
+                                }
+                            <li>
+                                <a data-ajax='true' data-ajax-mode='replace' data-ajax-update='#ShowView' href=@mainMenulink>
+                                    <i class="fa @mainMenu.Icon"></i>
+                                    <div>
+                                        @mainMenu.MenuName
+                                        <span>@mainMenu.PageShortDescription</span>
+                                    </div>
+                                </a>
+                                @GenerateSubMenus(@mainMenu.PageName, @mainMenu.MenuId, "")
+                            </li>
+                            }
+                        }
+                    </ul>
+                    @{
+                        var MarqueeText = Model != null ? Model.Select(w => w.MarqueeMessage).FirstOrDefault().ToString():"";
+                    }
+                    @{if (MarqueeText != null && MarqueeText.ToString().Trim() != "")
+                        {
+                            <div class="marquee">
+                                <p>@MarqueeText.ToString()</p>
+                            </div>
+                        }
+                    }
+                </nav>
+            </div>
+            <div class="col-sm-2" style="z-index: 10;background-color:#333">
+                <div class="col-sm-3">
+                    <a href="@Url.Action("Index", "Home")">
+                        <div>
+                            <img src="@Url.Content("~/Images/LogoJMS1.png")" style="width: 50px;"/>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-9">
+                    <nav>
+                        <div class="col-sm-2">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                
+
+                                <span class="label label-success" title="Balance Amt/Remaining Bills">@Session["BalanceAmount"]</span>
+                            </a>
+
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-6">
+                            <ul class="menu nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-user"></i>
+                                        <div>
+                                            @Html.Encode(User.Identity.Name)
+                                            <span>Signout here</span>
+                                        </div>
+                                    </a>
+                                
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            @Html.ActionLink(" Sign Out", "LogOff", "Account", new { area = "" }, new { @class = "glyphicon glyphicon-log-out" })
+                                        </li>
+                                        <li>
+                                            @if (Convert.ToBoolean(Session["IsAdmin"]) == true)
+                                            {
+                                                <a onclick="ClearCache(); return false;" class="glyphicon glyphicon-trash"> ClearCache</a>
+                                            }
+                                        </li>
+                                        <li>
+                                                    <a  data-ajax='true' data-ajax-mode='replace' data-ajax-update='#ShowView' href="/CommonArea/CommonArea/ResetPassWord" class="glyphicon glyphicon-trash" > ResetPassword</a>
+
+                                                </li>
+                              </ul>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                </div>
+        </header>
+    }
+    else
+    {
+        @Html.ActionLink("Sign In", "Login", "Account")
+    }
+</div>
+<div id="ajaxLoaderDiv" style="position: fixed; top: 40%; left: 45%; z-index: 1234; display: none;" class="blur">
+    <img src="@Url.Content("~/Images/loading.gif")" alt="Loading, please wait..." class="ajax-loader"/>
+</div>
+<div id="bodySection">
+    <section class="content-wrapper row" >
+        <div class="partialViewSection">
+            <div id="clbtn" style="float:right; clear:right;"><img src="~/Images/cross-button.png" alt="Close"/></div>
+            <div id="ShowView" style="padding-bottom: 3px;background-color:#FFEDDA">
+                @RenderBody()
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+
+</html>
+<footer style="position:center;width: 100%;background-color:transparent;
+position:absolute; bottom: 0px; text-align: center;"><b><p style="color:black;font-size:15px;margin:0;">Developed By Jambo Medical Services</p></b></footer>
+<script src="~/Scripts/jLinq-2.2.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@Styles.Render("~/Content/external")
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jquery")
+
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jqueryMore")
+@Scripts.Render("~/bundles/jquery/external")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(document).ready(function () {
+        var touch = $('#resp-menu');
+        var menu = $('.menu');
+
+        $(touch).on('click', function (e) {
+            e.preventDefault();
+            menu.slideToggle();
+        });
+
+        $(window).resize(function () {
+            var w = $(window).width();
+            if (w > 767 && menu.is(':hidden')) {
+                menu.removeAttr('style');
+            }
+        });
+
+        $("#clbtn").click(function () {
+            $("#ShowView").empty().load('@Url.Action("PackageSummaryView", "Home")');
+        });
+
+    });
+
+    function fillDiv(show) {
+        var topSection = $("#topSection");
+        var topHeight = topSection.height();
+
+        var div = $(".partialViewSection");
+        
+       
+        var availableHeight = window.innerHeight;
+        var scaleY = availableHeight - (topHeight + 25);
+
+        if (show === false) {
+            scaleY = 0;
+        }
+        div.css({
+            "position": "relative",
+            "height": scaleY + "px"
+        });
+    }
+
+    function showPageLoadingSpinner() {
+        $('#ajaxLoaderDiv').show();
+    }
+
+    function hidePageLoadingSpinner() {
+        fillDiv();
+        setTimeout(function () {
+            $('#ajaxLoaderDiv').hide(); 
+        }, 20000);
+       
+    }
+
+   
+
+    function ClearCache() {
+        try {
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                url: "/Account/ClearAllCache",
+                data: {},
+                success: function () {
+                    ShowAlert("success", "All Cached data cleared successfully");
+                },
+                error: function (a, b, response) {
+                    ShowAlert("error", "Failed to get Clear Cache, Please contact IT team. Error " + response);
+                }
+            });
+        } catch (err) {
+        }
+    }
+
+
+</script>

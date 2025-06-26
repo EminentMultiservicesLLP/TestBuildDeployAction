@@ -1,0 +1,560 @@
+﻿@model CGHSBilling.Areas.HospitalForms.Models.BCertificateModel
+<style>
+.underline {
+    background-color: #fff;
+    border: none;
+    border-bottom: thin solid gray;
+}
+  </style>
+<fieldset>
+    <div class="panel-group">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <a class="collapsediv" data-toggle="collapse" href="#Request" style="color: white">
+                    Generated Request
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="panel-group" id="Request">
+        <div class="panel panel-default">
+            <div class="panel-body entryAreabackgroundCSSforinsideElement">
+                <div class="col-sm-2">
+                    @Html.Label("Select Request")
+                    <input id="autocomplete_Request" name="autocomplete_Request" type="text" class="form-control" placeholder="Search by Request NO" />
+                    @Html.Hidden("RequestId")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-group" id="Request">
+        <div class="panel panel-default">
+            <div class="panel-body entryAreabackgroundCSSforinsideElement">
+                <div div="panel-body entryAreabackgroundCSSforinsideElement">
+                    <p>
+                        <h5 style="text-align:center">ESSENTIALITY CERTIFICATE</h5>
+                        <h5 style="text-align:center"> CERTIFICATE 'B'</h5>
+                    </p>
+                    <p><h6 style="text-align:center;font-family:Cambria;font-size:14px">Under Central Service (Medical Attendance)Rules </p></h6>
+                    <p style="text-align:center;font-family:Cambria;font-size:14px">(To be completed in the case of patients who are admitted to hospital for  treatment)</p>
+                    </br>
+                    <p style="text-align:center;font-family:Cambria;font-size:14px">Certificate granted  to </p>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-1" style="align-content:center;font-family:Cambria;font-size:14px">   Mr./Mrs./Miss</div>
+                            <div class="col-sm-2" style="align-content:center">
+                                @Html.TextBoxFor(m => m.PatientName, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-3" style="font-family:Cambria;font-size:14px"> wife/son/daughter of Mrs.</div>
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(m => m.RelationName, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2" style="font-family:Cambria;font-size:14px">employed in the </div>
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-1" style="font-family:Cambria;font-size:14px">I, Dr.</div>
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(m => m.Doctor1, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2" style="font-family:Cambria;font-size:14px">hereby certify </div>
+                            <div class="col-sm-2">@Html.TextBoxFor(m => m.ClientName, new { id = "PatientName1", @class = "form-control", onfocus = "onFocusOfElement(this.id)" })</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-5" style="font-family:Cambria;font-size:14px">
+                                (a)  that the patient was admitted to hospital on the advice of
+                            </div>
+
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(m => m.MedicalOfficer, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-4" style="font-family:Cambria;font-size:14px">(name of the Medical Officer)/on my advice: </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4" style="font-family:Cambria;font-size:14px">
+                                (b) that the patient has been under treatment at
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(m => m.Place2, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-6" style="font-family:Cambria;font-size:14px">
+                                and that the under mentioned medicines prescribed by me in this connection were essential
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-8" style="font-family:Cambria;font-size:14px">
+                                for the recovery/prevention of   serious deterioration in the condition of the patient. The medicines are not stocked in the
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(m => m.ClientName, new { id = "Client3", @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                            </div>
+                            <div class="col-sm-2" style="font-family:Cambria;font-size:14px">
+                                (name of the hospital)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-12" style="font-family:Cambria;font-size:14px">
+                                for supply to private patients and do no include proprietary preparations for which cheaper substances of equal therapeutic value are available nor preparation which are primarily foods, toilets or disinfectants:
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12" style="align-content:center;font-family:Cambria;font-size:14px" ">
+                            <div class="col-sm-12">
+                                <table>
+                                    <tr>
+                                        <td>Medicine</td>
+                                        <td>Total Cost</td>
+                                    </tr>
+                                    <tr>
+                                        <td>All Pharmacy bills are submitted with the form</td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.PharmacyBillRate, new { @class = "form-control", onkeypress = "return isFloat(event)(event)" })
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-6" style="font-family:Cambria;font-size:14px">
+                                (c) that the injections administered were/were not for immunizing or prophylactic purposes:
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3" style="font-family:Cambria;font-size:14px">
+                                (d) that the patient is/was suffering from
+                            </div>
+
+                            <div class="col-sm-2">
+
+                                <div class='input-group date' id='SufferingDate'>
+                                    <input type='text' id="SufferingDate1" class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="font-family:Cambria;font-size:14px">
+                                and is/was under treatment from
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.AdmissionTime, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                        <div class="col-sm-1" style="font-family:Cambria;font-size:14px">
+                            to
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.DischargeTime, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-5" style="font-family:Cambria;font-size:14px">
+                            (e) that the X-ray, laboratory test etc., for which an expenditure of  Rs.
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.InvBillRate, new { @class = "form-control", onkeypress = "return isFloat(event)(event)" })
+                        </div>
+                        <div class="col-sm-5" style="font-family:Cambria;font-size:14px">
+                            was incurred was necessary and were undertaken on my advice at
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.LabName, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                        <div class="col-sm-5" style="font-family:Cambria;font-size:14px">
+                            (name of the hospital or laboratory);
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2" style="font-family:Cambria;font-size:14px">
+                            (f) that I called on Dr.
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.Doctor2, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                        <div class="col-sm-5" style="font-family:Cambria;font-size:14px">
+                            for Specialist consultation and that the necessary approval of the
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.ChiefMedicalOfficer, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-7" style="font-family:Cambria;font-size:14px">
+                            (Name of the Chief Administrative Medical Officer of the State)  as required under the rules, was obtained.
+                        </div>
+                    </div>
+                </div>
+                <h6 style="text-align:center">PART B</h6>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4" style="font-family:Cambria;font-size:14px">
+                            I certify that the patient has been under treatment at the
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.ClientName, new { id = "Client4", @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                        <div class="col-sm-6" style="font-family:Cambria;font-size:14px">
+                            hospital and that the service of the special nurses for which an expenditure of Rs.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.Bill_Amount, new { @class = "form-control", onkeypress = "return isFloat(event)(event)" })
+                        </div>
+                        <div class="col-sm-10" style="font-family:Cambria;font-size:14px">
+                            was incurred, vide bills and receipts attached, were essential for the recovery/prevention of serious deterioration in the condition of the patient.
+                        </div>
+                    </div>
+                </div>
+                <h6 style="text-align:right">
+                    Signature and Designation of
+                </h6>
+                <h6 style="text-align:right">
+                    the Medical Officer in charge
+                </h6>
+                <h6 style="text-align:right">
+                    of the case at the hospital
+                </h6>
+                <h6 style="text-align:center">COUNTERSIGNED</h6>
+                <div class="form-group">
+                    <div class="col-sm-12" style="align-content:center">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.ClientName, new { id = "Client1", @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                        <div class="col-sm-1" style="font-family:Cambria;font-size:14px">Hospital</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4" style="font-family:Cambria;font-size:14px">
+                            *I certify that the patient has been under treatment at the
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.ClientName, new { id = "Client5", @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                        <div class="col-sm-6" style="font-family:Cambria;font-size:14px">
+                            hospital and that the facilities provided were the minimum which were essential for the 
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2" style="font-family:Cambria;font-size:14px">
+                            patient’s treatment.
+                        </div>
+                        <div class="col-sm-12"></div>
+                        <h6 style="text-align:right">
+                            Medical Superintendent
+                        </h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-9"></div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.ClientName, new { id = "Client2", @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                        <div class="col-sm-1" style="font-family:Cambria;font-size:14px">Hospital
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-1" style="font-family:Cambria;font-size:14px">
+                            Place:
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.Place, new { @class = "form-control", onfocus = "onFocusOfElement(this.id)" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-8" style="font-family:Cambria;font-size:14px">
+                            Note:- Certificates not applicable should be struck off. Certificate (d) is compulsory and must be filled in by the Medical Officer in all cases.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12" style="font-family:Cambria;font-size:14px">
+                            *The ‘minimum facilities certificate’ may be signed either by the Medical Superintendent of the Hospital concerned or another Gazetted Medical Officer who has been authorized in this behalf by the Medical Superintendent.
+                            compulsory and must be filled in by the Medical Officer in all cases.
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-success" id="btnShowReport" title="Click Here To Show Certificate">Show Certificate</button>
+
+                    </div>
+                </div>
+            </div>
+
+         
+        </div>
+    </div>
+    <div id="CertificateReportModal" style="display:none;background-color:white;" title="View Certificate">
+        <div class="panel panel-primary" id="Report">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <iframe id="iframeResultReportViewer" style="width:100%;height:640px"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<script>
+    $('#SufferingDate').datetimepicker({ format: 'DD-MMM-YYYY', extraFormats: ['DD-MM-YYYY', 'DD-MM-YY']});
+    $('#AdmissionTime').prop('disabled', true);
+    $('#DischargeTime').prop('disabled', true);
+    OnPageLoad();
+    function OnPageLoad() {
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "GET",
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            type: "GET",
+            url: "/RequestSubmissionNew/GetAllgeneratedRequest",
+        
+            success: function (response) {
+                debugger;
+
+
+
+                ReqList = [];
+                for (var i = 0; i < response.length; i++) {
+                
+                    var SearchData = response[i].RequestNo;
+                    ReqList.push({ label: SearchData, value: SearchData, RequestId: response[i].RequestId });
+                }
+                $('#autocomplete_Request').autocomplete({
+                    source: ReqList,
+                    messages: {
+                        noResults: '',
+                        results: function () { }
+                    },
+                    minLength: 0,
+                    scroll: true,
+                    html: true,
+                    select: SelectedCompany,
+                   // change: SelectedCompany
+                })
+            }
+        });
+    }
+    var RequestId;
+    var ClientName;
+    function SelectedCompany(event, ui) {
+        debugger;
+        event.preventDefault();
+        if (ui.item !== null) {
+            $(event.target).val(ui.item.label);
+            $("#RequestId").val(ui.item.RequestId);
+            RequestId = $("#RequestId").val();
+
+
+            var Reqid = RequestId;
+            var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+
+            $.ajax({
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                type: "GET",
+                async: false,
+                url: "/Certificate/GetCertificateDetail",
+                datatype: "Json",
+                data: { RequestId: Reqid },
+                success: function (data) {
+                    debugger;
+                    $("#PatientName").val(data[0].PatientName);
+                    $("#PatientName1").val(data[0].PatientName);
+                    $("#CompanyName").val(data[0].CompanyName);
+                    $("#ClientName").val(data[0].ClientName);
+                    $("#Bill_Amount").val(data[0].Bill_Amount);
+                    $("#InvBillRate").val(data[0].InvBillRate);
+                    $("#DischargeTime").val(data[0].DischargeTime);
+                    $("#AdmissionTime").val(data[0].AdmissionTime);
+                    //   ClientName = $("#ClientName").val(data[0].ClientName);
+                    ClientName = data[0].ClientName;
+                    $("#Client1").val(data[0].ClientName);
+                    $("#Client2").val(data[0].ClientName);
+                    $("#Client3").val(data[0].ClientName);
+                    $("#Client4").val(data[0].ClientName);
+                    $("#Client5").val(data[0].ClientName);
+                    $("#Client6").val(data[0].ClientName);
+                    $("#PharmacyBillRate").val(data[0].PharmacyBillRate);
+                    $("#LabName").val(data[0].LabName);
+                    $("#RelationName").val(data[0].RelationName);
+                    $("#Doctor1").val(data[0].Doctor1);
+                    $("#MedicalOfficer").val(data[0].MedicalOfficer);
+                    $("#SufferingDate").val(data[0].SufferingDate);
+                    $("#Doctor2").val(data[0].Doctor2);
+                    $("#ChiefMedicalOfficer").val(data[0].ChiefMedicalOfficer);
+                    $("#Place").val(data[0].Place);
+                    $("#Place2").val(data[0].Place2);
+                   
+                    $("#SufferingDate1").val(data[0].SufferingDate);
+
+
+                }
+            });
+
+        }
+        else {
+            $("#RequestId").val("");
+        }
+    }
+    function CertificateReport() {
+
+
+        $("#iframeResultReportViewer").contents().find("body").html("");
+
+        Certificate();
+    }
+    $("#btnShowReport").click(function () {
+     //   var StartDate = $("#StrStartdate1").val();
+     //   if (!showAlertOnBlank($("#SufferingDate1"), "Please enter Suffering Date")) { $("#SufferingDate1").focus(); return; }
+        debugger;
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            type: "POST", //HTTP POST Method
+            url: '/Certificate/SaveCertificate', // Controller/View
+            data: { //Passing data
+                
+                PatientName: $("#PatientName").val(), //Reading text box values using Jquery
+                ClientName1:ClientName,
+                RelationName: $("#RelationName").val(),
+                AdmissionTime: $("#AdmissionTime").val(),
+                DischargeTime: $("#DischargeTime").val(),
+                CompanyName: $("#CompanyName").val(),
+                Bill_Amount: $("#Bill_Amount").val(),
+                InvBillRate: $("#InvBillRate").val(),
+                PharmacyBillRate: $("#PharmacyBillRate").val(),
+                RequestId:RequestId,
+                Doctor1: $("#Doctor1").val(),
+                MedicalOfficer: $("#MedicalOfficer").val(),
+                SufferingDate: $("#SufferingDate1").val(),
+                LabName: $("#LabName").val(),
+                Doctor2: $("#Doctor2").val(),
+                ChiefMedicalOfficer: $("#ChiefMedicalOfficer").val(),
+                Place: $("#Place").val(),
+                Place2: $("#Place2").val(),
+               
+
+            },
+            success: function (msg) {
+                if (msg.success === true) {
+                    CertificateReport();
+                    
+                }
+                else {
+                    ShowAlert("error", msg.message);
+                    
+                }
+            }
+
+        });
+     
+      
+      
+    });
+
+
+    function Certificate(){
+     
+        try {
+            $("#CertificateReportModal").dialog({
+                cache: false,
+                position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+                },
+                height: 620,
+                width: 750, open: function (evt, ui) {
+
+                },
+                close: function () {
+                    $("#CertificateReportModal").dialog("destroy");
+                }
+            });
+
+        
+            var url = "";
+            url = "../../Reports/ReportViewer.aspx?reportid=" + 6 + "&RequestId=" + RequestId;
+
+
+            console.log(url);
+            var myframe = document.getElementById("iframeResultReportViewer");
+            if (myframe != null) {
+                $("#iframeResultReportViewer").empty(); //Clearing content on fresh load
+                if (myframe.src) {
+                    myframe.src = url;
+                } else if (myframe.contentWindow != null && myframe.contentWindow.location != null) {
+                    myframe.contentWindow.location = url;
+                } else {
+                    myframe.setAttribute('src', url);
+                }
+                return false;
+
+            }
+        }
+        catch (r) {
+
+        }
+    }
+    function isFloat(eve) {
+        if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0)) {
+            eve.preventDefault();
+        }
+    }
+</script>

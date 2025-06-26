@@ -1,0 +1,661 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BISERPDataLayer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="INV_MST_DeliveryTerms">
+    <Key>
+      <PropertyRef Name="TermID" />
+    </Key>
+    <Property Name="TermID" Type="int" Nullable="false" />
+    <Property Name="DeliveryTermCode" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DeliveryTermDesc" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" Nullable="false" />
+    <Property Name="InsertedON" Type="datetime" Nullable="false" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Deactive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="INV_MST_ITEM">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="100" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="DescriptiveName" Type="varchar" MaxLength="500" />
+    <Property Name="ItemTypeID" Type="int" />
+    <Property Name="PackSizeID" Type="int" />
+    <Property Name="VatOn" Type="nvarchar" MaxLength="1" />
+    <Property Name="SalesTax" Type="float" />
+    <Property Name="SalesPrice" Type="float" />
+    <Property Name="StandardRate" Type="float" />
+    <Property Name="SealingRate" Type="float" />
+    <Property Name="OwnStock" Type="bit" />
+    <Property Name="NoMrp" Type="bit" />
+    <Property Name="AutoConsumed" Type="bit" />
+    <Property Name="Asset" Type="bit" />
+    <Property Name="OPBalance" Type="float" />
+    <Property Name="MaxLevel" Type="float" />
+    <Property Name="MinLevel" Type="float" />
+    <Property Name="BrandId" Type="int" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="250" />
+    <Property Name="IsLocalPurchaseItem" Type="bit" />
+    <Property Name="IsRoutineItem" Type="bit" />
+    <Property Name="SalesTaxID" Type="int" />
+    <Property Name="OrderUnitID" Type="int" />
+    <Property Name="ReOrderLevel" Type="float" />
+    <Property Name="CurrentQty" Type="float" />
+    <Property Name="UnitID" Type="int" />
+    <Property Name="LocationID" Type="int" />
+    <Property Name="StockTypeID" Type="int" />
+    <Property Name="BatchRequired" Type="bit" />
+    <Property Name="ExpiryDtRequired" Type="bit" />
+    <Property Name="PurchaseFrequency" Type="nvarchar" MaxLength="50" />
+    <Property Name="ItemChangeID" Type="int" />
+    <Property Name="Taxid" Type="int" />
+    <Property Name="ChkLooseSelling" Type="bit" />
+    <Property Name="ChkQualityCtrl" Type="bit" />
+    <Property Name="IsNonChargable" Type="bit" />
+    <Property Name="MarkupPercentage" Type="int" />
+    <Property Name="ConsigneeFlag" Type="bit" />
+    <Property Name="ConsigneeId" Type="int" />
+    <Property Name="HighValueFlag" Type="bit" />
+    <Property Name="ScheduledItem" Type="bit" />
+    <Property Name="IsNoBarcode" Type="bit" />
+    <Property Name="ScheduledIVItemId" Type="int" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BISNowErp.dbo.INV_MST_itempacksize' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="INV_MST_itempacksize">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="INV_MST_ItemType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsManufactRequired" Type="bit" />
+    <Property Name="POException" Type="float" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BISNowErp.dbo.INV_MST_Manufacturer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="INV_MST_Manufacturer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Code" Type="char" MaxLength="10" />
+    <Property Name="Name" Type="varchar" MaxLength="150" />
+    <Property Name="Society" Type="nvarchar" MaxLength="100" />
+    <Property Name="Landmark" Type="nvarchar" MaxLength="100" />
+    <Property Name="Village" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar" MaxLength="250" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="State" Type="varchar" MaxLength="50" />
+    <Property Name="Country" Type="int" />
+    <Property Name="Pin" Type="varchar" MaxLength="25" />
+    <Property Name="ContactPerson" Type="varchar" MaxLength="50" />
+    <Property Name="ContactDesignation" Type="varchar" MaxLength="50" />
+    <Property Name="Phone1" Type="varchar" MaxLength="30" />
+    <Property Name="Phone2" Type="varchar" MaxLength="30" />
+    <Property Name="CellPhone" Type="varchar" MaxLength="30" />
+    <Property Name="Web" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="30" />
+    <Property Name="BankName" Type="varchar" MaxLength="50" />
+    <Property Name="BankAcNo" Type="varchar" MaxLength="30" />
+    <Property Name="BankBranch" Type="varchar" MaxLength="50" />
+    <Property Name="Note" Type="varchar" MaxLength="250" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="INV_MST_OthersTerms">
+    <Key>
+      <PropertyRef Name="TermID" />
+    </Key>
+    <Property Name="TermID" Type="int" Nullable="false" />
+    <Property Name="OthersTermDesc" Type="varchar" MaxLength="500" />
+    <Property Name="OthersTermCode" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="INV_MST_PaymentTerms">
+    <Key>
+      <PropertyRef Name="TermID" />
+    </Key>
+    <Property Name="TermID" Type="int" Nullable="false" />
+    <Property Name="PaymentTermDesc" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="PaymentTermCode" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" Nullable="false" />
+    <Property Name="InsertedON" Type="datetime" Nullable="false" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Deactive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="INV_MST_Supplier">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="200" />
+    <Property Name="City" Type="int" />
+    <Property Name="State" Type="int" />
+    <Property Name="Pin" Type="nvarchar" MaxLength="10" />
+    <Property Name="ContactPerson" Type="nvarchar" MaxLength="50" />
+    <Property Name="ContactDesignation" Type="nvarchar" MaxLength="50" />
+    <Property Name="GroupID" Type="int" />
+    <Property Name="CreditPeriod" Type="int" />
+    <Property Name="DateOfAssociation" Type="datetime" />
+    <Property Name="Fax" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phone1" Type="nvarchar" MaxLength="50" />
+    <Property Name="Phone2" Type="nvarchar" MaxLength="50" />
+    <Property Name="CellPhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="30" />
+    <Property Name="Web" Type="nvarchar" MaxLength="50" />
+    <Property Name="CST" Type="nvarchar" MaxLength="50" />
+    <Property Name="MST" Type="nvarchar" MaxLength="50" />
+    <Property Name="TDS" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExciseCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExportCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="LedgerID" Type="int" />
+    <Property Name="EligableForAdv" Type="bit" />
+    <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+    <Property Name="BankBranch" Type="nvarchar" MaxLength="50" />
+    <Property Name="BankAcNo" Type="nvarchar" MaxLength="30" />
+    <Property Name="MCIRNo" Type="nvarchar" MaxLength="30" />
+    <Property Name="Note" Type="nvarchar" MaxLength="100" />
+    <Property Name="Proposed" Type="char" MaxLength="10" />
+    <Property Name="IncomeTaxNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="SuppType" Type="varchar" MaxLength="50" />
+    <Property Name="Society" Type="nvarchar" MaxLength="100" />
+    <Property Name="landmark" Type="nvarchar" MaxLength="100" />
+    <Property Name="AccountId" Type="int" />
+    <Property Name="Village" Type="int" />
+    <Property Name="Paytermsid" Type="int" />
+    <Property Name="RTGSCODE" Type="nvarchar" MaxLength="50" />
+    <Property Name="SupplierCategory" Type="int" />
+    <Property Name="SupplierType" Type="int" />
+    <Property Name="Country" Type="int" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="INV_MST_Unit">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="10" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="INV_SM_INDENT">
+    <Key>
+      <PropertyRef Name="Indent_Id" />
+    </Key>
+    <Property Name="Indent_Id" Type="int" Nullable="false" />
+    <Property Name="Issue_Number" Type="varchar" MaxLength="50" />
+    <Property Name="Indent_User" Type="varchar" MaxLength="20" />
+    <Property Name="Indent_User_Area" Type="varchar" MaxLength="20" />
+    <Property Name="Indent_User_SubArea" Type="varchar" MaxLength="20" />
+    <Property Name="Indent_FromStore" Type="int" />
+    <Property Name="Indent_ToStore" Type="int" />
+    <Property Name="Indent_Type" Type="char" MaxLength="1" />
+    <Property Name="Indent_Date" Type="datetime" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" />
+    <Property Name="AuthorizedBy" Type="int" />
+    <Property Name="Authorized" Type="char" MaxLength="1" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="200" />
+    <Property Name="Cancelledby" Type="int" />
+    <Property Name="CancelledOn" Type="datetime" />
+    <Property Name="CancelReason" Type="int" />
+    <Property Name="Cancelled" Type="bit" />
+    <Property Name="LocationID" Type="int" />
+    <Property Name="PIStatus" Type="int" />
+    <Property Name="PIUpdatedBy" Type="int" />
+    <Property Name="PIUpdatedOn" Type="datetime" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="INV_SM_INDENT_DETAILS">
+    <Key>
+      <PropertyRef Name="IndentDetails_Id" />
+    </Key>
+    <Property Name="IndentDetails_Id" Type="int" Nullable="false" />
+    <Property Name="Indent_Id" Type="int" Nullable="false" />
+    <Property Name="Item_Id" Type="int" />
+    <Property Name="User_Quantity" Type="float" />
+    <Property Name="Authorised_Curr_Quantity" Type="float" />
+    <Property Name="Authorised_Quantity" Type="float" />
+    <Property Name="Item_Stock" Type="float" />
+    <Property Name="ItemAddedBy" Type="char" MaxLength="1" />
+    <Property Name="Authorised" Type="bit" />
+    <Property Name="PendingQty" Type="float" />
+    <Property Name="indCancelledby" Type="int" />
+    <Property Name="indCancelledOn" Type="datetime" />
+    <Property Name="indCancelReason" Type="int" />
+    <Property Name="indCancelled" Type="bit" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BISNowErp.dbo.INV_SM_TRANS_TYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="INV_SM_TRANS_TYPE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Code" Type="char" MaxLength="3" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="StockEffect" Type="char" MaxLength="1" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="INV_SM_USER_ISSUE">
+    <Key>
+      <PropertyRef Name="Issue_Id" />
+    </Key>
+    <Property Name="Issue_Id" Type="int" Nullable="false" />
+    <Property Name="Issue_Number" Type="varchar" MaxLength="50" />
+    <Property Name="StoreId" Type="int" />
+    <Property Name="Indent_Id" Type="int" />
+    <Property Name="IssuedBy" Type="int" />
+    <Property Name="Authorised" Type="char" MaxLength="1" />
+    <Property Name="AuthorisedBy" Type="int" />
+    <Property Name="AuthorisedDate" Type="datetime" />
+    <Property Name="IssueDate" Type="datetime" />
+    <Property Name="Notes" Type="varchar" MaxLength="4000" />
+    <Property Name="FromStoreId" Type="int" />
+    <Property Name="LocationID" Type="int" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="INV_SM_USER_ISSUE_DETAILS">
+    <Key>
+      <PropertyRef Name="IssueDetails_Id" />
+    </Key>
+    <Property Name="IssueDetails_Id" Type="int" Nullable="false" />
+    <Property Name="Issue_Id" Type="int" Nullable="false" />
+    <Property Name="Itemid" Type="int" />
+    <Property Name="Batchid" Type="int" />
+    <Property Name="IssuedQuantity" Type="float" />
+    <Property Name="AuthorisedQuantity" Type="float" />
+    <Property Name="Rate" Type="float" />
+    <Property Name="Status" Type="char" MaxLength="1" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedON" Type="datetime" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedByUserID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Authorised" Type="bit" />
+  </EntityType>
+  <EntityType Name="Store">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="StoreTypeID" Type="int" />
+    <Property Name="Code" Type="char" MaxLength="10" />
+    <Property Name="LocationID" Type="int" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'BISNowErp.dbo.storeitype_mapping' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="storeitype_mapping">
+          <Property Name="storeID" Type="int" />
+          <Property Name="ItypeID" Type="int" />
+          <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+          <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+          <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="InsertedBy" Type="int" />
+          <Property Name="InsertedON" Type="datetime" />
+          <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+          <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+          <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+          <Property Name="Deactive" Type="bit" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BISNowErp.dbo.storestock' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="storestock">
+    <Key>
+      <PropertyRef Name="ItemID" />
+      <PropertyRef Name="BatchID" />
+      <PropertyRef Name="StoreID" />
+      <PropertyRef Name="Qty" />
+    </Key>
+    <Property Name="ItemID" Type="int" Nullable="false" />
+    <Property Name="BatchID" Type="int" Nullable="false" />
+    <Property Name="StoreID" Type="int" Nullable="false" />
+    <Property Name="Qty" Type="float" Nullable="false" />
+    <Property Name="TransQty" Type="float" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BISNowErp.dbo.StoreType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="StoreType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Description" Type="char" MaxLength="10" />
+    <Property Name="UpdatedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="UpdatedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="InsertedBy" Type="int" />
+    <Property Name="InsertedON" Type="datetime" />
+    <Property Name="InsertedMacName" Type="nvarchar" MaxLength="100" />
+    <Property Name="InsertedMacID" Type="varchar" MaxLength="50" />
+    <Property Name="InsertedIPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Deactive" Type="bit" />
+  </EntityType>
+  <Association Name="FK_invitem_InvItemType">
+    <End Role="INV_MST_ItemType" Type="Self.INV_MST_ItemType" Multiplicity="0..1" />
+    <End Role="INV_MST_ITEM" Type="Self.INV_MST_ITEM" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="INV_MST_ItemType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="INV_MST_ITEM">
+        <PropertyRef Name="ItemTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_invitem_IVUnit">
+    <End Role="INV_MST_Unit" Type="Self.INV_MST_Unit" Multiplicity="0..1" />
+    <End Role="INV_MST_ITEM" Type="Self.INV_MST_ITEM" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="INV_MST_Unit">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="INV_MST_ITEM">
+        <PropertyRef Name="UnitID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BISERPDataLayerStoreContainer">
+    <EntitySet Name="INV_MST_DeliveryTerms" EntityType="Self.INV_MST_DeliveryTerms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_MST_ITEM" EntityType="Self.INV_MST_ITEM" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_MST_ItemType" EntityType="Self.INV_MST_ItemType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_MST_OthersTerms" EntityType="Self.INV_MST_OthersTerms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_MST_PaymentTerms" EntityType="Self.INV_MST_PaymentTerms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_MST_Supplier" EntityType="Self.INV_MST_Supplier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_MST_Unit" EntityType="Self.INV_MST_Unit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_SM_INDENT" EntityType="Self.INV_SM_INDENT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_SM_INDENT_DETAILS" EntityType="Self.INV_SM_INDENT_DETAILS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_SM_USER_ISSUE" EntityType="Self.INV_SM_USER_ISSUE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_SM_USER_ISSUE_DETAILS" EntityType="Self.INV_SM_USER_ISSUE_DETAILS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_MST_itempacksize" EntityType="Self.INV_MST_itempacksize" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [INV_MST_itempacksize].[ID] AS [ID], 
+    [INV_MST_itempacksize].[Code] AS [Code], 
+    [INV_MST_itempacksize].[Name] AS [Name], 
+    [INV_MST_itempacksize].[UpdatedMacName] AS [UpdatedMacName], 
+    [INV_MST_itempacksize].[UpdatedMacID] AS [UpdatedMacID], 
+    [INV_MST_itempacksize].[UpdatedIPAddress] AS [UpdatedIPAddress], 
+    [INV_MST_itempacksize].[UpdatedBy] AS [UpdatedBy], 
+    [INV_MST_itempacksize].[UpdatedOn] AS [UpdatedOn], 
+    [INV_MST_itempacksize].[InsertedBy] AS [InsertedBy], 
+    [INV_MST_itempacksize].[InsertedON] AS [InsertedON], 
+    [INV_MST_itempacksize].[InsertedMacName] AS [InsertedMacName], 
+    [INV_MST_itempacksize].[InsertedMacID] AS [InsertedMacID], 
+    [INV_MST_itempacksize].[InsertedIPAddress] AS [InsertedIPAddress], 
+    [INV_MST_itempacksize].[Deactive] AS [Deactive]
+    FROM [dbo].[INV_MST_itempacksize] AS [INV_MST_itempacksize]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="INV_MST_Manufacturer" EntityType="Self.INV_MST_Manufacturer" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [INV_MST_Manufacturer].[ID] AS [ID], 
+    [INV_MST_Manufacturer].[Code] AS [Code], 
+    [INV_MST_Manufacturer].[Name] AS [Name], 
+    [INV_MST_Manufacturer].[Society] AS [Society], 
+    [INV_MST_Manufacturer].[Landmark] AS [Landmark], 
+    [INV_MST_Manufacturer].[Village] AS [Village], 
+    [INV_MST_Manufacturer].[Address] AS [Address], 
+    [INV_MST_Manufacturer].[City] AS [City], 
+    [INV_MST_Manufacturer].[State] AS [State], 
+    [INV_MST_Manufacturer].[Country] AS [Country], 
+    [INV_MST_Manufacturer].[Pin] AS [Pin], 
+    [INV_MST_Manufacturer].[ContactPerson] AS [ContactPerson], 
+    [INV_MST_Manufacturer].[ContactDesignation] AS [ContactDesignation], 
+    [INV_MST_Manufacturer].[Phone1] AS [Phone1], 
+    [INV_MST_Manufacturer].[Phone2] AS [Phone2], 
+    [INV_MST_Manufacturer].[CellPhone] AS [CellPhone], 
+    [INV_MST_Manufacturer].[Web] AS [Web], 
+    [INV_MST_Manufacturer].[Email] AS [Email], 
+    [INV_MST_Manufacturer].[BankName] AS [BankName], 
+    [INV_MST_Manufacturer].[BankAcNo] AS [BankAcNo], 
+    [INV_MST_Manufacturer].[BankBranch] AS [BankBranch], 
+    [INV_MST_Manufacturer].[Note] AS [Note], 
+    [INV_MST_Manufacturer].[UpdatedMacName] AS [UpdatedMacName], 
+    [INV_MST_Manufacturer].[UpdatedMacID] AS [UpdatedMacID], 
+    [INV_MST_Manufacturer].[UpdatedIPAddress] AS [UpdatedIPAddress], 
+    [INV_MST_Manufacturer].[UpdatedBy] AS [UpdatedBy], 
+    [INV_MST_Manufacturer].[UpdatedOn] AS [UpdatedOn], 
+    [INV_MST_Manufacturer].[InsertedBy] AS [InsertedBy], 
+    [INV_MST_Manufacturer].[InsertedON] AS [InsertedON], 
+    [INV_MST_Manufacturer].[InsertedMacName] AS [InsertedMacName], 
+    [INV_MST_Manufacturer].[InsertedMacID] AS [InsertedMacID], 
+    [INV_MST_Manufacturer].[InsertedIPAddress] AS [InsertedIPAddress], 
+    [INV_MST_Manufacturer].[Deactive] AS [Deactive]
+    FROM [dbo].[INV_MST_Manufacturer] AS [INV_MST_Manufacturer]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="INV_SM_TRANS_TYPE" EntityType="Self.INV_SM_TRANS_TYPE" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [INV_SM_TRANS_TYPE].[ID] AS [ID], 
+    [INV_SM_TRANS_TYPE].[Code] AS [Code], 
+    [INV_SM_TRANS_TYPE].[Description] AS [Description], 
+    [INV_SM_TRANS_TYPE].[StockEffect] AS [StockEffect], 
+    [INV_SM_TRANS_TYPE].[UpdatedMacName] AS [UpdatedMacName], 
+    [INV_SM_TRANS_TYPE].[UpdatedMacID] AS [UpdatedMacID], 
+    [INV_SM_TRANS_TYPE].[UpdatedIPAddress] AS [UpdatedIPAddress], 
+    [INV_SM_TRANS_TYPE].[UpdatedBy] AS [UpdatedBy], 
+    [INV_SM_TRANS_TYPE].[UpdatedOn] AS [UpdatedOn], 
+    [INV_SM_TRANS_TYPE].[InsertedBy] AS [InsertedBy], 
+    [INV_SM_TRANS_TYPE].[InsertedON] AS [InsertedON], 
+    [INV_SM_TRANS_TYPE].[InsertedMacName] AS [InsertedMacName], 
+    [INV_SM_TRANS_TYPE].[InsertedMacID] AS [InsertedMacID], 
+    [INV_SM_TRANS_TYPE].[InsertedIPAddress] AS [InsertedIPAddress], 
+    [INV_SM_TRANS_TYPE].[Deactive] AS [Deactive]
+    FROM [dbo].[INV_SM_TRANS_TYPE] AS [INV_SM_TRANS_TYPE]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="storestock" EntityType="Self.storestock" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [storestock].[ItemID] AS [ItemID], 
+    [storestock].[BatchID] AS [BatchID], 
+    [storestock].[StoreID] AS [StoreID], 
+    [storestock].[Qty] AS [Qty], 
+    [storestock].[TransQty] AS [TransQty], 
+    [storestock].[UpdatedMacName] AS [UpdatedMacName], 
+    [storestock].[UpdatedMacID] AS [UpdatedMacID], 
+    [storestock].[UpdatedIPAddress] AS [UpdatedIPAddress], 
+    [storestock].[UpdatedBy] AS [UpdatedBy], 
+    [storestock].[UpdatedOn] AS [UpdatedOn], 
+    [storestock].[InsertedBy] AS [InsertedBy], 
+    [storestock].[InsertedON] AS [InsertedON], 
+    [storestock].[InsertedMacName] AS [InsertedMacName], 
+    [storestock].[InsertedMacID] AS [InsertedMacID], 
+    [storestock].[InsertedIPAddress] AS [InsertedIPAddress], 
+    [storestock].[Deactive] AS [Deactive]
+    FROM [dbo].[storestock] AS [storestock]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="StoreType" EntityType="Self.StoreType" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [StoreType].[ID] AS [ID], 
+    [StoreType].[Description] AS [Description], 
+    [StoreType].[UpdatedMacName] AS [UpdatedMacName], 
+    [StoreType].[UpdatedMacID] AS [UpdatedMacID], 
+    [StoreType].[UpdatedIPAddress] AS [UpdatedIPAddress], 
+    [StoreType].[UpdatedBy] AS [UpdatedBy], 
+    [StoreType].[UpdatedOn] AS [UpdatedOn], 
+    [StoreType].[InsertedBy] AS [InsertedBy], 
+    [StoreType].[InsertedON] AS [InsertedON], 
+    [StoreType].[InsertedMacName] AS [InsertedMacName], 
+    [StoreType].[InsertedMacID] AS [InsertedMacID], 
+    [StoreType].[InsertedIPAddress] AS [InsertedIPAddress], 
+    [StoreType].[Deactive] AS [Deactive]
+    FROM [dbo].[StoreType] AS [StoreType]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_invitem_InvItemType" Association="Self.FK_invitem_InvItemType">
+      <End Role="INV_MST_ItemType" EntitySet="INV_MST_ItemType" />
+      <End Role="INV_MST_ITEM" EntitySet="INV_MST_ITEM" />
+    </AssociationSet>
+    <AssociationSet Name="FK_invitem_IVUnit" Association="Self.FK_invitem_IVUnit">
+      <End Role="INV_MST_Unit" EntitySet="INV_MST_Unit" />
+      <End Role="INV_MST_ITEM" EntitySet="INV_MST_ITEM" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

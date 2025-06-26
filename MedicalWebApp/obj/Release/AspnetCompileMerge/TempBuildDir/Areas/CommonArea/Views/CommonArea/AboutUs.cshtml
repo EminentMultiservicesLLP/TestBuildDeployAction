@@ -1,0 +1,142 @@
+﻿
+<html >
+<head>
+    <style>
+        .progress-text {
+            margin-bottom: 5px;
+            font-family: "nexa_500", Tahoma, Geneva, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            word-spacing: 2px;
+        }
+
+        .progress-striped .bar {
+            background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+            background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            -webkit-background-size: 40px 40px;
+            -moz-background-size: 40px 40px;
+            -o-background-size: 40px 40px;
+            background-size: 40px 40px;
+        }
+
+        .progress-con {
+            position: relative;
+        }
+
+            .progress-con p {
+                text-transform: uppercase;
+                line-height: 32px;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                padding: 0 10px;
+                color: white;
+                text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+            }
+         .progress {
+             height: 30px;
+             background-color: #ccc;
+             background-image: none;
+             margin-bottom: 20px;
+         }
+            .progress .bar.theme {
+                text-transform: uppercase;
+                line-height: 30px;
+            }
+        .borderLine {
+            background: transparent url(~/Content/images/sep-double-line.png) repeat-x left center;
+            /*outline: 1px dashed lime;*/
+            line-height: 1;
+            margin-bottom: 30px;
+        }
+        .mainContent {
+            width: 940px;
+            padding: 50px 0 80px 0;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: "nexa_500", Tahoma, Geneva, sans-serif;
+            font-size: 13px;
+            letter-spacing: 1px;
+            word-spacing: 1.5px;
+        }
+        .w3-border {
+            border: 1px solid #ccc !important;
+        }
+    </style>
+    <script src="~/Areas/CommonArea/js/modernizr.custom.js"></script>
+</head>
+<body >
+    <section style="background-image: url(~/Content/images/body-bg.png);">
+        <div class="row mainContent">
+            <div class="col-sm-8" >
+                <h2 class="borderLine" style="text-transform: uppercase;"><span class="bg">About Our Company</span></h2>
+                <p><b>Jambo Medical Services</b> - as one of the leading and fastest software development company from India. We are having the expert professionals for software development; Desktop application, custom business software, Web designing, Web development, Mobile Applications Development.</p>
+                <p>We are sensitive to the client's need for secure software solutions and protection of their intellectual property. That is why we take every measure necessary to guarantee the client's protection from a potential compromise that could risk the client's reputation in the market. Eminent Multiservices best defined by its people, focussed, energetic and best of the class.</p>
+                <p>Let us use our IT, business-process and strategic consulting to help you transform your business, with minimal risk and disruption. Give your organization greater flexibility, higher efficiency and lower costs. Position your business to thrive now and in the future.</p>
+                <p>Distinctively target long-term high-impact e-business after extensible technologies. Collaboratively envisioneer cooperative sources via standards compliant applications. Dynamically foster excellent systems and backward-compatible relationships.</p>
+            </div>
+
+            <div class="col-sm-4">
+                <h2 style="text-transform: uppercase;"><span class="bg">Our Skills</span></h2>
+                <p class="progress-text">
+                    Custom Software (90%)
+                    <br><strong>Expertise in</strong>
+                </p>
+                <ul type="bullet">
+                    <li>Enterprise Resource Planning (ERP)</li>
+                    <li>Hospital Management</li>
+                    <li>Student Exam Paper Management</li>
+                </ul>
+                <p></p>
+                <div class="progress-con">
+                    <div class="progress">
+                        <div class="theme" style="width: 90%;"></div>
+                    </div>
+                </div>
+
+                <p class="">
+                    Web + Graphics Design (90%)<br>ASPX / HTML / HTML 5 / CSS 3
+                </p>
+                <div class="progress-con">
+                    <div class="progress">
+                        <div class="theme" style="width: 90%;"></div>
+                    </div>
+                </div>
+
+                <p class="">
+                    Hardware and Networking (70%) <br>Maintenance, Repairing, Office Setup
+                </p>
+                <div class="progress-con">
+                    <div class="progress">
+                        <div class="theme" style="width: 70%;"></div>
+                    </div>
+                </div>
+
+                <p class="">
+                    Support and Maintenance Services (80%)<br>Service Level Agreements based support services, Upgrades and Patches
+                </p>
+                <div class="progress-con">
+                    <div class="progress">
+                        <div class="theme" style="width: 80%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="sep">
+        &nbsp;
+    </div>
+    <div class="copyright center row-fluid">
+        <div class="span6">
+            © 2013 <a href="http://www.eminentmultiservices.com">EminentMultiServices.com</a>,
+            All Rights Reservered.
+        </div>
+
+    </div>
+</body>
+</html>

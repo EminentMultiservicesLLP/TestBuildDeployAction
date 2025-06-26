@@ -1,0 +1,146 @@
+﻿
+@model CGHSBilling.Areas.CommonArea.Models.RoomEntitlement
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="panel-group" id="EntryForm">
+            <div class="panel panel-default">
+                <div class="panel-body entryAreabackgroundCSSforinsideElement">
+                    <div class="row">
+                        <div class="col-sm-3" @*style="display:none"*@>
+                            @Html.Label("Organization Type")
+                            @Html.DropDownList("ddlBilltype", new SelectList(string.Empty, "Value", "Text"), "-- Select Bill --", new { @class = " form-control" })
+                        </div>
+
+                        <div class="col-sm-3">
+                            @Html.Label(" Retirement Year")
+                            @Html.DropDownList("ddlYear", new SelectList(string.Empty, "Value", "Text"), "-- Select Year --", new { @class = " form-control" })
+                        </div>
+
+                        <div class="col-sm-3">
+                            @Html.Label("Enter Last Salary Drawn")
+                            @Html.TextBoxFor(m => m.LastSalaryDrawn, new { @class = "form-control " , onkeypress = "return validatenumerics(event);" })
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <br />
+                            <button type="button" class="btn btn-success" id="btnShow">Show</button>
+                            <button type="button" class="btn btn-success" id="btnClear">Reset</button>
+                        </div>
+
+                        <div class="col-sm-3">
+                            @Html.Label("Room Entitlement")
+                            @Html.TextBoxFor(m => m.RoomType, new { @class = "form-control " })
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+
+
+    <script type="text/javascript">
+        $("#RoomType").prop('disabled', true);
+        LoadBillDropDownData();
+        
+
+
+        $('#ddlBilltype').change(function () {
+            var yeartosent = 0;            
+            var currentyear = getCurrentYear();
+            
+            if ($('#ddlBilltype').val() == 0) clearForm();
+            else {
+                if ($('#ddlBilltype').val() == 1) yeartosent = (currentyear - 1996) + 1;
+                if ($('#ddlBilltype').val() == 2) yeartosent = (currentyear - 1997) + 1;
+                LoadYearData(currentyear, yeartosent)
+            }
+        })
+
+  
+
+        $("#btnShow").click(function () {
+
+          
+            if (!showAlertOnBlank($("#ddlBilltype"), "Please select Bill Type")) { $("#ddlBilltype").focus(); return; }
+            if (!showAlertOnBlank($("#ddlYear"), "Please select Year of Retirement")) { $("#ddlYear").focus(); return; }
+            if (!showAlertOnBlank($("#LastSalaryDrawn"), "Please enter Last Drawn Salary")) { $("#LastSalaryDrawn").focus(); return; }
+
+            var details = {
+                BillType: $('#ddlBilltype').val(),
+                YearOfRetirement: $('#ddlYear').val(),
+                LastSalaryDrawn:$("#LastSalaryDrawn").val()
+            }
+
+            getRoomType(details);
+
+        });
+
+        $("#btnClear").click(function () {
+            clearForm();
+        })
+        
+        function getRoomType(details) {                   
+            $.ajax({
+                type: "GET",
+                url: "/RoomEntitlement/GetRoomType",               
+                datatype: "Json",
+                data: details,
+                success: function (data) {
+                    $("#RoomType").val(data[0].RoomType);
+                }
+            });
+        }
+
+        function clearForm() {
+            $("#ddlBilltype").val("");
+            $('#ddlYear').html("");
+            $('#ddlYear').append('<option value="' + 0 + '">' + '-- Select Year --'  + '</option>');
+            $("#LastSalaryDrawn").val("");
+            $("#RoomType").val("");
+        }
+
+        function LoadBillDropDownData() {
+            $('#ddlBilltype').append('<option value="' + 1 + '">' + 'CDA' + '</option>');
+            $('#ddlBilltype').append('<option value="' + 2 + '">' + 'IDA' + '</option>');
+        }
+
+        function LoadYearData(CurrentYear, yearstobeSet) {
+            $('#ddlYear').html("");
+            var date = CurrentYear - yearstobeSet; /*change the 'yearstobeSet' to the number of years in the past you want to show */
+            var future = CurrentYear; //+ 100; /*change the '100' to the number of years in the future you want to show */
+
+            do {
+                date++;
+                $('#ddlYear').append('<option value="' + date + '">' + date + '</option>');
+            }
+            while (date < future)
+        }
+
+        function validatenumerics(key) {
+            var keycode = (key.which) ? key.which : key.keyCode;
+            if (keycode > 31 && (keycode < 48 || keycode > 57)) {
+                return false;
+            }
+            else return true;
+        }
+
+
+        function getCurrentYear() {
+            var time = new Date();
+            var year = time.getYear();
+            if (year < 1900) {
+                year = year + 1900;
+            }
+            return year;
+        }
+
+    </script>
+
+}
