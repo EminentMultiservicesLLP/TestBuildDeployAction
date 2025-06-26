@@ -1,0 +1,66 @@
+﻿<h2>Payment</h2>
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="panel-body entryAreabackgroundCSSforinsideElement">
+            <div>
+                <div class="row col-sm-1">
+                    <H2>Payment by Paytm</H2>
+                </div>
+                <div class="row col-sm-2">
+                    <input type="number" class="form-control" id="billAmount" value="0" style="font-weight:bold;font-size:large; height:auto;" />
+                </div>
+                <div class="col-sm-6">
+                    <button id="btnMakePayment" type="button" class="btn btn-primary btnBigFont12">Make Payment</button>
+                    <button id="btnCancel" type="button" class="btn btn-success btnBigFont12">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <div title="Payment..." id="PaymentPoPupModal" style="display: none;" class="popupGridClass">
+        <div id="PaymentPoPup" style="margin-top:5px;width:100%;"></div>
+    </div>
+}
+<script type="text/javascript">
+    $('#btnMakePayment').on('click', function()
+    {
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            url: "/Payment/Payment",
+            data: { amount: $("#billAmount").val() },
+            success: function (response) {
+                debugger;
+                //ShowAlert("success", "Payment sucessful, it will be updated in next 24hrs in your account.");
+                $("#PaymentPoPupModal").dialog({
+                    height: 450,
+                    width: 620,
+                    modal: true,
+                    open: function (evt, ui) {
+                        alert(response.response);
+                        debugger;
+                        $('#PaymentPoPup').html(response.response);
+                    }
+                });
+            },
+            error: function (a, b, response) {
+                ShowAlert("error", "Failed to get make payment, Please contact IT team. Error " + response  + "--" + a + "--" + b);
+            }
+            
+
+        });
+
+
+
+        
+    });
+
+ 
+</script>
+

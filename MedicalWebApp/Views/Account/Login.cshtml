@@ -1,0 +1,710 @@
+﻿
+<!DOCTYPE html>
+@model CGHSBilling.Models.LoginModel
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Jambo Medical Services-Login</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/Content/login.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+    <style type="text/css">
+        /*author:leamug*/
+        /*reference site : leamug.com*/
+        body {
+            background-image: url('/Images/background.jpg');
+            background-position: center;
+            background-size: auto;
+            background-repeat: no-repeat;
+            -webkit-font-smoothing: antialiased;
+            font: normal 14px Roboto,arial,sans-serif;
+            font-family: 'Dancing Script', cursive !important;
+        }
+
+        .container {
+            padding: 0px;
+        }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #ffffff !important;
+            opacity: 1; /* Firefox */
+            font-size: 18px !important;
+        }
+
+        .form-login {
+            background-color: rgba(0,0,0,0.55);
+            padding-top: 10px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 15px;
+            border-color: #d2d2d2;
+            border-width: 5px;
+            color: white;
+            box-shadow: 0 1px 0 #cfcfcf;
+        }
+        /*
+        .form-control {
+            background: transparent !important;
+            color: white !important;
+            font-size: 14px !important;
+        }*/
+
+        h1 {
+            color: white !important;
+        }
+
+        h4 {
+            border: 0 solid #fff;
+            border-bottom-width: 1px;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .text-white {
+            color: white !important;
+        }
+
+        .wrapper {
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 18px;
+            height: 30px;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+
+        .square_btn {
+            display: inline-block;
+            padding: 0.5em 1em;
+            text-decoration: none;
+            background: #E2E0B4;
+            border-left: solid 6px #ff7c5c;
+            color: #FF6D5C;
+            font-weight: bold;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+        }
+
+            .square_btn:active {
+                box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
+                transform: translateY(2px);
+            }
+    </style>
+</head>
+<body>
+
+    <div style="vertical-align:top; padding:5px;float:right">
+        <div align="right">
+            <a id="modal_trigger" href="#" class="square_btn" onclick="ToggleModelWindow();">Click to Login/Sign up free</a>
+        </div>
+    </div>
+    @*<div style="vertical-align:top; padding:5px; float:left">
+            <div align="left">
+                <a id="modal_trigger" href="#" class="square_btn" onclick="TogglenewModelWindow();">Sign Up & Payment</a>
+            </div>
+        </div>*@
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+        @Html.ValidationSummary(true);
+
+        <div style="margin-top:0">
+            <div id="loginmodal" class="container" style="display:none; max-width:450px;">
+                <div class="modal-dialog" role="document" style="width:auto;  ">
+                    <div class="modal-content" style="background-color:#7FCEB6;">
+                        <div class="modal-header" style="border-color:#FA8072;">
+                            <h4 class="modal-title" id="myModalLabel" style="border-bottom-width: 0px;">
+                                Jambo Medical services Welcome you
+                                <br /> Please login / Contact us / Generate Enquiry
+                            </h4>
+
+                            <button type="button" data-dismiss="modal" class="close" align="right" style="margin-top:-60px;font-weight:bold;" onclick="ToggleModelWindow();return false;">x</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12" style="border-right: 1px dotted #C2C2C2;padding: 10px;">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-pills" style="font-weight:bold;">
+                                        <li class="tablinks active" onclick="openAnotherTab(event, 'Login')"><a href="#Login">Login</a></li>
+                                        <li class="tablinks" onclick="openAnotherTab(event, 'ContactUs')"><a href="#ContactUs">Contact us</a></li>
+                                        <li class="tablinks" onclick="openAnotherTab(event, 'Enquiry')"><a href="#Enquiry">Enquiry</a></li>
+                                        <li class="tablinks" onclick="openAnotherTab(event,'AccountDetails')"><a href="#AccountDetails">Payment</a></li>
+                                        @*<li class="tablinks" onclick="openAnotherTab(event, 'SignUp')"><a href="#AccountDetails">Sign Up</a></li>*@
+
+                                    </ul>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content" style="border:1px solid white; border-radius:10px;padding:10px">
+                                        <div class="tab-pane active form-horizontal" id="Login">
+                                            @using (Ajax.BeginForm("Login", "Account", new AjaxOptions() { UpdateTargetId = "loginAlert" }, new { @class = "form-horizontal" }))
+                                            {
+                                                <h4>Secure Login</h4>
+                                                <div class="form-group">
+                                                    <label for="Username" class="col-sm-4 control-label" style="text-align:left;">
+                                                        User Name
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        @Html.TextBoxFor(m => m.Username, new { placeholder = "username or email", @class = "form-control input-sm chat-input" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email" class="col-sm-4 control-label" style="text-align:left;">
+                                                        Password
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        @Html.PasswordFor(m => m.Password, new { placeholder = "password", @class = "form-control input-sm chat-input" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email" class="col-sm-4 control-label" style="text-align:left;">
+                                                        Login For
+                                                    </label>
+                                                    <div class="col-sm-7">
+                                                        @Html.DropDownListFor(m => m.LoginFor, new SelectList(new List<Object>{
+                                                                                                       new { value = 0 , text = "Mumbai"  },
+                                                                                                       new { value = 1 , text = "Other then Mumbai" }}, "Value", "Text"), new { @class = "form-control input-sm chat-input" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div id="loginAlert"></div>
+                                                    <div class="col-sm-3">
+                                                    </div>
+                                                    <div class="column col-sm-8 col-md-5">@Html.CheckBoxFor(m => m.RememberMe) Remember Me</div>
+                                                    <div class="column controls col-sm-3 col-md-3" align="right">
+                                                        <input type="submit" value="Login" class="btn btn-primary btn-md">
+                                                    </div>
+                                                </div><br />
+                                                <div id="ViewBageDiv" style="color :red">
+                                                    @ViewBag.LoginFailedMsg
+                                                </div>
+                                                @*<p style="color :red">
+                                                        @ViewBag.LoginFailedMsg
+                                                    </p>*@
+
+                                                <div class="form-group">
+                                                    <div class="control">
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                    </div>
+                                                    <div class="column col-sm-8 col-md-5"></div>
+                                                    <div class="column controls col-sm-3 col-md-3" align="right">
+                                                        <input type="button" value="ForgotPassword" onclick="SendMail();" class="btn btn-primary btn-md">
+                                                        @*@Html.HiddenFor(m => m.UserID)*@
+                                                    </div>
+                                                </div>
+                                            }
+
+
+                                        </div>
+                                        <div class="tab-pane" id="ContactUs">
+                                            <h4>Quick Contact</h4>
+                                            <div class="form-group row">
+
+                                                <label for="HospitalName" class="col-sm-4 control-label" style="text-align:left;">
+                                                    <b>Ashish Singh</b>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i><b> +91 98927 05571 </b>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="tab-pane" id="Enquiry">
+                                            <h4>Your Information for Enquiry</h4>
+                                            <div class="form-group row">
+                                                <label for="email" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Name
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <select class="form-control" id="ContactTitle">
+                                                                <option>Mr.</option>
+                                                                <option>Ms.</option>
+                                                                <option>Mrs.</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control " id="ContactName" placeholder="Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="HospitalName" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Hospital Name
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control input-sm chat-input" id="HospitalName" placeholder="Hospital Name" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="email" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Email
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="email" class="form-control input-sm chat-input" id="email" placeholder="Email address" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="mobile" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Mobile
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    +91<input type="number" class="form-control input-sm chat-input" id="mobile" placeholder="Mobile number" maxlength="10" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="message" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Message
+                                                </label>
+                                                <div class="col-sm-8" rows="4">
+                                                    <textarea class="form-control input-sm chat-input" id="message" placeholder="Message"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <button type="button" onclick="EnquiryGenerate();" class="btn btn-primary btn-sm">
+                                                        Save & Continue
+                                                    </button>
+                                                    <button type="button" onclick="ClearEnquiry();" class="btn btn-default btn-sm" align="right">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="AccountDetails" class="tab-pane">
+                                            <h5 style="text-align:center"><b>Account Information</b></h5>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i><b>For Check & Direct Transfer</b>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    Account Name :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i><b>JAMBO MEDICAL SERVICES LLP.</b>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    Account Type :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i>Current
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    Account No :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i><b>10060598094</b>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    Ifsc Code :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i>IDFB0040111
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    Bank :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i>IDFC FIRST
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    Branch :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i>BORIVALI
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    City :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i>MUMBAI
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    GSTIN :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i>NA
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    PAN No. :
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <i class="fa fa-mobile" aria-hidden="true"></i>AAOFJ8158L
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group row">
+                                                    <label class="col-sm-12 control-label">
+                                                        <font color="red"><b>Note*  </b> </font>
+                                                    </label>
+                                                    <label class="col-sm-12 control-label">
+                                                        While transferring the amount in above mentioned account,put hospital name in Remarks. After successfull transfer SMS/whatsapp the transaction number / hospital name to 9892705571
+                                                    </label>
+
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-12">
+                                                        <a href="https://rzp.io/l/SSm9MRQ" class="btn btn-primary btn-sm">Make payment through gateway</a>
+                                                        <i class="fa fa-mobile" aria-hidden="true"></i><b>(2% Extra through gateway )</b>
+                                                    </div>
+                                                </div>*@
+                                        </div>
+                                        <div class="tab-pane" id="SignUp">
+                                            <h4>Sign Up</h4>
+                                            <div class="form-group row">
+                                                <label for="email" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Name
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <select class="form-control" id="SignUpContactTitle">
+                                                                <option>Mr.</option>
+                                                                <option>Ms.</option>
+                                                                <option>Mrs.</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control " id="SignUpContactName" placeholder="Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="HospitalName" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Hospital Name
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control input-sm chat-input" id="SignUpHospitalName" placeholder="Hospital Name" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="email" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Email
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="email" class="form-control input-sm chat-input" id="SignUpemail" placeholder="Email address" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="mobile" class="col-sm-4 control-label" style="text-align:left;">
+                                                    Mobile
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    +91<input class="form-control input-sm chat-input" id="SignUpmobile" placeholder="Mobile number" maxlength="10" onkeypress="return validatenumerics(event);" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 control-label" style="text-align:left;">
+                                                    Sign Up for
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    @Html.DropDownList("ddlLoginFor", new SelectList(new List<Object>{
+                                                                                                   new { value = 0 , text = "Mumbai"  },
+                                                                                                   new { value = 1 , text = "Other then Mumbai" }}, "Value", "Text"), new { @class = " form-control" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-4">
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <button type="submit" onclick="return GenerateSignUp();" class="btn btn-primary btn-sm">
+                                                        Sign Up
+                                                    </button>
+                                                    <button type="button" onclick="ClearSignUp();" class="btn btn-default btn-sm" align="right">
+                                                        Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    }
+    <!--footer-->
+    <div class="footer text-white text-center" style="margin-bottom:0">
+        <font color="red"> <p>© 2019 Login Form. All rights reserved | Design by <a href="http://eminentmultiservices.com" rel="dofollow"> </font> <font color="red"> Jambo Medical Services</font></a></p>
+    </div>
+    <!--//footer-->
+
+</body>
+</html>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/common.js"></script>
+<script type="text/javascript">
+
+if ("@ViewBag.LoginFailedMsg" != "") {
+    ToggleModelWindow();
+}
+
+function ToggleModelWindow() {
+    debugger;
+    var x = document.getElementById("loginmodal");
+
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
+
+
+function openAnotherTab(evt, tabName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tab-pane");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    // Get all elements with class="tablinks" and remove the class "active"
+    debugger;
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+
+}
+$(".input").focusin(function () {
+    $(this).find("span").animate({ "opacity": "0" }, 200);
+});
+
+$(".input").focusout(function () {
+    $(this).find("span").animate({ "opacity": "1" }, 300);
+});
+
+function EnquiryGenerate() {
+    const enquiryDetails = {
+        Name: $("#ContactName").val().trim(),
+        Title: $("#ContactTitle").val().trim(),
+        HospitalName: $("#HospitalName").val().trim(),
+        Email: $("#email").val().trim(),
+        Mobile: $("#mobile").val().trim(),
+        Message: $("#message").val().trim()
+    };
+
+    // Basic validation
+    if (!enquiryDetails.Name || !enquiryDetails.Email || !enquiryDetails.Mobile || !enquiryDetails.HospitalName) {
+        alert("Please fill in the required fields: Name, HospitalName, Email and Mobile.");
+        return false;
+    }
+
+    $.ajax({
+        url: "/Account/Enquiry",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(enquiryDetails),
+        success: function (response) {
+            if (response.success) {
+                alert("Thank you, your enquiry has been generated successfully. Our team will contact you within 48 hours.");
+            } else {
+                alert("Failed to send enquiry. Please try again.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", status, error);
+            alert("An error occurred while sending the enquiry. Please try again.");
+        }
+    });
+}
+
+function ClearEnquiry() {
+    $("#ContactName").val('');
+    $("#HospitalName").val('');
+    $("#email").val('');
+    $("#mobile").val('');
+    $("#message").val('');
+}
+
+function ClearSignUp() {
+    $("#SignUpContactName").val('');
+    $("#SignUpHospitalName").val('');
+    $("#SignUpemail").val('');
+    $("#SignUpmobile").val('');
+
+}
+
+
+
+
+
+function EnquiryFaied(response) {
+    alert("Error occured.");
+    return false;
+}
+
+
+
+
+function GenerateSignUp() {
+
+    if ($("#SignUpContactName").val() !== undefined && jQuery.trim($("#SignUpContactName").val()).length === 0) {
+        alert("Please Enter Contact Name");
+        return;
+    }
+
+    if ($("#SignUpHospitalName").val() !== undefined && jQuery.trim($("#SignUpHospitalName").val()).length === 0) {
+        alert("Please Enter Hospital Name");
+        return;
+    }
+    if (SignUpmobile.value.length < 10 || SignUpmobile.value.length > 10) {
+        alert("Mobile No. is not valid, Please Enter 10 Digit Mobile No.");
+        return false;
+    };
+
+
+    if (mailformat.test($("#SignUpemail").val()) == false) {
+        alert("Kindly Enter valid email and then Try again");
+        return;
+    }
+
+
+    var SignUpDetails = {
+        SignUpContactName: $("#SignUpContactName").val(),
+        SignUpHospitalName: $("#SignUpHospitalName").val(),
+        SignUpemail: $("#SignUpemail").val(),
+        SignUpmobile: $("#SignUpmobile").val(),
+        SignUpContactTitle: $("#SignUpContactTitle").val(),
+        LoginFor: $("#ddlLoginFor").val()
+    };
+
+
+
+    $.ajax({
+        data: JSON.stringify(SignUpDetails),
+        url: "/Account/SaveSignUpDetails",
+        type: "POST",
+        contentType: 'application/json; charset=utf-8',
+        success: function (msg) {
+
+            if (msg.success) {
+                alert(msg.message);
+                ClearSignUp();
+            }
+            else {
+                alert(msg.message);
+
+            }
+
+        },
+
+    });
+    debugger;
+    return false;
+}
+
+
+
+
+
+function SendMail() {
+    debugger;
+    var details = {
+
+        UserName: $("#Username").val(),
+        Password: $("#Password").val(),
+        EmailID: $("#EmailID").val(),
+        LoginFor: $("#ddlLoginFor").val()
+    };
+
+    $.ajax({
+        url: "/ForgotPassword/UpdatePassword",
+        cache: false,
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(details),
+        success: function (msg) {
+            debugger;
+            if (msg.success) {
+                alert(msg.Message);
+            }
+            else {
+                alert(msg.Message);
+            }
+        },
+        error: function (a, exception, b) {
+
+        }
+    });
+
+}
+
+
+/******************************MobileNo Validation*********************************/
+
+function validatenumerics(key) {
+    //getting key code of pressed key
+    var keycode = (key.which) ? key.which : key.keyCode;
+    //comparing pressed keycodes
+
+    if (keycode > 31 && (keycode < 48 || keycode > 57)) {
+        //alert(" You can enter only characters 0 to 9 ");
+        return false;
+    }
+    else return true;
+}
+
+</script>
+
+

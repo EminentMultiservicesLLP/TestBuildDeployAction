@@ -1,0 +1,239 @@
+﻿
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="panel-group" id="EntryForm">
+            <div class="panel panel-default">
+                <div class="panel-body entryAreabackgroundCSSforinsideElement">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.Label("Service", new { @class = "required " })
+                                    <input id="autocomplete_Service" name="autocomplete_Service" type="text" class="form-control" placeholder="Search by CghsCode / Service" />
+                                    @Html.Hidden("ServiceId")
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <br />
+                                    <button type="button" class="btn btn-primary" id="btnShow">Show</button>
+                                    <button type="button" class="btn btn-warning" id="btnClear">Reset</button>
+                                    <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="padding-right: 20px;">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="NABHRate">NABH Rate</label>
+                                    <input type="number" id="NABHRate" class="form-control" placeholder="NABH Rate" style="font-weight: bold; font-size: large; border: black 1px solid;">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="NonNABHRate">Non-NABH Rate</label>
+                                    <input type="number" id="NonNABHRate" class="form-control" placeholder="Non-NABH Rate" style="font-weight: bold; font-size: large; border: black 1px solid;">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <br />
+                                    <button type="button" class="btn btn-primary" id="btnApplyRates">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="UpdateRateGrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+}
+<script type="text/javascript">
+
+    function loadServiceAutocomplete() {
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            url: "/ServiceMaster/GetAllServiceMaster",
+            success: function (response) {
+                var services = [];
+                if (response.length > 0) {
+                    for (var i = 0; i < response.length; i++) {
+                        var cghsCode = response[i].CghsCode;
+                        var serviceName = response[i].ServiceName;
+                        services.push({ label: cghsCode + " / " + serviceName, value: serviceName, ServiceId: response[i].ServiceId });
+                    }
+                }
+
+                $('#autocomplete_Service').autocomplete({
+                    source: services,
+                    messages: {
+                        noResults: '',
+                        results: function () { }
+                    },
+                    minLength: 0,  // Show suggestions as soon as user starts typing
+                    scroll: true,
+                    html: true,
+                    select: function (event, ui) {
+                        event.preventDefault();
+                        if (ui.item !== null) {
+                            $(event.target).val(ui.item.label);  // Display the selected service name
+                            $("#ServiceId").val(ui.item.ServiceId);  // Store the ServiceId in a hidden field
+                        } else {
+                            $("#ServiceId").val("");  // Clear the ServiceId if no selection is made
+                        }
+                    },
+                    change: function (event, ui) {
+                        if (!ui.item) {
+                            $("#ServiceId").val("");  // Clear the ServiceId if the input doesn't match any service
+                        }
+                    }
+                });
+            }
+        });
+    }
+    loadServiceAutocomplete();
+
+    var dataRateGrid = { location: "local" };
+    var colRateGrid = [
+        {
+            dataIndx: "State", minWidth: 25, maxWidth: 25, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', sortable: false,
+            editor: false, dataType: 'bool',
+            title: "<input type='checkbox' />",
+            cb: { select: true, all: true, header: true }
+        },
+        { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "TariffDtlId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "TariffMasterId", dataType: "integer", hidden: true },
+        { title: "City", dataIndx: "CityName", width: 100, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, editable: false },
+        { title: "Cghs Code", dataIndx: "CghsCode", width: 100, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, editable: false },
+        { title: "Service Type", dataIndx: "ServiceType", width: 100, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, editable: false },
+        { title: "Service Name", dataIndx: "ServiceName", width: 100, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, editable: false },
+        { title: "Room Type", dataIndx: "RoomType", width: 100, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, editable: false },
+        { title: "Patient Type", dataIndx: "PatientType", width: 100, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] }, editable: false },
+        { title: "NABH", dataIndx: "NABHRate", dataType: "float", filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Non NABH", dataIndx: "NonNABHRate", dataType: "float", filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } }
+    ];
+    var setUpdateRateGrid = {
+        width: '100%',
+        height: 450,
+        sortable: false,
+        numberCell: { show: true },
+        hoverMode: 'cell',
+        showTop: false,
+        title: 'Rates Data',
+        resizable: true,
+        scrollModel: { autoFit: true },
+        draggable: true,
+        wrap: false,
+        filterModel: { off: true, mode: "AND", header: true },
+        editable: true,
+        selectionModel: { type: 'cell' },
+        colModel: colRateGrid,
+        dataModel: dataRateGrid
+    }
+    var $UpdateRateGrid = $("#UpdateRateGrid").pqGrid(setUpdateRateGrid);
+
+    $("#btnShow").click(function (e) {
+        if (!showAlertOnBlank($("#ServiceId"), "Service is missing! Please select Service")) return;
+        LoadUpdateGrid($("#ServiceId").val());
+    });
+
+    $("#btnApplyRates").click(function (e) {
+
+        const updateRateGridData = $("#UpdateRateGrid").pqGrid("option", "dataModel.data");
+        updateRateGridData.forEach(tariff => {
+            tariff.NABHRate = $("#NABHRate").val();
+            tariff.NonNABHRate = $("#NonNABHRate").val();
+        });
+        $("#UpdateRateGrid").pqGrid("option", "dataModel.data", updateRateGridData);
+        $("#UpdateRateGrid").pqGrid("refreshDataAndView");
+
+    });
+
+    $("#btnSave").click(function (e) {
+        var grid = $UpdateRateGrid.pqGrid('getInstance').grid;
+        var data = grid.option("dataModel.data") || [];
+        data = data.filter(gridData => gridData.State === true);
+        if (data.length === 0) {
+            ShowAlert("error", 'Kindly select data to save');
+            return;
+        }
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        var jsondata = JSON.stringify({
+            UpdateRates: data,
+        });
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            async: true,
+            url: "/UpdateRates/UpdateRates",
+            data: jsondata,
+            beforeSend: function () {
+                $UpdateRateGrid.pqGrid("showLoading");
+            },
+            complete: function () {
+                $UpdateRateGrid.pqGrid("hideLoading");
+            },
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            success: function (response) {
+                ShowAlert("success", "Record Updated Successfully");
+                $('#btnClear').click();
+            },
+            error: function (a, b, response) {
+                $UpdateRateGrid.pqGrid("hideLoading");
+                ShowAlert("error", "Failed to Update Rate, Please contact IT team. Error " + response);
+            }
+        })
+    });
+
+    $("#btnClear").click(function (e) {
+        $("#autocomplete_Service").val('');
+        $("#ServiceId").val('');
+        $("#NABHRate").val('');
+        $("#NonNABHRate").val('');
+        ClearParamGrid('UpdateRateGrid');
+    });
+
+    function LoadUpdateGrid(ServiceId) {
+        var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            data: { ServiceId: ServiceId },
+            url: "/UpdateRates/GetServiceTariff",
+            beforeSend: function () {
+                $UpdateRateGrid.pqGrid("showLoading")
+            },
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            success: function (response) {
+                if (response.success) {
+                    $UpdateRateGrid.pqGrid("hideLoading");
+                    $UpdateRateGrid.pqGrid("option", "dataModel.data", response.data);
+                    $UpdateRateGrid.pqGrid("refreshDataAndView");
+                }
+            },
+            error: function (a, exception, b) {
+                $UpdateRateGrid.pqGrid("hideLoading");
+            }
+        });
+    }
+</script>

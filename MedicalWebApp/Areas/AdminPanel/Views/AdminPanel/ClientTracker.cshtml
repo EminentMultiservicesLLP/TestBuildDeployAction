@@ -1,0 +1,36 @@
+﻿@model CGHSBilling.Areas.AdminPanel.Models.ClientMasterModel
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                    <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+                        <div class="panel-body">
+                            <div class="container fill">
+                                <div id="Searchgrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <script type="text/javascript">
+        var appSetting = '@CGHSBilling.Common.Constants.ScandocUrl'
+    </script>
+    <script src="~/Scripts/AdminPanel/ClientTracker.js"></script>
+
+}

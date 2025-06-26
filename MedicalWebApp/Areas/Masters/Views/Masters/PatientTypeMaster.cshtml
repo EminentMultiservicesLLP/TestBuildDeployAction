@@ -1,0 +1,169 @@
+﻿@model CGHSBilling.Areas.Masters.Models.PatientTypeMasterModel
+<script src="~/Scripts/common.js"></script>
+@using (Html.BeginForm())
+{
+    <div>
+        <div class="panel-heading">
+            <div class="panel-title">
+                <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                    Patient Type Master
+                </a>
+            </div>
+        </div>
+
+        <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div id="searchgrid"></div>
+                    </div>
+
+                    <div class="col-sm-5 ">
+                        <div class="panel-body entryAreabackgroundCSS">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-success" id="btnAdd">Add New/Reset</button>
+                                    <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                </div>
+                            </div>
+                            <br />
+                            <div id="EntryArea">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Patient Code", new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.Code, new { @class = "form-control " })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("Patient Type", new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.PatientType, new { @class = "form-control " })
+                                        @Html.HiddenFor(model => model.PatientTypeId)
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Sequence No", new { @class = "required" })
+                                        @Html.TextBoxFor(model => model.Sequence, new { @class = "form-control " })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <br />
+                                        @Html.LabelFor(model => model.Deactive, new { style = "font-weight:bold" })
+                                        @Html.CheckBoxFor(model => model.Deactive)
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    var dataSearchGrid = { location: "local" };
+    var colSearchGrid = [
+            { title: "", dataIndx: "PatientTypeId", dataType: "integer", hidden: true },
+            { title: "Patient Type", dataIndx: "PatientType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+            { title: "Code", dataIndx: "Code", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+            { title: "Seq No", dataIndx: "Sequence", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } }
+    ];
+    var setSearchGrid = {
+        width: '100%',
+        height: 650,
+        sortable: false,
+        numberCell: { show: true },
+        hoverMode: 'cell',
+        showTop: true,
+        title: 'Patient Type Data',
+        resizable: true,
+        scrollModel: { autoFit: true },
+        draggable: true,
+        wrap: false,
+        filterModel: { off: false, mode: "AND", header: true },
+        editable: false,
+        selectionModel: { type: 'cell' },
+        colModel: colSearchGrid,
+        dataModel: dataSearchGrid,
+        swipeModel: { on: true },
+        virtualX: false,
+        virtualY: false,
+        rowClick: function (evt, ui) {
+            var record = ui.rowData;
+            $("#PatientTypeId").val(record.PatientTypeId);
+            $("#Code").val(record.Code);
+            $("#PatientType").val(record.PatientType);
+            $("#Sequence").val(record.Sequence);
+            $("#Deactive").prop('checked', record.Deactive);
+            $("#Deactive").attr('desabled', false);
+        }
+    }
+    var $SearchGrid = $("#searchgrid").pqGrid(setSearchGrid);
+
+    loadSearchgrid();
+
+    $("#btnSave").click(function () {
+        debugger;
+        if (!showAlertOnBlank($("#Code"), "Code is missing! Please Enter Code")) return;
+        if (!showAlertOnBlank($("#PatientType"), "Patient Type is missing! Please Enter Patient Type")) return;
+        DisableClick("btnSave");
+        var gridItem = $("#searchgrid").pqGrid("option", "dataModel.data");
+        var jsonData = JSON.stringify({
+            PatientTypeId: $("#PatientTypeId").val(),
+            Code: $("#Code").val(),
+            PatientType: $("#PatientType").val(),
+            Sequence: $("#Sequence").val(),
+            Deactive: $("#Deactive").prop('checked'),
+        });
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            url: "/PatientTypeMaster/SavePatientTypeMaster",
+            data: jsonData,
+            success: function (msg) {
+                debugger;
+                if (msg.success) {
+                    ShowAlert("success", "Record Saved Successfully");
+                    ClearParamGrid("searchgrid");
+                    ClearAllFieldData();
+                }
+                else {
+                    ShowAlert("warning", msg.Message);
+                }
+            },
+            error: function (a, exception, b) {
+            }
+        });
+
+    });
+
+    function ClearAllFieldData() {
+        ClearAllControl("EntryArea");
+        ClearParamGrid("searchgrid");
+        $("#Deactive").prop('checked', false);
+        loadSearchgrid();
+    }
+
+
+    function loadSearchgrid() {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/PatientTypeMaster/GetAllPatientTypeMaster",
+            success: function (response) {
+                debugger;
+                $("#searchgrid").pqGrid("option", "dataModel.data", response);
+                $("#searchgrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+                debugger;
+            }
+        });
+    }
+</script>

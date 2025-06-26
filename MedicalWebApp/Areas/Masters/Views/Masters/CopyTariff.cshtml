@@ -1,0 +1,508 @@
+﻿@model CGHSBilling.Areas.Masters.Models.TariffMasterModel
+<script src="~/Scripts/common.js"></script>
+<style>
+    .SelectedcssEven {
+        color: #23700c;
+        /*font-weight: bold;*/
+        font-size: 15px;
+    }
+
+    .OtherscssEven {
+        color: #4169e1;
+        /*font-weight: bold;*/
+        font-size: 13px;
+    }
+
+    /*.loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('../../../../Images/loading-small.gif') 50% 50% no-repeat rgb(211,211,211);
+    }*/
+
+    div#divPartialLoading {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('/Images/loading-Day.gif') 50% 50% no-repeat rgb(249,249,249);
+        opacity: .8;
+    }
+</style>
+
+
+@using (Html.BeginForm())
+{
+    <div class="loader" style='display:none;'></div>
+    <div id="divPartialLoading" style='display:none;'></div>
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel-groupingBoder">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <a class="collapsediv" data-toggle="collapse" href="#FormArea" style="color: white">
+                            Copy tariff Master
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="FormArea" class="panel-collapse collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6" id="EntrySourceArea">
+                            <div class="panel-body entryAreabackgroundCSS">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("State", new { @class = "required" })
+                                        @Html.DropDownList("ddlState", new SelectList(string.Empty, "Value", "Text"), "-- Select state --", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("City", new { @class = "required" })
+                                        @Html.DropDownList("ddlCity", new SelectList(string.Empty, "Value", "Text"), "-- Select city --", new { @class = "form-control" })
+                                        @Html.HiddenFor(model => model.TariffMasterId)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Patient Type", new { @class = "required" })
+                                        @Html.DropDownList("ddlPatientType", new SelectList(string.Empty, "Value", "Text"), "-- Select Patient Type --", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("Room Type", new { @class = "required" })
+                                        @Html.DropDownList("ddlRoomType", new SelectList(string.Empty, "Value", "Text"), "-- Select Room Type --", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <Button type="button" class="btn btn-primary" id="btnOpenServicePopup">Select Tariff</Button>
+                                        <Button type="button" class="btn btn-success" id="btnResetSource" style="margin-top: 3px">Reset</Button>
+                                    </div>
+
+                                    <div class="col-sm-9">
+                                        <fieldset style="margin: 1px; border: 1.5px solid black; padding-left: 6px; padding-right: 7px; border-radius: 4px;">
+                                            <legend>Calculation:</legend>
+                                            <div class="row" style="font-size: 14px; float: left">
+                                                <div class="col-sm-3">
+                                                    @Html.DropDownList("ddlCalculationType", new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    @Html.DropDownList("Increasedtype", new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" id="IncreasedValue" placeholder="enter value" class="form-control" />
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <button type="button" class="btn btn-primary" id="pastetoDestination">Post &nbsp;&nbsp;<span class="fa fa-arrow-right"></span></button>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="sourceGrid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" id="EntryDestinationArea">
+                            <div class="panel-body entryAreabackgroundCSS">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("State", new { @class = "required" })
+                                        @Html.DropDownList("ddlStatedest", new SelectList(string.Empty, "Value", "Text"), "-- Select state --", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("City", new { @class = "required" })
+                                        @Html.DropDownList("ddlCitydest", new SelectList(string.Empty, "Value", "Text"), "-- Select city --", new { @class = "form-control" })
+                                        @Html.HiddenFor(model => model.TariffMasterId)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Patient Type", new { @class = "required" })
+                                        @Html.DropDownList("ddlPatientTypedest", new SelectList(string.Empty, "Value", "Text"), "-- Select Patient Type --", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("Room Type", new { @class = "required" })
+                                        @Html.DropDownList("ddlRoomTypedest", new SelectList(string.Empty, "Value", "Text"), "-- Select Room Type --", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                        <Button type="button" class="btn btn-success" id="btnResetDestination">Reset</Button>
+                                    </div>
+                                </div><br /><br />
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="DestinationGrid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+    <div title="Select Tariff" id="CopyTariffServicePoPupModal" style="display: none;">
+        <div id="CopyTariffServicePoPupModalGrid"></div>
+        <div style="margin-top:5px;">
+            <button type="button" class="btn btn-primary" id="btnAddService">Add</button>
+            <button type="button" class="btn btn-primary" id="btnCloseCopyTariffServicePoPupModal">Close</button>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/CommonMaster/GetAllStateMaster",
+        success: function (response) {
+            $.each(response,
+                function (index, value) {
+                    $('#ddlState').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    $('#ddlStatedest').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                });
+        }
+    });
+    $('#ddlState').on('change', function () {
+        $('#ddlCity').val("");
+        $('#ddlCity').html("");
+        var stateid = $('#ddlState').val();
+        onchangeStateName(stateid, "source");
+    });
+    $('#ddlStatedest').on('change', function () {
+        $('#ddlCitydest').val("");
+        $('#ddlCitydest').html("");
+        var stateid = $('#ddlStatedest').val();
+        onchangeStateName(stateid, "dest");
+    });
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/PatientTypeMaster/GetAllActivePatientTypeMaster",
+        success: function (response) {
+            $.each(response,
+                function (index, value) {
+                    $('#ddlPatientType').append('<option value="' + value.PatientTypeId + '">' + value.PatientType + '</option>');
+                    $('#ddlPatientTypedest').append('<option value="' + value.PatientTypeId + '">' + value.PatientType + '</option>');
+                });
+        }
+    });
+    function LoadDestinationRoom() {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/CommonMaster/GetctiveRoomType",
+            success: function (response) {
+                $.each(response,
+                    function (index, value) {
+                        $('#ddlRoomTypedest').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    });
+            }
+        });
+    }
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/CommonMaster/GetctiveRoomType",
+        success: function (response) {
+            $.each(response,
+                function (index, value) {
+                    $('#ddlRoomType').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    $('#ddlRoomTypedest').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                });
+        }
+    });
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/CommonMaster/IncreasedtypeDropdown",
+        success: function (response) {
+            $.each(response, function (index, value) {
+                $('#Increasedtype').append('<option value="' + value.Value + '">' + value.Key + '</option>');
+            });
+        }
+    });
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/CommonMaster/CalculationDropdownData",
+        success: function (response) {
+            $.each(response, function (index, value) {
+                $('#ddlCalculationType').append('<option value="' + value.Value + '">' + value.Key + '</option>');
+            });
+        }
+    });
+    function onchangeStateName(stateId, type) {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            data: { stateId: stateId },
+            url: "/CommonMaster/GetAllCityByState",
+            success: function (response) {
+                $.each(response,
+                    function (index, value) {
+                        if (type === "dest") {
+                            $('#ddlCitydest').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                        } else {
+
+                            $('#ddlCity').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                        }
+                    });
+            },
+            error: function (a, b, c) {
+            }
+        });
+    }
+
+    /*  ----------------------- sourch grid data --------------------------------*/
+
+    var dataMainGrid = { location: "local" };
+    var colMainGrid = [
+        { title: "", dataIndx: "ServiceTypeId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+        { title: "Service Type", dataIndx: "ServiceType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Service Name", dataIndx: "ServiceName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Code", dataIndx: "Code", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "NABH Rate", dataIndx: "NABHRate", width: 400 },
+        { title: "", dataIndx: "RoomTypeId", width: 400, hidden: true },
+        { title: "Non-NABH Rate", dataIndx: "NonNABHRate", width: 400 },
+        { title: "AIMS Rate", dataIndx: "AIMSRate", width: 400 },
+
+    ];
+    var setMainGrid = gridCommonObject;
+    setMainGrid.title = 'Added Service List';
+    setMainGrid.width = '100%';
+    setMainGrid.height = 400;
+    setMainGrid.colModel = colMainGrid;
+    setMainGrid.dataModel = dataMainGrid;
+    setMainGrid.pageModel = true;
+    setMainGrid.editable = true;
+    var $sourcgridGrid = $("#sourceGrid").pqGrid(setMainGrid);
+    var $destinationGrid = $("#DestinationGrid").pqGrid(setMainGrid);
+
+    /*-----------------------Popup grid Area----------------------*/
+
+    var datatpopupServiceGrid = { location: "local" };
+    var coltpopupServiceGrid = [
+        {
+            dataIndx: "State", minWidth: 25, maxWidth: 25, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', sortable: false,
+            editor: false, dataType: 'bool',
+            title: "<input type='checkbox' />",
+            cb: { select: true, all: true, header: true }
+        },
+        { title: "TariffMasterId", dataIndx: "TariffMasterId", dataType: "string", width: 500, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+    ];
+    var setpopupServiceGrid = gridCommonObject;
+    setpopupServiceGrid.title = 'Tariff Master';
+    setpopupServiceGrid.width = '100%';
+    setpopupServiceGrid.height = 500;
+    setpopupServiceGrid.colModel = coltpopupServiceGrid;
+    setpopupServiceGrid.dataModel = datatpopupServiceGrid;
+    setpopupServiceGrid.pageModel = { type: "local", rPP: 100 };;
+    setpopupServiceGrid.editable = true;
+    var $popupServiceGrid = $("#CopyTariffServicePoPupModalGrid").pqGrid(setpopupServiceGrid);
+
+    $('#btnOpenServicePopup').on('click', function () {
+        try {
+            $("#divPartialLoading").show().fadeOut(3000);
+        }
+        catch (err) {
+            $("#divPartialLoading").hide().fadeOut(3000);
+        }
+        if (!showAlertOnBlank($("#ddlState"), "State is missing  at source level ! Please select State")) return;
+        if (!showAlertOnBlank($("#ddlCity"), "City is missing at source level ! Please select City")) return;
+        if (!showAlertOnBlank($("#ddlPatientType"), "Patient Type is missing at source level ! Please select Service Name")) return;
+        if (!showAlertOnBlank($("#ddlRoomType"), "Room Name is missing at source level ! Please select Room Name")) return;
+        LoadCopyTariffServicePoPupModal();
+    });
+    function LoadCopyTariffServicePoPupModal() {
+        $("#CopyTariffServicePoPupModal").dialog({
+            height: 600,
+            width: 700,
+            modal: true,
+            open: function (evt, ui) {
+                $.ajax({
+                    type: "GET",
+                    url: "/TariffMaster/GetTariff_forCopy",
+                    data: {
+                        stateId: $("#ddlState").val(),
+                        cityId: $("#ddlCity").val(),
+                        patientType: $("#ddlPatientType").val(),
+                        roomType: $("#ddlRoomType").val(),
+                    },
+                    datatype: "Json",
+                    success: function (data) {
+                        $("#CopyTariffServicePoPupModalGrid").pqGrid("option", "dataModel.data", data);
+                        $("#CopyTariffServicePoPupModalGrid").pqGrid("refreshDataAndView");
+                    }
+                });
+            }
+        });
+    }
+
+    /********* Add Item to  Detail grid*********/
+    $('#btnAddService').on('click', function () {
+        const tariffMasterIds = [];
+        const gridData = $("#CopyTariffServicePoPupModalGrid").pqGrid("option", "dataModel.data");
+        const selectedItems = jLinq.from(gridData).equals("State", true).select();
+
+        selectedItems.forEach(item => tariffMasterIds.push(item.TariffMasterId));
+
+        if (tariffMasterIds.length === 0) {
+            alert("No services selected to add.");
+            return;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/TariffMaster/GetTariffDetails_forCopy",
+            data: { TariffMasterIds: tariffMasterIds.join(',') }, 
+            dataType: "json",
+            success: function (data) {
+                ClosePopupWindow("CopyTariffServicePoPupModal");
+                $("#sourceGrid").pqGrid("option", "dataModel.data", data);
+                $("#sourceGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching tariff details:", status, error);
+                alert("An error occurred while retrieving tariff details. Please try again.");
+            }
+        });
+    });
+
+    /*-------------------------Post the content to destination------------------------*/
+    $('#pastetoDestination').on('click', function () {
+        var getData = $("#sourceGrid").pqGrid("option", "dataModel.data");
+        if (getData.length <= 0) {
+            ShowAlert("info", "No Item selected to post! Click to select services Button to add");
+            return;
+        }
+        if ($('#ddlCalculationType').val() === "1" || $('#ddlCalculationType').val() === "2") {
+            if ($('#IncreasedValue').val() === "" || $('#IncreasedValue').val() === undefined || $('#IncreasedValue').val() === null || $('#IncreasedValue').val() === "") {
+                ShowAlert("info", "Please Provide the value in input box to Increase/decrease service amount");
+                return;
+            }
+            if (parseFloat($('#IncreasedValue').val()) === 0) {
+                ShowAlert("info", "Value cannot be '0' in input box");
+                return;
+            }
+        }
+        if (!showAlertOnBlank($("#ddlStatedest"), "State is missing at destination level ! Please select State")) return;
+        if (!showAlertOnBlank($("#ddlCitydest"), "City is missing at destination level ! Please select City")) return;
+        if (!showAlertOnBlank($("#ddlPatientTypedest"), "Patient Type is missing at destination level ! Please select Service Name")) return;
+        if (!showAlertOnBlank($("#ddlRoomTypedest"), "Room Name is missing at destination level ! Please select Room Name")) return;
+        var increasingValue = parseFloat($('#IncreasedValue').val());
+        if ($('#ddlCalculationType').val() === "1") {
+            if ($('#Increasedtype').val() === "1") {
+                $.each(getData, function (key, value) {
+                    value.NABHRate = value.NABHRate + Math.round(value.NABHRate * (increasingValue / 100));
+                    value.AIMSRate = value.AIMSRate + Math.round(value.AIMSRate * (increasingValue / 100));
+                    value.NonNABHRate = value.NonNABHRate + Math.round(value.NonNABHRate * (increasingValue / 100));
+                });
+            }
+            else {
+                $.each(getData, function (key, value) {
+                    value.NABHRate = value.NABHRate + Math.round(increasingValue);
+                    value.NonNABHRate = value.NonNABHRate + Math.round(increasingValue);
+                    value.AIMSRate = value.AIMSRate + Math.round(increasingValue);
+                });
+            }
+        }
+        else if ($('#ddlCalculationType').val() === "2") {
+            if ($('#Increasedtype').val() === "1") {
+                $.each(getData,
+                    function (key, value) {
+                        value.NABHRate = value.NABHRate - Math.round(value.NABHRate * (increasingValue / 100));
+                        value.AIMSRate = value.AIMSRate - Math.round(value.AIMSRate * (increasingValue / 100));
+                        value.NonNABHRate = value.NonNABHRate - Math.round(value.NonNABHRate * (increasingValue / 100));
+                    });
+            } else {
+                $.each(getData,
+                    function (key, value) {
+                        value.NABHRate = value.NABHRate - Math.round(increasingValue);
+                        value.NonNABHRate = value.NonNABHRate - Math.round(increasingValue);
+                        value.AIMSRate = value.AIMSRate - Math.round(increasingValue);
+                    });
+            }
+        } else {
+            $("#Increasedtype").attr("disabled", "disabled");
+            $("#IncreasedValue").attr("disabled", "disabled");
+        }
+        $("#DestinationGrid").pqGrid("option", "dataModel.data", getData);
+        $("#DestinationGrid").pqGrid("refreshDataAndView");
+    });
+    $("#btnSave").click(function () {
+        if (!showAlertOnBlank($("#ddlStatedest"), "State is missing! Please select State")) return;
+        if (!showAlertOnBlank($("#ddlCitydest"), "City is missing! Please select City")) return;
+        if (!showAlertOnBlank($("#ddlPatientTypedest"), "Patient Name is missing! Please select Service Name")) return;
+        if (!showAlertOnBlank($("#ddlRoomTypedest"), "Room Name is missing! Please select Room Name")) return;
+        DisableClick("btnSave");
+        var gridItem = $("#DestinationGrid").pqGrid("option", "dataModel.data");
+        var jsonData = JSON.stringify({
+            TariffMasterId: $("#TariffMasterId").val(),
+            StateId: $("#ddlStatedest").val(),
+            CityId: $("#ddlCitydest").val(),
+            PatientTypeId: $("#ddlPatientTypedest").val(),
+            RoomTypeId: $("#ddlRoomTypedest").val(),
+            Sequence: 1,
+            Deactive: $("#Deactive").prop('checked'),
+            Tariffdtl: gridItem
+        });
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            url: "/TariffMaster/SaveCopytariff",
+            data: jsonData,
+            success: function (msg) {
+                if (msg.success) {
+                    ShowAlert("success", "Record Saved Successfully");
+                    clearAllFormData();
+                }
+                else {
+                    ShowAlert("warning", msg.Message);
+                }
+            },
+            error: function (a, exception, b) {
+            }
+        });
+    });
+
+    function clearAllFormData() {
+        ClearParamGrid("sourceGrid");
+        ClearParamGrid("DestinationGrid");
+        ClearAllControl("EntryDestinationArea");
+        ClearAllControl("EntrySourceArea");
+    }
+    $("#btnResetSource").click(function () {
+        ClearAllControl("EntrySourceArea");
+        ClearParamGrid("sourceGrid");
+    });
+    $("#btnResetDestination").click(function () {
+        ClearAllControl("EntryDestinationArea");
+        ClearParamGrid("DestinationGrid");
+    });
+
+    $('#ddlRoomType').on('change', function () {
+        if ($("#ddlRoomType").val() === "1") {
+            $('#ddlRoomTypedest').val("");
+            $('#ddlRoomTypedest').html("");
+            LoadDestinationRoom();
+            $("#ddlRoomTypedest").prop("disabled", true);
+        } else {
+            $("#ddlRoomTypedest").prop("disabled", false);
+        }
+    });
+</script>

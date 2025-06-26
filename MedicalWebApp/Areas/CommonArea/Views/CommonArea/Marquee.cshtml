@@ -1,0 +1,87 @@
+﻿
+@model CGHSBilling.Models.MenuUserRightsModel
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="container fill">
+            <div class="panel-groupingBoder">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                            Marquee Message Entry
+                        </a>
+                    </div>
+                </div>
+
+                <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+                    <div class="panel-body">
+                        <div class="container fill">
+                            <div class="panel-body entryAreabackgroundCSSforinsideElement">
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-2">
+                                        @Html.Label("  Marquee Message : ", new { @class = "required" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(m => m.MarqueeMessage, new { @class = "form-control" })
+                                    </div>
+                                </div><br />
+
+
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group form-horizontal">
+                                            <br />
+                                            <div class="col-sm-2"></div>
+                                            <div class="col-sm-3">
+                                                <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                            </div>
+
+                                            @*   <div class="column col-sm-8 col-md-5">@Html.CheckBoxFor(m => m.RemoveMessage) Remove Message</div>*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                </div>
+            </div>
+            </div>
+    </fieldset>
+
+    <script type="text/javascript">
+        $("#btnSave").click(function () {
+
+
+
+            var details = {
+                MarqueeMessage: $('#MarqueeMessage').val(),
+                
+            }
+
+      $.ajax({
+               type: "POST", //HTTP POST Method
+               traditional: true,
+               contentType: 'application/json; charset=utf-8',
+               url: '/RoomEntitlement/SaveMarqueeMessage',
+               data: JSON.stringify(details),
+               success: function (msg) {
+                   ShowAlert("success", msg.Message);
+
+               },
+               error: function (jqXhr, exception) {
+                   ShowAlert("warning", "Something went wrong!");
+               }
+           });
+        })
+
+
+
+
+
+    </script>
+}

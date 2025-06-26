@@ -1,0 +1,488 @@
+﻿@model CGHSBilling.Areas.Masters.Models.TariffMasterModel
+<script src="~/Scripts/common.js"></script>
+
+<style>
+    .SelectedcssEven {
+        color: #23700c;
+        /*font-weight: bold;*/
+        font-size: 15px;
+    }
+
+    .OtherscssEven {
+        color: #4169e1;
+        /*font-weight: bold;*/
+        font-size: 13px;
+    }
+
+    /*.loader {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('../../../../Images/loading-small.gif') 50% 50% no-repeat rgb(211,211,211);
+    }*/
+
+    div#divPartialLoading {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('/Images/loading-Day.gif') 50% 50% no-repeat rgb(249,249,249);
+        opacity: .8;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+     <div class="loader" style='display:none;'></div>
+    <div id="divPartialLoading" style='display:none;'></div>
+    <div>
+        <div class="panel-heading">
+            <div class="panel-title">
+                <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                    Tariff Master
+                </a>
+            </div>
+        </div>
+        <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="SearchMainGrid"></div>
+            </div>
+        </div>
+    </div>
+        <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="panel-body entryAreabackgroundCSS">
+                            <div id="EntryArea">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("State", new { @class = "required" })
+                                        @Html.DropDownList("ddlState", new SelectList(string.Empty, "Value", "Text"), "-- Select state --", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("City", new { @class = "required" })
+                                        @Html.DropDownList("ddlCity", new SelectList(string.Empty, "Value", "Text"), "-- Select city --", new { @class = "form-control" })
+                                        @Html.HiddenFor(model => model.TariffMasterId)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.Label("Patient Type", new { @class = "required" })
+                                        @Html.DropDownList("ddlPatientType", new SelectList(string.Empty, "Value", "Text"), "-- Select Patient Type --", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.Label("Room Type", new { @class = "required" })
+                                        @Html.DropDownList("ddlRoomType", new SelectList(string.Empty, "Value", "Text"), "-- Select Room Type --", new { @class = "form-control" })
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <br />
+                                        @Html.LabelFor(model => model.Deactive, new { style = "font-weight:bold" })
+                                        @Html.CheckBoxFor(model => model.Deactive)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-primary" id="btnOpenServicePopup">Click To Select Services</button>
+                                        <button type="button" class="btn btn-success" id="btnAdd">Add New/Reset</button>
+                                        <button type="button" class="btn btn-success" id="btnSave">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                        <div class="col-sm-7">
+                            <div id="searchgrid"></div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div title="Select Services" id="TariffServicePoPupModal" style="display: none;">
+        <div id="TariffServicePoPupModalGrid"></div>
+        <div style="margin-top:5px;">
+            <button type="button" class="btn btn-primary" id="btnAddService">Add</button>
+            <button type="button" class="btn btn-primary" id="btnCloseServicePoPupModal">Close</button>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/CommonMaster/GetAllStateMaster",
+        headers: {
+            "__RequestVerificationToken": antiForgeryToken
+        },
+        success: function (response) {
+            $.each(response,
+                function (index, value) {
+                    $('#ddlState').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                });
+        }
+    });
+    $('#ddlState').on('change', function () {
+        
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            data: { stateId: $("#ddlState").val() },
+            url: "/CommonMaster/GetAllCityByState",
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            success: function (response) {
+                $.each(response,
+                    function (index, value) {
+                        $('#ddlCity').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                    });
+            },
+            error:function(a,b,c) {
+                
+            }
+        });
+    });
+
+    function rowclickShowcity(stateId, cityId) {
+        antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            data: { stateId: $("#ddlState").val() },
+            url: "/CommonMaster/GetAllCityByState",
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            success: function (response) {
+                $('#ddlCity').val(""); $('#ddlCity').html("");
+                $.each(response,
+                    function (index, value) {
+                        
+                        if (value.Id === cityId) {
+                            $('#ddlCity').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                        }
+                    });
+            },
+            error: function (a, b, c) {
+                
+            }
+        });
+    }
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/PatientTypeMaster/GetAllActivePatientTypeMaster",
+        headers: {
+            "__RequestVerificationToken": antiForgeryToken
+        },
+        success: function (response) {
+            $.each(response,
+                function (index, value) {
+                    
+                    $('#ddlPatientType').append('<option value="' + value.PatientTypeId + '">' + value.PatientType + '</option>');
+                });
+        }
+    });
+    $.ajax({
+        type: "GET",
+        traditional: true,
+        url: "/CommonMaster/GetctiveRoomType",
+        headers: {
+            "__RequestVerificationToken": antiForgeryToken
+        },
+        success: function (response) {
+            $.each(response,
+                function (index, value) {
+                    $('#ddlRoomType').append('<option value="' + value.Id + '">' + value.Name + '</option>');
+                });
+        }
+    });
+
+    function afterFail() {
+        ShowAlert("error", "Something went wrong If not resolve contact to your superior");
+    }
+
+   loadSearchgrid();
+    function searchLoadCall() {
+    }
+    /*-----------------------Search main grid Area----------------------*/
+
+    var dataMainSearchGrid = { location: "local" };
+    var colMainSearchGrid = [
+        { title: "", dataIndx: "TariffMasterId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "StateId", dataType: "integer", hidden: true }, { title: "", dataIndx: "CityId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "RoomTypeId", dataType: "integer", hidden: true }, { title: "", dataIndx: "PatientTypeId", dataType: "integer", hidden: true },
+        { title: "State", dataIndx: "StateName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "City", dataIndx: "CityName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "RoomType", dataIndx: "RoomType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "PatientType", dataIndx: "PatientType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+
+    ];
+    var setMainSearchGrid = gridCommonObject;
+    setMainSearchGrid.title = 'Tariff List';
+    setMainSearchGrid.width = '100%';
+    setMainSearchGrid.height = 250;
+    setMainSearchGrid.colModel = colMainSearchGrid;
+    setMainSearchGrid.dataModel = dataMainSearchGrid;
+    setMainSearchGrid.pageModel = true;
+    setMainSearchGrid.rowClick = function (evt, ui) {
+        antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        if (ui.rowData) {
+            var rowIndx = parseInt(ui.rowIndx);
+            var details = ui.rowData;
+            
+            $("#ddlState").val(details.StateId);
+            $("#ddlCity").val(details.CityId);
+            $("#ddlPatientType").val(details.PatientTypeId);
+            $("#ddlRoomType").val(details.RoomTypeId);
+            $("#TariffMasterId").val(details.TariffMasterId);
+            rowclickShowcity(details.StateId, details.CityId);
+            ClearParamGrid("searchgrid");
+            $.ajax({
+                type: "GET",
+                traditional: true,
+                data: { tariffMasterId: details.TariffMasterId },
+                url: "/TariffMaster/GetTariffDetailById",
+                headers: {
+                    "__RequestVerificationToken": antiForgeryToken
+                },
+                success: function (response) {
+                    $("#searchgrid").pqGrid("option", "dataModel.data", response);
+                    $("#searchgrid").pqGrid("refreshDataAndView");
+                }
+            });
+        }
+    }
+    var $MainSearchGrid = $("#SearchMainGrid").pqGrid(setMainSearchGrid);
+
+    /*-----------------------Entry grid Area----------------------*/
+    var dataSearchGrid = { location: "local" };
+    var colSearchGrid = [
+            { title: "", dataIndx: "ServiceTypeId", dataType: "integer", hidden: true },
+            { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+            { title: "Service Type", dataIndx: "ServiceType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+            { title: "Service Name", dataIndx: "ServiceName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+            { title: "Code", dataIndx: "Code", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+            { title: "NABH Rate", dataIndx: "NABHRate", width: 400 },
+            { title: "Non-NABH Rate", dataIndx: "NonNABHRate", width: 400 },
+            { title: "AIMS Rate", dataIndx: "AIMSRate", width: 400 },
+
+    ];
+    var setSearchGrid = gridCommonObject;
+    setSearchGrid.title = 'Added Service List';
+    setSearchGrid.width = '100%';
+    setSearchGrid.height = 500;
+    setSearchGrid.colModel = colSearchGrid;
+    setSearchGrid.dataModel = dataSearchGrid;
+    setSearchGrid.pageModel = true;
+    setSearchGrid.editable = true;
+    setSearchGrid.rowClick = function (evt, ui) {
+        if (ui.rowData) {
+            var rowIndx = parseInt(ui.rowIndx);
+            var details = ui.rowData;
+            $("#ddlService").val(details.ServiceTypeId);
+            $("#ServiceId").val(details.ServiceId);
+            $("#Code").val(details.Code);
+            $("#ServiceName").val(details.ServiceName);
+            $("#Sequence").val(details.Sequence);
+            $("#Deactive").val(details.Deactive);
+        }
+    }
+    var $SearchGrid = $("#searchgrid").pqGrid(setSearchGrid);
+
+
+    $("#btnAdd").click(function () {
+        ClearAllFieldData();
+        ClearParamGrid('searchgrid');
+    });
+
+    function ClearAllFieldData() {
+        ClearAllControl("EntryArea");
+        ClearParamGrid("sourceGrid");
+        $("#Deactive").prop('checked', false);
+        loadSearchgrid();
+    }
+    function loadSearchgrid() {
+        antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/TariffMaster/GetTariffMaster",
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            success: function (response) {
+                
+                $("#SearchMainGrid").pqGrid("hideLoading");
+                $("#SearchMainGrid").pqGrid("option", "dataModel.data", response);
+                $("#SearchMainGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+                
+            }
+        });
+    }
+    /*-----------------------Popup grid Area----------------------*/
+
+    var datatpopupServiceGrid = { location: "local" };
+    var coltpopupServiceGrid = [
+        {
+            dataIndx: "State", Width: 15, align: "center", type: 'checkBoxSelection', cls: 'ui-state-default', sortable: false,
+            editor: false, dataType: 'bool', menuIcon: false,
+            title: "<input type='checkbox' />",
+            cb: {all: true, header: true }
+        },
+        { title: "", dataIndx: "ServiceTypeId", dataType: "integer", hidden: true },
+        { title: "", dataIndx: "ServiceId", dataType: "integer", hidden: true },
+        { title: "Service Type", dataIndx: "ServiceType", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Service Name", dataIndx: "ServiceName", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        { title: "Code", dataIndx: "Code", width: 400, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+
+    ];
+    
+    var setpopupServiceGrid = gridCommonObject;
+    setpopupServiceGrid.title = 'Service Master';
+    setpopupServiceGrid.width = '100%';
+    setpopupServiceGrid.height = 500;
+    setpopupServiceGrid.colModel = coltpopupServiceGrid;
+    setpopupServiceGrid.dataModel = datatpopupServiceGrid;
+    setpopupServiceGrid.pageModel = { type: "local", rPP: 100 };
+    setpopupServiceGrid.editable = true;
+    setpopupServiceGrid.postRenderInterval = -1;
+    var $popupServiceGrid = $("#TariffServicePoPupModalGrid").pqGrid(setpopupServiceGrid);
+
+    $('#btnOpenServicePopup').on('click', function () {
+       
+        try {
+            $("#divPartialLoading").show().fadeOut(3000);
+        }
+        catch (err) {
+            $("#divPartialLoading").hide().fadeOut(3000);
+        }
+        LoadServicePoPupModal();
+    });
+    function LoadServicePoPupModal() {
+        antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $("#TariffServicePoPupModal").dialog({
+            height: 600,
+            width: 700,
+            modal: true,
+            open: function (evt, ui) {
+                $.ajax({
+                    type: "GET",
+                    url: "/ServiceMaster/GetAllActiveServiceMaster",
+                    headers: {
+                        "__RequestVerificationToken": antiForgeryToken
+                    },
+                    datatype: "Json",
+                    success: function (data) {
+                        $("#TariffServicePoPupModalGrid").pqGrid("option", "dataModel.data", data);
+                        $("#TariffServicePoPupModalGrid").pqGrid("refreshDataAndView");
+                    }
+                });
+            }
+        });
+    }
+
+    /********* Add Item to  Detail grid*********/
+    $('#btnAddService').on('click', function () {
+        
+        $("#TariffServicePoPupModalGrid").pqGrid("reset", { filter: true });
+        var dataMGrid = [];
+        var getData = $("#TariffServicePoPupModalGrid").pqGrid("option", "dataModel.data");
+        var selectedItems = jLinq.from(getData).equals("State", true).select();
+        ClosePopupWindow("TariffServicePoPupModal");
+
+        var getMainGridData = $("#searchgrid").pqGrid("option", "dataModel.data");
+        ClearParamGrid("searchgrid");
+        $.each(getMainGridData, function (key, value) {
+            var grdData = {
+                'TariffMasterId': value.TariffMasterId, 'TariffDetailId': value.TariffDetailId, 'ServiceType': value.ServiceType, 'ServiceName': value.ServiceName, 'Code': value.Code,
+                'ServiceId': value.ServiceId, 'NABHRate': value.NABHRate, 'NonNABHRate': value.NonNABHRate, 'AIMSRate': value.AIMSRate,
+            }
+            dataMGrid.push(grdData);
+        });
+        $.each(selectedItems, function (key, value) {
+            var grdData = {
+                'TariffMasterId': value.TariffMasterId, 'TariffDetailId': value.TariffDetailId, 'ServiceType': value.ServiceType, 'ServiceName': value.ServiceName, 'Code': value.Code,
+                'ServiceId': value.ServiceId, 'NABHRate': 0, 'NonNABHRate': 0, 'AIMSRate': 0,
+            }
+            dataMGrid.push(grdData);
+        });
+        $("#searchgrid").pqGrid("option", "dataModel.data", dataMGrid);
+        $("#searchgrid").pqGrid("refreshDataAndView");
+    });
+
+    
+    $("#btnSave").click(function (e) {
+        
+        if (!showAlertOnBlank($("#ddlState"), "State is missing! Please select State")) return;
+        if (!showAlertOnBlank($("#ddlCity"), "City is missing! Please select City")) return;
+        if (!showAlertOnBlank($("#ddlPatientType"), "Patient Name is missing! Please select Service Name")) return;
+        if (!showAlertOnBlank($("#ddlRoomType"), "Room Name is missing! Please select Room Name")) return;
+
+        //DisableClick("btnSave");
+        //$("#btnSave").attr('disabled', true);
+        var gridItem = $("#searchgrid").pqGrid("option", "dataModel.data");
+        var jsonData = JSON.stringify({
+            TariffMasterId: $("#TariffMasterId").val(),
+            StateId: $("#ddlState").val(),
+            CityId: $("#ddlCity").val(),
+            PatientTypeId: $("#ddlPatientType").val(),
+            RoomTypeId: $("#ddlRoomType").val(),
+            Sequence: 1,
+            Deactive: $("#Deactive").prop('checked'),
+            Tariffdtl: gridItem
+        });
+        var grid = $("#TariffServicePoPupModalGrid");
+        antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+        $.ajax({
+            type: "POST",
+            traditional: true,
+            beforeSend: function () {
+                
+                //DisableClick("btnSave");
+                $("#btnSave").attr('disabled', true);
+                ClearParamGrid('TariffServicePoPupModalGrid');
+                grid.pqGrid("showLoading");
+            },
+            contentType: 'application/json; charset=utf-8',
+            url: "/TariffMaster/Savesertariff",
+            data: jsonData,
+            headers: {
+                "__RequestVerificationToken": antiForgeryToken
+            },
+            success: function (msg) {
+                
+                if (msg.success) {
+                    ShowAlert("success", "Record Saved Successfully");
+                    //EnableClicked("btnSave");
+                    
+                    $("#btnSave").attr('disabled', false);
+                    $("#TariffServicePoPupModalGrid").pqGrid("option", "dataModel.data", response);
+                    $("#TariffServicePoPupModalGrid").pqGrid("refreshDataAndView");
+                    ClearParamGrid("searchgrid");
+                    ClearAllFieldData();
+                }
+                else {
+                    ShowAlert("warning", msg.Message);
+                }
+            },
+            error: function (a, exception, b) {
+            }
+        });
+
+    });
+</script>

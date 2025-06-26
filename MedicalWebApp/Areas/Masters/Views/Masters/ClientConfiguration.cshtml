@@ -1,0 +1,240 @@
+﻿@model CGHSBilling.Areas.AdminPanel.Models.ClientMasterModel
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-groupingBoder">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="collapsediv" data-toggle="collapse" href="#SearchDetails" style="color: white">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                    <div id="SearchDetails" class="panel-collapse collapse in" aria-expanded="true">
+                        <div class="panel-body">
+                            <div class="container fill">
+                                <div id="Searchgrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="panel-groupingBoder">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Entry Form
+                </div>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse in" aria-expanded="true">
+                <div class="panel-body">
+                    <fieldset>
+
+                        <div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                                    <button type="button" id="btnReset" class="btn btn-success">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="ConfigName">Config Name</label>
+                                <input type="text" name="ConfigName" id="ConfigName" class="form-control" />
+                            </div>
+
+                            <div class="col-md-8">
+                                <div id="ServiceTypeGrid"></div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <script type="text/javascript">
+        var appSetting = '@CGHSBilling.Common.Constants.ScandocUrl'
+    </script>
+}
+<script>
+    var tempConfigId = 0
+    var dataConfigList = { location: 'local', sorting: 'local', paging: 'local', dataType: 'JSON' };
+    var setConfigCol = [
+        {
+            title: "Config", dataIndx: "ConfigName", width: '100%',
+            filter: { type: 'textbox', condition: 'begin', listeners: ['keyup'] }
+        }
+    ];
+    var setConfigList = {
+        width: "auto",
+        height: 350,
+        autoSizeInterval: 0,
+        dragColumns: { enabled: false },
+        hoverMode: 'cell',
+        editable: false,
+        filterModel: { on: true, mode: "AND", header: true },
+        showTop: true,
+        resizable: true,
+        virtualX: true,
+        colModel: setConfigCol,
+        selectionModel: { type: 'row', subtype: 'incr', cbHeader: true, cbAll: true },
+        dataModel: dataConfigList,
+        pageModel: { type: "local", rPP: 50 },
+        scrollModel: { autoFit: true },
+        rowClick: function (evt, ui) {
+            var details = ui.rowData;
+            tempConfigId = details.ConfigId
+            $("#ConfigName").val(details.ConfigName);
+            GetClientConfigDetails(tempConfigId);
+        }
+    };
+    $("#Searchgrid").pqGrid(setConfigList);
+
+    function GetClientConfiguration() {
+        $.ajax({
+            type: "GET",
+            url: "/ClientMaster/GetClientConfiguration",
+            data: { LoginId: null },
+            datatype: "Json",
+            async: true,
+            success: function (data) {
+                $("#Searchgrid").pqGrid("option", "dataModel.data", data);
+                $("#Searchgrid").pqGrid("refreshDataAndView");
+            }
+        });
+    }
+    GetClientConfiguration();
+
+    var dataServiceTypeGrid = { location: "local" };
+    var colServiceTypeGrid = [
+        { title: "Service Type", dataIndx: "ServiceType", width: 400, editable: false, filter: { type: 'textbox', condition: 'contain', listeners: ['keyup'] } },
+        {
+            title: "Percentage", dataIndx: "Percentage", width: 200, dataType: 'float', editable: true, render: function (ui) {
+                return ui.cellData != null ? ui.cellData : 0;
+            }
+        },
+    ];
+    var setServiceTypeGrid = {
+        width: '100%',
+        height: 300,
+        sortable: false,
+        numberCell: { show: true },
+        hoverMode: 'cell',
+        showTop: true,
+        title: 'Service Types',
+        resizable: true,
+        scrollModel: { autoFit: true },
+        draggable: true,
+        wrap: false,
+        filterModel: { off: false, mode: "AND", header: true },
+        editable: true,
+        selectionModel: { type: 'cell' },
+        colModel: colServiceTypeGrid,
+        dataModel: dataServiceTypeGrid,
+        swipeModel: { on: true },
+        virtualX: false,
+        virtualY: false
+    }
+    var $ServiceTypeGrid = $("#ServiceTypeGrid").pqGrid(setServiceTypeGrid);
+
+    function loadServiceTypeGrid() {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            url: "/ServiceTypeMaster/GetAllServiceTypeMaster",
+            success: function (response) {
+                $("#ServiceTypeGrid").pqGrid("hideLoading");
+                $("#ServiceTypeGrid").pqGrid("option", "dataModel.data", response);
+                $("#ServiceTypeGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+                debugger;
+            }
+        });
+    }
+    loadServiceTypeGrid();
+
+    $("#btnSave").click(() => {
+        const configName = $("#ConfigName").val().trim();
+
+        if (!configName) {
+            ShowAlert("error", "Configuration name is required.");
+            return;
+        }
+
+        const serviceTypeData = $("#ServiceTypeGrid").pqGrid("option", "dataModel.data") || [];
+        const validData = serviceTypeData.filter(e => e.Percentage > 0);
+
+        if (validData.length === 0) {
+            ShowAlert("error", "Cannot save configuration: All service type percentages are zero.");
+            return;
+        }
+
+        const details = {
+            ConfigId: tempConfigId,
+            ConfigName: configName,
+            ConfigList: validData
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/ClientMaster/SaveClientConfiguration",
+            data: JSON.stringify(details),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    ShowAlert("success", response.message || "Configuration saved successfully.");
+                    ClearForm();
+                } else {
+                    ShowAlert("error", response.message || "Failed to save configuration.");
+                }
+            },
+            error: function () {
+                ShowAlert("error", "A network error occurred while saving the configuration.");
+            }
+        });
+    });
+
+
+    function GetClientConfigDetails(configId) {
+        $.ajax({
+            type: "GET",
+            traditional: true,
+            data: { configId: configId },
+            url: "/ClientMaster/GetClientConfigDetails",
+            success: function (response) {
+                $("#ServiceTypeGrid").pqGrid("hideLoading");
+                $("#ServiceTypeGrid").pqGrid("option", "dataModel.data", response);
+                $("#ServiceTypeGrid").pqGrid("refreshDataAndView");
+            },
+            error: function (a, exception, b) {
+                debugger;
+            }
+        });
+    }
+    loadServiceTypeGrid();
+
+    $("#btnReset").click(() => {
+        ClearForm();
+    })
+
+    function ClearForm() {
+        tempConfigId = 0;
+        $("#ConfigName").val('');
+        loadServiceTypeGrid();
+        GetClientConfiguration();
+    }
+</script>

@@ -1,0 +1,40 @@
+﻿<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @Styles.Render("~/Content/cssMust")
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/external")
+
+</head>
+@{
+    Layout = null;
+}
+<script src="~/Scripts/MessageBox/lobibox.min.js"></script>
+<script src="~/Scripts/MessageBox/messageboxes.min.js"></script>
+
+<script type="text/javascript">
+
+    Lobibox.alert('info', {
+        msg:  "<br />  Your Session Has Expired, Kindly Relogin ! ",
+        buttons: {
+            OK: {
+                'class': 'btn btn-success btnBigFont12',
+                text: 'Ok',
+                closeOnClick: true
+            },
+        },
+        callback: function (lobibox, type) {
+            if (type === 'OK') {
+                window.location.href = '/Account/Login';
+            }
+        }
+    });
+
+
+
+
+
+@*alert("Session Expired, Kindly Relogin");
+window.location = '@Url.Action("Login", "Account")';*@
+
+</script>
