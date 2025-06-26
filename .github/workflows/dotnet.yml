@@ -1,4 +1,4 @@
-name: Build ASP.NET MVC 4 App
+name: Build ASP.NET MVC 4 (.NET 4.5.2)
 
 on:
   push:
@@ -8,27 +8,21 @@ on:
 
 jobs:
   build:
-    name: Build on Windows
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1
+      - uses: NuGet/setup-nuget@v1
 
-      - name: Restore NuGet packages
-        run: nuget restore MedicalWebApp.sln
+      - run: nuget restore MedicalWebApp.sln
 
-      - name: Install .NET Framework 4.5 Developer Pack
+      - name: Install .NET Framework 4.5.2 Developer Pack
         shell: powershell
         run: |
-          Invoke-WebRequest -Uri "https://download.microsoft.com/download/b/a/4/ba4a7e71-2906-4b2d-a0e1-80cf16844f5f/dotNetFx45_Full_setup.exe" -OutFile "ndp45-devpack.exe"
-          Start-Process .\ndp45-devpack.exe -ArgumentList "/quiet" -Wait
+          Invoke-WebRequest -Uri "https://download.microsoft.com/download/4/3/B/43B61315-B2CE-4F5B-9E32-34CCA07B2F0E/NDP452-KB2901951-x86-x64-DevPack.exe" -OutFile "ndp452-devpack.exe"
+          Start-Process .\ndp452-devpack.exe -ArgumentList "/quiet","/norestart" -Wait
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.3
+      - uses: microsoft/setup-msbuild@v1.3
 
-      - name: Build solution
-        run: msbuild MedicalWebApp.sln /p:Configuration=Release
+      - run: msbuild MedicalWebApp.sln /p:Configuration=Release
