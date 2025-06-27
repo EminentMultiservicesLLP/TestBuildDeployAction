@@ -1,0 +1,13 @@
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\bin\Debug\log4net.config
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\bin\Debug\CommonDataLayer.dll.config
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\bin\Debug\CommonDataLayer.dll
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\bin\Debug\CommonDataLayer.pdb
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\bin\Debug\CommonLayer.dll
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\bin\Debug\log4net.dll
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\bin\Debug\CommonLayer.pdb
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\bin\Debug\log4net.xml
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\obj\Debug\CommonDataLayer.csproj.AssemblyReference.cache
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\obj\Debug\CommonDataLayer.csproj.CoreCompileInputs.cache
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\obj\Debug\CommonDa.207EB9DB.Up2Date
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\obj\Debug\CommonDataLayer.dll
+C:\Users\emine\source\repos\TestBuildDeployAction\TestBuildDeployAction\CommonDataLayer\obj\Debug\CommonDataLayer.pdb

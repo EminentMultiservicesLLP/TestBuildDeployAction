@@ -1,0 +1,180 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3CC66EBB-6628-442A-8BE8-2CDF667BEB84}|CommonDataLayer\\CommonDataLayer.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\commondatalayer\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{3CC66EBB-6628-442A-8BE8-2CDF667BEB84}|CommonDataLayer\\CommonDataLayer.csproj|solutionrelative:commondatalayer\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\medicalwebapp\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|solutionrelative:medicalwebapp\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\medicalwebapp\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|solutionrelative:medicalwebapp\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|CGHSBilling||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|CommonDataLayer||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\medicalwebapp\\app_start\\filterconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|solutionrelative:medicalwebapp\\app_start\\filterconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\medicalwebapp\\app_start\\webapiconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|solutionrelative:medicalwebapp\\app_start\\webapiconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\medicalwebapp\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|solutionrelative:medicalwebapp\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|CommonLayer||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FAFFDAC5-5C89-4A7B-88BB-87FEE134E7B4}|CommonLayer\\CommonLayer.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\commonlayer\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|5e9a8ac2-4f34-4521-858f-4c248ba31532"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3CC66EBB-6628-442A-8BE8-2CDF667BEB84}|CommonDataLayer\\CommonDataLayer.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\commondatalayer\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|5e9a8ac2-4f34-4521-858f-4c248ba31532"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E14D468-F220-429D-9ED3-FCF6E70C0A82}|MedicalWebApp\\CGHSBilling.csproj|c:\\users\\emine\\source\\repos\\testbuilddeployaction\\testbuilddeployaction\\medicalwebapp\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|a54ad834-9219-4aa6-b589-607af21c3e26"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\CommonDataLayer\\App.config",
+              "RelativeDocumentMoniker": "CommonDataLayer\\App.config",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\CommonDataLayer\\App.config",
+              "RelativeToolTip": "CommonDataLayer\\App.config",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-06-27T09:06:32.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\Web.config",
+              "RelativeDocumentMoniker": "MedicalWebApp\\Web.config",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\Web.config",
+              "RelativeToolTip": "MedicalWebApp\\Web.config",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAAAEsAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-06-27T09:05:44.785Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "packages.config",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\packages.config",
+              "RelativeDocumentMoniker": "MedicalWebApp\\packages.config",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\packages.config",
+              "RelativeToolTip": "MedicalWebApp\\packages.config",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACYAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-06-27T09:03:18.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "WebApiConfig.cs",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\App_Start\\WebApiConfig.cs",
+              "RelativeDocumentMoniker": "MedicalWebApp\\App_Start\\WebApiConfig.cs",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\App_Start\\WebApiConfig.cs",
+              "RelativeToolTip": "MedicalWebApp\\App_Start\\WebApiConfig.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T08:30:25.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RouteConfig.cs",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\App_Start\\RouteConfig.cs",
+              "RelativeDocumentMoniker": "MedicalWebApp\\App_Start\\RouteConfig.cs",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\App_Start\\RouteConfig.cs",
+              "RelativeToolTip": "MedicalWebApp\\App_Start\\RouteConfig.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T08:30:23.593Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FilterConfig.cs",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\App_Start\\FilterConfig.cs",
+              "RelativeDocumentMoniker": "MedicalWebApp\\App_Start\\FilterConfig.cs",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\App_Start\\FilterConfig.cs",
+              "RelativeToolTip": "MedicalWebApp\\App_Start\\FilterConfig.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T08:30:17.195Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CommonLayer",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\CommonLayer\\CommonLayer.csproj",
+              "RelativeDocumentMoniker": "CommonLayer\\CommonLayer.csproj",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\CommonLayer\\CommonLayer.csproj",
+              "RelativeToolTip": "CommonLayer\\CommonLayer.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-27T08:27:45.95Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CommonDataLayer",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\CommonDataLayer\\CommonDataLayer.csproj",
+              "RelativeDocumentMoniker": "CommonDataLayer\\CommonDataLayer.csproj",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\CommonDataLayer\\CommonDataLayer.csproj",
+              "RelativeToolTip": "CommonDataLayer\\CommonDataLayer.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-27T08:27:33.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CGHSBilling",
+              "DocumentMoniker": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\CGHSBilling.csproj",
+              "RelativeDocumentMoniker": "MedicalWebApp\\CGHSBilling.csproj",
+              "ToolTip": "C:\\Users\\emine\\source\\repos\\TestBuildDeployAction\\TestBuildDeployAction\\MedicalWebApp\\CGHSBilling.csproj",
+              "RelativeToolTip": "MedicalWebApp\\CGHSBilling.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-27T08:26:42.586Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
