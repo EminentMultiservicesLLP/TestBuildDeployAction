@@ -32,14 +32,11 @@ jobs:
           $zipName = "MedicalWebApp_$timestamp.zip"
           Compress-Archive -Path deploy\* -DestinationPath $zipName
           echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
+        id: build_step
 
-      - name: Upload ZIP to FTP Server
-        run: |
-          $ftp = "${{ secrets.FTP_SERVER }}"
-          $user = "${{ secrets.FTP_USERNAME }}"
-          $pass = "${{ secrets.FTP_PASSWORD }}"
-          $file = "deploy.zip"
-          $uri = "ftp://$ftp/$file"
-          $webclient = New-Object System.Net.WebClient
-          $webclient.Credentials = New-Object System.Net.NetworkCredential($user, $pass)
-          $webclient.UploadFile($uri, $file)
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy-package
+          path: MedicalWebApp_*.zip
