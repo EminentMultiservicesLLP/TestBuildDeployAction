@@ -3,8 +3,6 @@ name: Build ASP.NET MVC 4 (.NET 4.8)
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
