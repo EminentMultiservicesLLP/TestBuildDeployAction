@@ -1,0 +1,25 @@
+name: Deploy to FTP (Manual Approval)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4.6.2
+        with:
+          name: deploy-package
+
+      - name: Upload ZIP to FTP Server
+        run: |
+          $zip = Get-ChildItem deploy_*.zip | Select-Object -First 1
+          $ftp = "${{ secrets.FTP_SERVER }}"
+          $user = "${{ secrets.FTP_USERNAME }}"
+          $pass = "${{ secrets.FTP_PASSWORD }}"
+          $uri = "ftp://$ftp/$($zip.Name)"
+          $webclient = New-Object System.Net.WebClient
+          $webclient.Credentials = New-Object System.Net.NetworkCredential($user, $pass)
+          $webclient.UploadFile($uri, $zip.FullName)
