@@ -20,3 +20,26 @@ jobs:
       - uses: microsoft/setup-msbuild@v1.3
 
       - run: msbuild MedicalWebApp.sln /p:Configuration=Release
+
+      - name: Create Deployment Folder
+        run: |
+          mkdir deploy
+          Copy-Item -Path "MedicalWebApp\bin\Release\*" -Destination deploy -Recurse
+
+      - name: Create timestamped ZIP of build output
+        run: |
+          $timestamp = Get-Date -Format "dd_MM_yyyy_HH_mm"
+          $zipName = "MedicalWebApp_$timestamp.zip"
+          Compress-Archive -Path deploy\* -DestinationPath $zipName
+          echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
+
+      - name: Upload ZIP to FTP Server
+        run: |
+          $ftp = "${{ secrets.FTP_SERVER }}"
+          $user = "${{ secrets.FTP_USERNAME }}"
+          $pass = "${{ secrets.FTP_PASSWORD }}"
+          $file = "deploy.zip"
+          $uri = "ftp://$ftp/$file"
+          $webclient = New-Object System.Net.WebClient
+          $webclient.Credentials = New-Object System.Net.NetworkCredential($user, $pass)
+          $webclient.UploadFile($uri, $file)
